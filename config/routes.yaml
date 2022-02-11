@@ -1,0 +1,3 @@
+#index:
+#path: /a
+#controller: App\Controller\utilisateurController::index
