@@ -1,0 +1,43 @@
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-box table-responsive">
+                        <h4 class="m-t-0 header-title">Gestion d'User </h4>
+                        <div class="col-4">
+                            <a class="btn btn-success d-block" href="{{ path('addCours') }}" >ajouter</a>
+                        </div>
+                        <table id="datatable" class="table table-bordered">
+                            <thead>
+                            <th>nom</th>
+                            <th>prenom</th>
+                            <th>edit</th>
+                            <th>delete</th>
+
+                            </thead>
+                            <tbody>
+                            {% for u in cour %}
+
+                            <td>{{ u.nom }}</td>
+                            <td>{{ u.nom_coach }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-icon rounded-pill">edit</button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-icon  rounded-pill">delete</button>
+                            </td>
+                            </tbody>
+
+                            {% endfor %}
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Hello HomeController!
+{% endblock %}
+
+{% block body %}
+    <!-- <div class="page-inner"> -->
+
+    {{ include('Dashboard/navbar.html.twig') }}
+    {{ include('Dashboard/leftSideBar.html.twig') }}
+    {{ include('cours/Afficher.html.twig') }}
+
+{% endblock %}
