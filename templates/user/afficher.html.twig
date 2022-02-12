@@ -1,14 +1,20 @@
+
+
 <div class="content-page">
     <!-- Start content -->
     <div class="content">
         <div class="container-fluid">
-
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
             <div class="row">
                 <div class="col-12">
                     <div class="card-box table-responsive">
                         <h4 class="m-t-0 header-title">Gestion d'User </h4>
-                        <div class="col-4">
-                            <a class="btn btn-success d-block" href="{{ path('addUser') }}" >ajouter</a>
+                        <div>
+                            <a  style=" position:absolute;right:10%;top:3% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addUser') }}"> <i class="fa fa-plus dark"></i> </a>
                         </div>
                         <table id="datatable" class="table table-bordered">
                             <thead>
@@ -16,7 +22,6 @@
                                 <th>prenom</th>
                                 <th>edit</th>
                                 <th>delete</th>
-
                             </thead>
                             <tbody>
                             {% for u in users %}
@@ -24,10 +29,14 @@
                             <td>{{ u.nom }}</td>
                             <td>{{ u.prenom }}</td>
                             <td>
-                                <button type="button" class="btn btn-primary btn-icon rounded-pill">edit</button>
+                                <a type="button" href="{{ path('modifyUser', {'id': u.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-danger btn-icon  rounded-pill">delete</button>
+                                <form method="post" action="{{ path('deleteUser', {'id': u.id}) }}"  onsubmit="return confirm('Voulez vous supprimer cette voiture ?')">
+                                    <input type="hidden" name="_method" value="SUP">
+                                    <input type="hidden" name="_token" value="{{u.id }}">
+                                    <button type="submit" value="supprimer" class="btn btn-danger btn-icon  rounded-pill"><i class="  ti-trash"></i></button>
+                                </form>
                             </td>
                             </tbody>
 
