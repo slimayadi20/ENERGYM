@@ -412,6 +412,9 @@
             "./tests/bootstrap.php"
         ]
     },
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.24.0"
+    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.23.0"
     },
@@ -495,6 +498,9 @@
     "symfony/stopwatch": {
         "version": "v4.4.27"
     },
+    "symfony/string": {
+        "version": "v5.4.3"
+    },
     "symfony/translation": {
         "version": "3.3",
         "recipe": {
@@ -563,6 +569,15 @@
             "./config/packages/test/web_profiler.yaml",
             "./config/routes/dev/web_profiler.yaml"
         ]
+    },
+    "symfony/web-server-bundle": {
+        "version": "4.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
+        }
     },
     "symfony/yaml": {
         "version": "v4.4.29"
