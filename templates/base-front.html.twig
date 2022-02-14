@@ -29,6 +29,8 @@
 
     <!--[if lt IE 9]><script src="{{ asset('front-office/js/html5shiv') }}"></script><![endif]-->
     <!--[if lt IE 9]><script src="{{ asset('js/respond.js') }}"></script><![endif]-->
+    {% block styles %}
+    {% endblock %}
 </head>
 
 <body class="hidden-bar-wrapper">
@@ -513,7 +515,8 @@
 
 <!--Scroll to top-->
 <div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-arrow-up"></span></div>
-
+{% block javascripts %}
+{% endblock %}
 <script src="{{ asset('front-office/js/jquery.js') }}"></script>
 <!--Revolution Slider-->
 <script src="{{ asset('front-office/plugins/revolution/js/jquery.themepunch.revolution.min.js') }}"></script>

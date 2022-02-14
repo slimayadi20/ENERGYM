@@ -15,31 +15,61 @@
 
     {% endblock %}
 
-    {% block javascripts %}
 
-        <script src="{{asset('Dashboard/js/modernizr.min.js')}}"></script>
-        <script src="{{asset('Dashboard/js/jquery.min.js')}}"></script>
-        <script src="{{asset('Dashboard/js/popper.min.js')}}"></script>
-        <script src="{{asset('Dashboard/js/bootstrap.min.js')}}"></script>
-        <script src="{{asset('Dashboard/js/detect.js')}}"></script>
-        <script src="{{asset('Dashboard/js/fastclick.js')}}"></script>
-        <script src="{{asset('Dashboard/js/jquery.blockUI.js')}}"></script>
-        <script src="{{asset('Dashboard/js/waves.js')}}"></script>
-        <script src="{{asset('Dashboard/js/jquery.nicescroll.js')}}"></script>
-        <script src="{{asset('Dashboard/js/jquery.slimscroll.js')}}"></script>
-        <script src="{{asset('Dashboard/js/jquery.scrollTo.min.js')}}"></script>
-        <script src="{{asset('Dashboard/plugins/jquery-knob/excanvas.js')}}"></script>
-        <script src="{{asset('Dashboard/plugins/jquery-knob/jquery.knob.js')}}"></script>
-        <script src="{{asset('Dashboard/plugins/morris/morris.min.js')}}"></script>
-        <script src="{{asset('Dashboard/plugins/raphael/raphael-min.js')}}"></script>
-        <script src="{{asset('Dashboard/pages/jquery.dashboard.js')}}"></script>
-        <script src="{{asset('Dashboard/js/jquery.core.js')}}"></script>
-        <script src="{{asset('Dashboard/js/jquery.app.js')}}"></script>
-        <script type="text/javascript" src="{{asset('Dashboard/plugins/jquery-knob/excanvas.js')}}"></script>
-
-    {% endblock %}
 </head>
 <body>
-{% block body %}{% endblock %}
+
+
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+
+
+            <div class="row">
+                {% block body %}
+                {% endblock %}
+
+            </div>
+
+            <!-- end row -->
+
+        </div> <!-- container -->
+
+    </div> <!-- content -->
+
+    <footer class="footer text-right">
+        2016 - 2018 © Adminto. Coderthemes.com
+    </footer>
+
+</div>
+
+
+
+
+{% block javascripts %}
+
+    <script src="{{asset('Dashboard/js/modernizr.min.js')}}"></script>
+    <script src="{{asset('Dashboard/js/jquery.min.js')}}"></script>
+    <script src="{{asset('Dashboard/js/popper.min.js')}}"></script>
+    <script src="{{asset('Dashboard/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('Dashboard/js/detect.js')}}"></script>
+    <script src="{{asset('Dashboard/js/fastclick.js')}}"></script>
+    <script src="{{asset('Dashboard/js/jquery.blockUI.js')}}"></script>
+    <script src="{{asset('Dashboard/js/waves.js')}}"></script>
+    <script src="{{asset('Dashboard/js/jquery.nicescroll.js')}}"></script>
+    <script src="{{asset('Dashboard/js/jquery.slimscroll.js')}}"></script>
+    <script src="{{asset('Dashboard/js/jquery.scrollTo.min.js')}}"></script>
+    <script src="{{asset('Dashboard/plugins/jquery-knob/excanvas.js')}}"></script>
+    <script src="{{asset('Dashboard/plugins/jquery-knob/jquery.knob.js')}}"></script>
+    <script src="{{asset('Dashboard/plugins/morris/morris.min.js')}}"></script>
+    <script src="{{asset('Dashboard/plugins/raphael/raphael-min.js')}}"></script>
+    <script src="{{asset('Dashboard/pages/jquery.dashboard.js')}}"></script>
+    <script src="{{asset('Dashboard/js/jquery.core.js')}}"></script>
+    <script src="{{asset('Dashboard/js/jquery.app.js')}}"></script>
+    <script type="text/javascript" src="{{asset('Dashboard/plugins/jquery-knob/excanvas.js')}}"></script>
+
+{% endblock %}
+
 </body>
 </html>
