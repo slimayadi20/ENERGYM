@@ -22,6 +22,15 @@ class CoursController extends AbstractController
         ]);
     }
     /**
+     * @Route("/coursFront", name="coursFront")
+     */
+    public function coursFront(): Response
+    {
+        return $this->render('cours/afficherFront.html.twig', [
+            'controller_name' => 'CoursController',
+        ]);
+    }
+    /**
      * @Route("/addCours", name="addCours")
      */
     public function addcours(Request $request): Response

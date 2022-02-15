@@ -22,6 +22,15 @@ class SalleController extends AbstractController
         ]);
     }
     /**
+     * @Route("/salleFront", name="salleFront")
+     */
+    public function salleFront(): Response
+    {
+        return $this->render('salle/afficherFront.html.twig', [
+            'controller_name' => 'SalleController',
+        ]);
+    }
+    /**
      * @Route("/addSalle", name="addSalle")
      */
     public function addSalle(Request $request): Response

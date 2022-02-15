@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Cours;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,7 +20,7 @@ class CoursFormType extends AbstractType
             ->add('heureF')
             ->add('nombre')
             ->add('description')
-            ->add('image')
+            ->add('image',FileType::class)
             ->add('salleassocie')
 
         ;
