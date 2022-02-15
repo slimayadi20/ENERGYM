@@ -1,0 +1,57 @@
+
+{% extends "base.html.twig" %}
+{% block body %}
+    {{ include('Dashboard/navbar.html.twig') }}
+    {{ include('Dashboard/leftSideBar.html.twig') }}
+
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-box table-responsive">
+                        <h4 class="m-t-0 header-title">Gestion de commandes </h4>
+                        <div>
+                            <a  style=" position:absolute;right:10%;top:3% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addCommande') }}"> <i class="fa fa-plus dark"></i> </a>
+                        </div>
+                        <table id="datatable" class="table table-bordered">
+                            <thead>
+                            <th>Description</th>
+                            <th>Méthode de paiement</th>
+                            <th>edit</th>
+                            <th>delete</th>
+                            </thead>
+                            <tbody>
+                            {% for c in commandes %}
+
+                            <td>{{ c.description }}</td>
+                            <td>{{ c.methodePaiement }}</td>
+                            <td>
+                                <a type="button" href="{{ path('modifyCommande', {'id': c.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
+                            </td>
+                            <td>
+                                <form method="post" action="{{ path('deleteCommande', {'id': c.id}) }}"  onsubmit="return confirm('Voulez vous supprimer cette commande ?')">
+                                    <input type="hidden" name="_method" value="SUP">
+                                    <input type="hidden" name="_token" value="{{c.id }}">
+                                    <button type="submit" value="supprimer" class="btn btn-danger btn-icon  rounded-pill"><i class="  ti-trash"></i></button>
+                                </form>
+                            </td>
+                            </tbody>
+
+                            {% endfor %}
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

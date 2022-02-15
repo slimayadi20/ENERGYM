@@ -1,0 +1,65 @@
+
+{% extends "base.html.twig" %}
+{% block body %}
+    {{ include('Dashboard/navbar.html.twig') }}
+    {{ include('Dashboard/leftSideBar.html.twig') }}
+
+    <div class="content-page">
+        <!-- Start content -->
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card-box">
+                            <h4 class="m-t-0 header-title">Modifier livraison</h4>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="p-20">
+
+                                        {{ form_start(form_livraison, {attr: {novalidate: 'novalidate'}}) }}
+
+                                        <form class="form-horizontal" role="form">
+
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Numéro de commande</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_livraison.idCommande) }}
+                                                    {{ form_errors(form_livraison.idCommande, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Nom de livreur</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_livraison.nomLivreur) }}
+                                                    {{ form_errors(form_livraison.nomLivreur, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Date de livraison</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_livraison.dateLivraison) }}
+                                                    {{ form_errors(form_livraison.dateLivraison, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Etat</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_livraison.etat) }}
+                                                </div>
+                                            </div>
+                                            <a class="btn btn-primary" href="{{ path('livraison') }}">Retour</a>
+                                            <input type="submit" value="Modifier"   class="btn btn-success">
+                                            {{ form_end(form_livraison) }}
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
