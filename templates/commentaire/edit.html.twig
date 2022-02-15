@@ -1,0 +1,14 @@
+{% extends 'base-back.html.twig' %}
+
+
+{% block main %}
+    <h1>Edit Commentaire</h1>
+<div class="col-xl-6">
+    <div class="card-box">
+    {{ include('commentaire/_form.html.twig', {'button_label': 'Update'}) }}
+    </div>
+</div>
+    <a href="{{ path('commentaire_index') }}">back to list</a>
+
+    {{ include('commentaire/_delete_form.html.twig') }}
+{% endblock %}

@@ -35,7 +35,21 @@ class Article
      */
     private $description;
 
-    public function getId(): ?int
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Commentaire", mappedBy="article")
+     */
+    private $comments;
+
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+     public function getId(): ?int
     {
         return $this->id;
     }
@@ -75,4 +89,11 @@ class Article
 
         return $this;
     }
+
+    public function __toString()
+    {
+       return $this->titre;
+    }
+
+
 }

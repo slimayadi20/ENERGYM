@@ -1,0 +1,12 @@
+{% extends 'base-back.html.twig' %}
+
+
+{% block main %}
+    <h1>Create new Commentaire</h1>
+<div class="col-xl-6">
+    <div class="card-box">
+    {{ include('commentaire/_form.html.twig') }}
+    </div>
+</div>
+    <a href="{{ path('commentaire_index') }}">back to list</a>
+{% endblock %}
