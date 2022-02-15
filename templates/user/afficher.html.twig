@@ -1,9 +1,13 @@
-
+{% extends "base-back.html.twig" %}
+{% block body %}
+    {{ include('Dashboard/navbar.html.twig') }}
+    {{ include('Dashboard/leftSideBar.html.twig') }}
 
 <div class="content-page">
     <!-- Start content -->
     <div class="content">
         <div class="container-fluid">
+
             {% for message in app.flashes('success') %}
                 <div class="alert alert-success">
                     {{ message }}
@@ -14,39 +18,63 @@
                     <div class="card-box table-responsive">
                         <h4 class="m-t-0 header-title">Gestion d'User </h4>
                         <div>
-                            <a  style=" position:absolute;right:10%;top:3% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addUser') }}"> <i class="fa fa-plus dark"></i> </a>
+                            <a  style=" position:absolute;right:10%;top:1% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addUser') }}"> <i class="fa fa-plus dark"></i> </a>
                         </div>
                         <table id="datatable" class="table table-bordered">
                             <thead>
-                                <th>nom</th>
-                                <th>prenom</th>
+                                <th>Nom</th>
+                                <th>Prenom</th>
+                                <th>Email</th>
+                                <th>Created_at</th>
+                                <th>Status</th>
+                                <th>Role</th>
+                                <th>Image</th>
                                 <th>edit</th>
                                 <th>delete</th>
                             </thead>
                             <tbody>
                             {% for u in users %}
-
                             <td>{{ u.nom }}</td>
                             <td>{{ u.prenom }}</td>
+                            <td>{{ u.email }}</td>
+                            <td>{{ u.createdAt | date }}</td>
+                            <td>
+                                {% if u.status == 1 %}
+                                 <a type="button" href="{{ path('modifyStatus', {'id': u.id}) }}" class="btn btn-success btn-rounded w-md waves-effect waves-light m-b-5">Active</a>
+                                {% else %}
+                                    <a type="button" href="{{ path('modifyStatus', {'id': u.id}) }}"  class="btn btn-danger btn-rounded w-md waves-effect waves-light m-b-5">Banned</a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if u.roles == "ROLE_MEMBRE" %}
+                                <span class="badge badge-primary badge-pill">ROLE_MEMBRE</span>
+                                {% elseif u.roles == "ROLE_GERANT" %}
+                                <span class="badge badge-danger badge-pill">ROLE_GERANT</span>
+                                {% else %}
+                                <span class="badge badge-warning badge-pill">ROLE_ADMIN</span>
+                                {% endif %}
+                            </td>
+                            <td>
+
+                                <img src="{{ asset('Dashboard/images/profile.jpg')  }}" alt="" width="50">
+                            </td>
                             <td>
                                 <a type="button" href="{{ path('modifyUser', {'id': u.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
                             </td>
                             <td>
-                                <form method="post" action="{{ path('deleteUser', {'id': u.id}) }}"  onsubmit="return confirm('Voulez vous supprimer cette voiture ?')">
+                                <form method="post" action="{{ path('deleteUser', {'id': u.id}) }}"  onsubmit="return confirm('Voulez vous supprimer cet utilisateur ?')">
                                     <input type="hidden" name="_method" value="SUP">
                                     <input type="hidden" name="_token" value="{{u.id }}">
                                     <button type="submit" value="supprimer" class="btn btn-danger btn-icon  rounded-pill"><i class="  ti-trash"></i></button>
                                 </form>
                             </td>
                             </tbody>
-
                             {% endfor %}
-
                         </table>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}

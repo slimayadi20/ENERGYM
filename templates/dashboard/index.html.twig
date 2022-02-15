@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends "base-back.html.twig" %}
 
 {% block title %}
     Hello HomeController!
@@ -8,6 +8,8 @@
     <!-- <div class="page-inner"> -->
 
     {{ include('Dashboard/navbar.html.twig') }}
+    {{ include('Dashboard/home.html.twig') }}
+
     {{ include('Dashboard/leftSideBar.html.twig') }}
 
 {% endblock %}

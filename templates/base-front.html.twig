@@ -1,0 +1,65 @@
+
+<head>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {# Run `composer require symfony/webpack-encore-bundle`
+           and uncomment the following Encore helpers to start using Symfony UX #}
+    {% block stylesheets %}
+    <meta charset="utf-8">
+    <title>Gym HTML-5 Template | Homepage</title>
+    <!-- Stylesheets -->
+    <link href="{{ asset('front-office/css/bootstrap.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('front-office/plugins/revolution/css/settings.css') }}" rel="stylesheet" type="text/css"><!-- REVOLUTION SETTINGS STYLES -->
+    <link href="{{ asset('front-office/plugins/revolution/css/layers.css') }}" rel="stylesheet" type="text/css"><!-- REVOLUTION LAYERS STYLES -->
+
+    <link href="{{ asset('front-office/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('front-office/css/responsive.css') }}" rel="stylesheet">
+
+    <!-- Color Switcher Mockup -->
+    <link href="{{ asset('front-office/css/color-switcher-design.css') }}" rel="stylesheet">
+
+    <!-- Color Themes -->
+    <link id="theme-color-file" href="{{ asset('front-office/css/color-themes/default-theme.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('front-office/css/css2.css') }}" rel="stylesheet">
+
+    <link rel="shortcut icon" href="{{ asset('front-office/images/favicon.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('front-office/images/favicon.png') }}" type="image/x-icon">
+
+    {% endblock %}
+
+    {% block javascripts %}
+    <!-- Responsive -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+        <script src="{{ asset('front-office/js/html5shiv') }}"></script>
+         <script src="{{ asset('front-office/js/respond.js') }}"></script>
+        <script src="{{ asset('front-office/js/jquery.js') }}"></script>
+        <script src="{{ asset('front-office/js/popper.min.js') }}"></script>
+        <script src="{{ asset('front-office/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('front-office/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+        <script src="{{ asset('front-office/js/jquery.fancybox.js') }}"></script>
+        <script src="{{ asset('front-office/js/appear.js') }}"></script>
+        <script src="{{ asset('front-office/js/parallax.min.js') }}"></script>
+        <script src="{{ asset('front-office/js/tilt.jquery.min.js') }}"></script>
+        <script src="{{ asset('front-office/js/jquery.paroller.min.js') }}"></script>
+        <script src="{{ asset('front-office/js/owl.js') }}"></script>
+        <script src="{{ asset('front-office/js/mixitup.js') }}"></script>
+        <script src="{{ asset('front-office/js/wow.js') }}"></script>
+        <script src="{{ asset('front-office/js/nav-tool.js') }}"></script>
+        <script src="{{ asset('front-office/js/jquery-ui.js') }}"></script>
+        <script src="{{ asset('front-office/js/script.js') }}"></script>
+        <script src="{{ asset('front-office/js/color-settings.js') }}"></script>
+
+{% endblock %}
+</head>
+<body>
+{% block body %}
+    <br>
+{% endblock %}
+</body>
+</html>
