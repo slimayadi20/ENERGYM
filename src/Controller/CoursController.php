@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Controller;
-
 use App\Entity\Cours;
 use App\Form\CoursFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +18,7 @@ class CoursController extends AbstractController
         $cours = $this->getDoctrine()->getRepository(cours::class)->findAll();
         return $this->render('cours/index.html.twig', [
             'controller_name' => 'CoursController',
-            "cour" => $cours,
+            "cours" => $cours,
         ]);
     }
     /**
@@ -35,6 +34,7 @@ class CoursController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($cours);
             $entityManager->flush();
+            return $this->redirectToRoute("cours");
 
 
         }
@@ -43,5 +43,43 @@ class CoursController extends AbstractController
             "form_cours" => $form->createView(),
         ]);
     }
+    /**
+     * @Route("/modifyCours/{id}", name="modifyCours")
+     */
+    public function modifyCours(Request $request, int $id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $cours = $entityManager->getRepository(cours::class)->find($id);
+        $form = $this->createForm(CoursFormType::class, $cours);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $entityManager->flush();
+            $this->addFlash('success' , 'L"action a été effectué');
+            return $this->redirectToRoute("cours");
+        }
+
+        return $this->render("cours/modifier.html.twig", [
+            "form_title" => "Modifier un cours",
+            "form_cours" => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/deleteCours/{id}", name="deleteCours")
+     */
+    public function deleteCours(int $id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $cours = $entityManager->getRepository(cours::class)->find($id);
+        $entityManager->remove($cours);
+        $entityManager->flush();
+        $this->addFlash('success' , 'L"action a été effectué');
+
+
+        return $this->redirectToRoute("cours");
+    }
+
 
 }

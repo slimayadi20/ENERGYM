@@ -12,84 +12,83 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
-                            <h4 class="m-t-0 header-title">create cours</h4>
+                            <h4 class="m-t-0 header-title">create salle</h4>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="p-20">
 
-                                        {{ form_start(form_cours, {attr: {novalidate: 'novalidate'}}) }}
+                                        {{ form_start(form_salle, {attr: {novalidate: 'novalidate'}}) }}
 
                                         <form class="form-horizontal" role="form">
 
                                             <div class="form-group row">
                                                 <label class="col-2 col-form-label">Nom</label>
                                                 <div class="col-10">
-                                                    {{ form_widget(form_cours.nom) }}
-                                                    {{ form_errors(form_cours.nom, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                    {{ form_widget(form_salle.nom) }}
+                                                    {{ form_errors(form_salle.nom, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Adresse</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.adresse) }}
+                                                    {{ form_errors(form_salle.adresse, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Numero de Telephone</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.tel) }}
+                                                    {{ form_errors(form_salle.tel, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Adresse Mail</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.mail) }}
+                                                    {{ form_errors(form_salle.mail, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Description</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.description) }}
+                                                    {{ form_errors(form_salle.description, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Prix Abonnement</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.prix) }}
+                                                    {{ form_errors(form_salle.prix, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Horaire d'ouverture</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.heureo) }}
+                                                    {{ form_errors(form_salle.heureo, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Horaire de fermeture</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.heuref) }}
+                                                    {{ form_errors(form_salle.heuref, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Image</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.image) }}
+                                                    {{ form_errors(form_salle.image, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
 
 
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-2 col-form-label" for="example-email">Nom Coach</label>
-                                                <div class="col-10">
-                                                    {{ form_widget(form_cours.nomCoach) }}
-                                                    {{ form_errors(form_cours.nomCoach, {'attr':{'class':'text-danger mb-1 '}})}}
-
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-2 col-form-label">date</label>
-                                                <div class="col-10">
-                                                    {{ form_widget(form_cours.date) }}
-                                                    {{ form_errors(form_cours.date, {'attr':{'class':'text-danger mb-1 '}})}}
-
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-2 col-form-label">heure de debut</label>
-                                                <div class="col-10">
-                                                    {{ form_widget(form_cours.heureD) }}
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-2 col-form-label">heure de fin</label>
-                                                <div class="col-10">
-                                                    {{ form_widget(form_cours.heureF) }}
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-2 col-form-label">nombre</label>
-                                                <div class="col-10">
-                                                    {{ form_widget(form_cours.nombre) }}
-                                                    {{ form_errors(form_cours.nombre, {'attr':{'class':'text-danger mb-1 '}})}}
-
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-2 col-form-label">description</label>
-                                                <div class="col-10">
-                                                    {{ form_widget(form_cours.description) }}
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-2 col-form-label">url image</label>
-                                                <div class="col-10">
-                                                    {{ form_widget(form_cours.image) }}
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-2 col-form-label">salle de sport</label>
-                                                <div class="col-10">
-                                                    {{ form_widget(form_cours.salleassocie) }}
-                                                    {{ form_errors(form_cours.salleassocie, {'attr':{'class':'text-danger mb-1 '}})}}
-                                                </div>
-                                            </div>
-
-
-                                            <a class="btn btn-primary" href="{{ path('cours') }}">Retour</a>
+                                            <a class="btn btn-primary" href="{{ path('salle') }}">Retour</a>
                                             <input type="submit" value="Ajouter"   class="btn btn-success">
-                                            {{ form_end(form_cours) }}
+                                            {{ form_end(form_salle) }}
 
                                         </form>
                                     </div>
