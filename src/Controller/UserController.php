@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserFormModifyType;
 use App\Repository\UserRepository;
 use App\Form\UserFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
@@ -19,7 +21,7 @@ class UserController extends AbstractController
     {
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
 
-        return $this->render('user/index.html.twig', [
+        return $this->render('user/afficher.html.twig', [
             'controller_name' => 'UserController',
             "users" => $users,
 
@@ -28,7 +30,7 @@ class UserController extends AbstractController
     /**
      * @Route("/addUser", name="addUser")
      */
-    public function addUser(Request $request): Response
+    public function addUser(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $user = new User();
         $form = $this->createForm(UserFormType::class,$user);
@@ -36,6 +38,11 @@ class UserController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $entityManager = $this->getDoctrine()->getManager();
+            $user->setRoles('ROLE_USER');
+            $user->setStatus(true);
+            $user->setCreatedAt(new \DateTime()) ;
+            $passwordcrypt = $encoder->encodePassword($user,$user->getPassword());
+            $user->setPassword($passwordcrypt);
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success' , 'L"action a été effectué');
@@ -55,7 +62,7 @@ class UserController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         $user = $entityManager->getRepository(User::class)->find($id);
-        $form = $this->createForm(UserFormType::class, $user);
+        $form = $this->createForm(UserFormModifyType::class, $user);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
@@ -85,5 +92,24 @@ class UserController extends AbstractController
         return $this->redirectToRoute("user");
     }
 
-
+    /**
+     * @Route("/modifyStatus/{id}", name="modifyStatus")
+     */
+    public function modifyStatus(Request $request, int $id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($id);
+        if($user->getStatus()==true)
+        {
+            $user->setStatus(false);
+        }
+        else
+        {
+            $user->setStatus(true);
+        }
+        $entityManager->persist($user);
+        $entityManager->flush();
+        $this->addFlash('success', 'L action a été effectué');
+        return $this->redirectToRoute("user");
+    }
 }

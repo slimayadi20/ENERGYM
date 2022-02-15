@@ -1,0 +1,103 @@
+
+{% extends "base-back.html.twig" %}
+{% block body %}
+    {{ include('Dashboard/navbar.html.twig') }}
+    {{ include('Dashboard/leftSideBar.html.twig') }}
+
+    <div class="content-page">
+        <!-- Start content -->
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card-box">
+                            <h4 class="m-t-0 header-title">create salle</h4>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="p-20">
+
+                                        {{ form_start(form_salle, {attr: {novalidate: 'novalidate'}}) }}
+
+                                        <form class="form-horizontal" role="form">
+
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Nom</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.nom) }}
+                                                    {{ form_errors(form_salle.nom, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Adresse</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.adresse) }}
+                                                    {{ form_errors(form_salle.adresse, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Numero de Telephone</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.tel) }}
+                                                    {{ form_errors(form_salle.tel, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Adresse Mail</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.mail) }}
+                                                    {{ form_errors(form_salle.mail, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Description</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.description) }}
+                                                    {{ form_errors(form_salle.description, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Prix Abonnement</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.prix) }}
+                                                    {{ form_errors(form_salle.prix, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Horaire d'ouverture</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.heureo) }}
+                                                    {{ form_errors(form_salle.heureo, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Horaire de fermeture</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.heuref) }}
+                                                    {{ form_errors(form_salle.heuref, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Image</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.image) }}
+                                                    {{ form_errors(form_salle.image, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+
+
+                                            <a class="btn btn-primary" href="{{ path('salle') }}">Retour</a>
+                                            <input type="submit" value="Ajouter"   class="btn btn-success">
+                                            {{ form_end(form_salle) }}
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

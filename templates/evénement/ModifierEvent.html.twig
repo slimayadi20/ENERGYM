@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends "base-back.html.twig" %}
 
 {% block title %}Hello CategorieController!{% endblock %}
 
@@ -20,33 +20,38 @@
                 <div class="row" style="display: flex;align-items: center;justify-content: center">
                     <div class="col-md-6">
                         <div class="card-box">
-                            <h4 class="m-t-0 m-b-30 header-title">Ajouter un Evénement</h4>
-                            {{form_start(f)}}
+                            <h4 class="m-t-0 m-b-30 header-title">Modifier un Evénement</h4>
+                            {{ form_start(f, {attr: {novalidate: 'novalidate'}}) }}
 
                             <div class="form-group">
                                 <label for="Nom">Nom de l'événement</label>
                                 {{ form_widget(f.NomEvent, {'attr':{'class':'form-control'}})}}
+                                {{ form_errors(f.NomEvent, {'attr':{'class':'text-danger mb-1 '}})}}
                             </div>
 
                             <div class="form-group">
                                 <label for="Nom">Date de l'événement</label>
                                 {{ form_widget(f.DateEvent, {'attr':{'class':'form-control'}})}}
+                                {{ form_errors(f.DateEvent, {'attr':{'class':'text-danger mb-1 '}})}}
                             </div>
 
                             <div class="form-group">
                                 <label for="name">Lieu de l'événement</label>
                                 {{ form_widget(f.LieuEvent, {'attr':{'class':'form-control'}})}}
+                                {{ form_errors(f.LieuEvent, {'attr':{'class':'text-danger mb-1 '}})}}
 
                             </div>
                             <div class="form-group">
                                 <label for="name">description</label>
                                 {{ form_widget(f.DescriptionEvent, {'attr':{'class':'form-control'}})}}
+                                {{ form_errors(f.DescriptionEvent, {'attr':{'class':'text-danger mb-1 '}})}}
 
 
                             </div>
                             <div class="form-group">
                                 <label for="name">Nombre de Participants </label>
                                 {{ form_widget(f.NbrParticipantsEvent, {'attr':{'class':'form-control'}})}}
+                                {{ form_errors(f.NbrParticipantsEvent, {'attr':{'class':'text-danger mb-1 '}})}}
 
 
 
