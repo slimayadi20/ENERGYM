@@ -4,11 +4,19 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\True_;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(
+ *     fields={"email"},
+ *     message="le email existe déja"
+ * )
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -19,13 +27,58 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Get creative and think of a nom!")
+     * @Assert\Length(
+     *     min=3,
+     *     max=50,
+     *     minMessage="The name must be at least 3 characters long",
+     *     maxMessage="The name cannot be longer than 50 characters"
+     * )
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Get creative and think of a prenom!")
+     * @Assert\Length(
+     *     min=3,
+     *     max=50,
+     *     minMessage="The name must be at least 3 characters long",
+     *     maxMessage="The name cannot be longer than 50 characters"
+     * )
      */
     private $prenom;
+    /**
+     * @Assert\NotBlank(message="Get creative and think of a password!")
+     * @ORM\Column(type="string", length=255)
+     */
+    private $password;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $roles;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $status= true;
+    /**
+     * @ORM\Column(type="datetime", nullable=false, options={"default" : "CURRENT_TIMESTAMP"})
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Write your email please!")
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email."
+     * )
+     */
+    private $email;
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $imageFile ;
 
     public function getId(): ?int
     {
@@ -54,5 +107,86 @@ class User
         $this->prenom = $prenom;
 
         return $this;
+    }
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+    public function setRoles($roles){
+        $this->roles = $roles ;
+        return $this;
+    }
+
+
+    public function getRoles()
+    {
+        return [$this->roles];
+
+    }
+    public function getStatus(): ? bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+    public function getImageFile(): ?string
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(string $imageFile): self
+    {
+        $this->imageFile = $imageFile;
+
+        return $this;
+    }
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->createdAt = $created_at;
+
+        return $this;
+    }
+
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getUsername()
+    {
+        // TODO: Implement getUsername() method.
     }
 }

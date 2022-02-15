@@ -5,7 +5,7 @@
         <!-- User -->
         <div class="user-box">
             <div class="user-img">
-                <img src="assets/images/users/avatar-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
+                <img src="{{ asset('Dashboard/images/users/avatar-1.jpg')}}" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
                 <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>
             </div>
             <h5><a href="#">Mat Helme</a> </h5>
@@ -29,13 +29,15 @@
         <div id="sidebar-menu">
             <ul>
                 <li class="text-muted menu-title">Navigation</li>
-
                 <li>
-                    <a  href="{{ path('user') }}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i> <span> User </span> </a>
+                    <a  href="{{ path('dashboard') }}" class="waves-effect"><i class="mdi mdi-home"></i> <span> Home </span> </a>
+                </li>
+                <li>
+                    <a  href="{{ path('user') }}" class="waves-effect"><i class="mdi mdi-account"></i> <span> User </span> </a>
                 </li>
 
                 <li>
-                    <a href="{{ path('reclamation') }}"class="waves-effect"><i class="mdi mdi-format-font"></i> <span> Reclamation </span> </a>
+                    <a href="{{ path('reclamation') }}"class="waves-effect"><i class="mdi mdi-book-open"></i> <span> Reclamation </span> </a>
                 </li>
 
 
