@@ -499,7 +499,11 @@
         "version": "v4.4.27"
     },
     "symfony/string": {
+<<<<<<< HEAD
         "version": "v6.0.3"
+=======
+        "version": "v5.4.3"
+>>>>>>> 303c6f230722ee90032f167519cbce543a204fd0
     },
     "symfony/translation": {
         "version": "3.3",
