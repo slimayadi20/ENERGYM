@@ -51,6 +51,13 @@ class User implements UserInterface
     /**
      * @Assert\NotBlank(message="Get creative and think of a password!")
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *     min=8,
+     *     max=15,
+     *     minMessage="The pass must be at least 8 characters long",
+     *     maxMessage="The name cannot be longer than 15 characters"
+     * )
+     * @Assert\EqualTo(propertyPath="confirmPass",message="vous n'avez pas tapé le meme message ")
      */
     private $password;
 
@@ -79,6 +86,10 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $imageFile ;
+    /**
+     * @Assert\EqualTo(propertyPath="password",message="vous n'avez pas tapé le meme message ")
+     */
+    public $confirmPass ;
 
     public function getId(): ?int
     {

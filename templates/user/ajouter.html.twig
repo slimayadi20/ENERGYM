@@ -60,6 +60,14 @@
 
                                             </div>
                                         </div>
+                                        <div class="form-group row">
+                                            <label class="col-2 col-form-label" for="example-email">Confirm Password</label>
+                                            <div class="col-10">
+                                                {{ form_widget(form_user.confirmPass , { 'attr': {'class': 'form-control'} }) }}
+                                                {{ form_errors(form_user.confirmPass , { 'attr': {'class': 'form-control'} }) }}
+
+                                            </div>
+                                        </div>
 
                                         <div class="form-group row">
                                             <label class="col-2 col-form-label" for="example-email">imageFile</label>

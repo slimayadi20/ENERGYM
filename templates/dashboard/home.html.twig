@@ -5,7 +5,7 @@
             {% if app.user %}
                 <li><a href="">Logout</a></li>
             {% else %}
-                <li><a href="">Login</a></li>
+                <li><a href="{{ path('app_login') }}" >Login</a></li>
             {% endif %}
                     <div class="card-box">
                         <div class="row">

@@ -31,6 +31,14 @@ class EvénementController extends AbstractController
         ]);
     }
     /**
+     * @Route("/EvenementDetailFront", name="EvenementDetailFront")
+     */
+    public function EvenementDetailFront(): Response
+    {
+        return $this->render('evénement/AfficherEventDetailFront.html.twig', [
+        ]);
+    }
+    /**
      * @Route("/AjouterEvent", name="AjouterEvent")
      */
     public function AjouterEvent(Request  $request) {
