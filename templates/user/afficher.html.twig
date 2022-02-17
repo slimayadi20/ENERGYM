@@ -1,3 +1,8 @@
+{% extends "base-back.html.twig" %}
+{% block body %}
+    {{ include('Dashboard/navbar.html.twig') }}
+    {{ include('Dashboard/leftSideBar.html.twig') }}
+
 <div class="content-page">
     <!-- Start content -->
     <div class="content">
@@ -47,6 +52,8 @@
                                     <span class="badge badge-danger badge-pill">ROLE_GERANT</span>
                                 {% else %}
                                     <span class="badge badge-warning badge-pill">ROLE_ADMIN</span>
+
+
                                 {% endif %}
                             </td>
                             <td>
@@ -72,3 +79,4 @@
         </div>
     </div>
 </div>
+{% endblock %}

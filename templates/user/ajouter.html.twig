@@ -1,5 +1,5 @@
 
-{% extends 'base-back.html.twig' %}
+{% extends "base-back.html.twig" %}
 {% block body %}
     {{ include('Dashboard/navbar.html.twig') }}
     {{ include('Dashboard/leftSideBar.html.twig') }}
@@ -66,6 +66,14 @@
                                                 <div class="col-10">
                                                     {{ form_widget(form_user.imageFile, { 'attr': {'class': 'form-control'} }) }}
                                                     {{ form_errors(form_user.imageFile, { 'attr': {'class': 'form-control'} }) }}
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label" for="example-email">roles</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_user.roles, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(form_user.roles, { 'attr': {'class': 'form-control'} }) }}
 
                                                 </div>
                                             </div>

@@ -2,5 +2,9 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+<<<<<<< HEAD
+=======
+    <mapping directory="$PROJECT_DIR$/ENERGYM" vcs="Git" />
+>>>>>>> 31b4f26755070fda8bc995c2d899d36ef30bf076
   </component>
 </project>

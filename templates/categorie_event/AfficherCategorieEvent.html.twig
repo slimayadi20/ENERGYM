@@ -1,0 +1,78 @@
+{% extends "base-back.html.twig" %}
+
+{% block title %}Hello CategorieEventController!{% endblock %}
+
+
+{% block body %}
+
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+
+
+                </div>
+                <div class="row" style="display: flex;align-items: center;justify-content: center">
+                    <div class="col-lg-6">
+                        <div class="card-box">
+                            <div class="dropdown pull-right">
+                                <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="mdi mdi-dots-vertical"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <!-- item-->
+                                    <a href="javascript:void(0);" class="dropdown-item">Action</a>
+                                    <!-- item-->
+                                    <a href="javascript:void(0);" class="dropdown-item">Another action</a>
+                                    <!-- item-->
+                                    <a href="javascript:void(0);" class="dropdown-item">Something else</a>
+                                    <!-- item-->
+                                    <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
+                                </div>
+                            </div>
+                            <h4 class="m-t-0 header-title">Catégorie des événements</h4>
+
+                            <table class="table">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th>id</th>
+                                    <th>Nom</th>
+                                    <th>Modifier</th>
+                                    <th>Supprimer</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for c in CategoriesEvent %}
+                                    <tr>
+
+                                        <th scope="row">{{ c.id }}</th>
+                                        <td>{{ c.nomCategorie }}</td>
+                                        <td><a href="{{ path('ModifierCategEvent',{'id':c.id}) }}"><i class="fa fa-pencil" style="color:#00aff0;font-size:20px"></i> </a> </td>
+                                        <td><a href="{{ path('SupprimerCategEvent',{'id':c.id}) }}"><i class="fa fa-trash" style="color:#ff5b5b;font-size:20px"></i> </a> </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+
+                                </tbody>
+                            </table>
+                            <a href="{{ path('AjouterCategEvent') }}">
+                                <button type="button" class="btn btn-purple btn-rounded w-md waves-effect waves-light m-b-5">Ajouter Une categorie</button>
+
+                            </a>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,68 @@
+
+
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-box table-responsive">
+                        <h4 class="m-t-0 header-title">Gestion Des Cours </h4>
+                        <div>
+                            <a  style=" position:absolute;right:10%;top:3% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addCours') }}"> <i class="fa fa-plus dark"></i> </a>
+                        </div>
+                        <table id="datatable" class="table table-bordered">
+                            <thead>
+                            <th>Nom</th>
+                            <th>Nom du Coach</th>
+                            <th>date</th>
+                            <th>Heure de debut</th>
+                            <th>heure de fin</th>
+                            <th>nombre</th>
+                            <th>description</th>
+                            <th>url image</th>
+                            <th>Salle de sport</th>
+                            <th>edit</th>
+                            <th>delete</th>
+                            </thead>
+                            <tbody>
+                            {% for u in cours %}
+
+                            <td>{{ u.nom }}</td>
+                            <td>{{ u.nomCoach }}</td>
+                            <td>{{ u.date|date('Y-m-d') }}</td>
+                            <td>{{ u.heureD|date('H:i')}}</td>
+                            <td>{{ u.heureF|date('H:i')}}</td>
+                            <td>{{ u.nombre }}</td>
+                            <td>{{ u.description }}</td>
+                            <td><img src="Dashboard/images/profile.jpg" style="width:10% ; height:0%;"></td>
+                            <td>{{ u.salleassocie }}</td>
+
+
+                            <td>
+                                <a type="button" href="{{ path('modifyCours', {'id': u.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
+                            </td>
+                            <td>
+                                <form method="post" action="{{ path('deleteCours', {'id': u.id}) }}"  onsubmit="return confirm('Voulez vous supprimer ce cours ?')">
+                                    <input type="hidden" name="_method" value="SUP">
+                                    <input type="hidden" name="_token" value="{{u.id }}">
+                                    <button type="submit" value="supprimer" class="btn btn-danger btn-icon  rounded-pill"><i class="  ti-trash"></i></button>
+                                </form>
+                            </td>
+                            </tbody>
+
+                            {% endfor %}
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

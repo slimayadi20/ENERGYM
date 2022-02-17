@@ -21,7 +21,7 @@ class UserController extends AbstractController
     {
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
 
-        return $this->render('user/index.html.twig', [
+        return $this->render('user/afficher.html.twig', [
             'controller_name' => 'UserController',
             "users" => $users,
 
@@ -38,7 +38,6 @@ class UserController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $entityManager = $this->getDoctrine()->getManager();
-            $user->setRoles('ROLE_USER');
             $user->setStatus(true);
             $user->setCreatedAt(new \DateTime()) ;
             $passwordcrypt = $encoder->encodePassword($user,$user->getPassword());

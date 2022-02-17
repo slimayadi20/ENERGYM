@@ -21,7 +21,12 @@ class UserFormType extends AbstractType
             ->add('prenom')
             ->add('password',PasswordType::class)
             ->add('email',EmailType::class)
-
+            ->add('roles', ChoiceType::class, [
+                'choices'  => [
+                    'roles_admin' => "roles_admin",
+                    'roles_membre' => "roles_membre",
+                    'roles_gerant' => "roles_gerant"
+                ],])
             ->add('imageFile', FileType::class, [
                 'required' => false,
             ])

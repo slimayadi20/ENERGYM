@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<head>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {# Run `composer require symfony/webpack-encore-bundle`
+           and uncomment the following Encore helpers to start using Symfony UX #}
+    {% block stylesheets %}
     <meta charset="utf-8">
     <title>Gym HTML-5 Template | Homepage</title>
     <!-- Stylesheets -->
@@ -23,14 +32,9 @@
     <link rel="shortcut icon" href="{{ asset('front-office/images/favicon.png') }}" type="image/x-icon">
     <link rel="icon" href="{{ asset('front-office/images/favicon.png') }}" type="image/x-icon">
 
-    <!-- Responsive -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-
-    <!--[if lt IE 9]><script src="{{ asset('front-office/js/html5shiv') }}"></script><![endif]-->
-    <!--[if lt IE 9]><script src="{{ asset('js/respond.js') }}"></script><![endif]-->
-    {% block styles %}
     {% endblock %}
+
+
 </head>
 
 <body class="hidden-bar-wrapper">
@@ -554,3 +558,7 @@
 
 </body>
 </html>
+
+{% block body %}
+    <br>
+{% endblock %}
