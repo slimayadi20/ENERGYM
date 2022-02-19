@@ -1,5 +1,5 @@
 
-{% extends "base.html.twig" %}
+{% extends "base-back.html.twig" %}
 {% block body %}
     {{ include('Dashboard/navbar.html.twig') }}
     {{ include('Dashboard/leftSideBar.html.twig') }}
@@ -17,22 +17,40 @@
                                 <div class="col-12">
                                     <div class="p-20">
 
-                                        {{ form_start(form_user) }}
+                                        {{
+                                        form_start(form_user,
+                                            {
+                                                'attr'
+                                                :
+                                                {
+                                                    'novalidate'
+                                                    :
+                                                    'novalidate'
+                                                }})
+                                        }}
 
                                         <form class="form-horizontal" role="form">
 
                                             <div class="form-group row">
                                                 <label class="col-2 col-form-label">Nom</label>
                                                 <div class="col-10">
-                                                    {{ form_widget(form_user.nom) }}
+                                                    {{ form_widget(form_user.nom, { 'attr': {'class': 'form-control'} }) }}
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label class="col-2 col-form-label" for="example-email">Prenom</label>
                                                 <div class="col-10">
-                                                    {{ form_widget(form_user.prenom) }}
+                                                    {{ form_widget(form_user.prenom, { 'attr': {'class': 'form-control'} }) }}
                                                 </div>
                                             </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label" for="example-email">Email</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_user.email, { 'attr': {'class': 'form-control'} }) }}
+                                                </div>
+                                            </div>
+
+
                                             <a class="btn btn-primary" href="{{ path('user') }}">Retour</a>
                                             <input type="submit" value="modifier"   class="btn btn-success">
                                             {{ form_end(form_user) }}

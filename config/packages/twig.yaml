@@ -4,4 +4,8 @@ twig:
     strict_variables: '%kernel.debug%'
     exception_controller: null
     form_themes:
+<<<<<<< HEAD
         - bootstrap_4_layout.html.twig
+=======
+        - bootstrap_4_layout.html.twig
+>>>>>>> 626f6ec78554c5771d3eebe4ad9b19945ac73135

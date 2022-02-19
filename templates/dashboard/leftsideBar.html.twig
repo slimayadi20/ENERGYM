@@ -5,7 +5,7 @@
         <!-- User -->
         <div class="user-box">
             <div class="user-img">
-                <img src="assets/images/users/avatar-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
+                <img src="{{ asset('Dashboard/images/users/avatar-1.jpg')}}" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
                 <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>
             </div>
             <h5><a href="#">Mat Helme</a> </h5>
@@ -29,7 +29,9 @@
         <div id="sidebar-menu">
             <ul>
                 <li class="text-muted menu-title">Navigation</li>
-
+                <li>
+                    <a  href="{{ path('dashboard') }}" class="waves-effect"><i class="mdi mdi-home"></i> <span> Home </span> </a>
+                </li>
                 <li>
                     <a  href="{{ path('user') }}" class="waves-effect"><i class="mdi mdi-account"></i> <span> User </span> </a>
                 </li>
@@ -39,11 +41,19 @@
                 </li>
 
                 <li>
+<<<<<<< HEAD
                     <a href="{{ path('commande') }}"class="waves-effect"><i class="mdi mdi-book-open"></i> <span> Commande </span> </a>
                 </li>
 
                 <li>
                     <a href="{{ path('livraison') }}"class="waves-effect"><i class="mdi mdi-book-open"></i> <span> Livraison </span> </a>
+=======
+                    <a href="{{ path('commande') }}"class="waves-effect"><i class="mdi mdi-shopping"></i> <span> Commande </span> </a>
+                </li>
+
+                <li>
+                    <a href="{{ path('livraison') }}"class="waves-effect"><i class="mdi mdi-truck-delivery"></i> <span> Livraison </span> </a>
+>>>>>>> 626f6ec78554c5771d3eebe4ad9b19945ac73135
                 </li>
 
 

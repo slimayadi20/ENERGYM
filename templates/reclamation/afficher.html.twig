@@ -1,0 +1,49 @@
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-box table-responsive">
+                        <h4 class="m-t-0 header-title">Gestion de reclamation </h4>
+                        <div>
+                            <a  style=" position:absolute;right:10%;top:1% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addReclamation') }}"> <i class="fa fa-plus dark"></i> </a>
+                        </div>
+                        <table id="datatable" class="table table-bordered">
+                            <thead>
+                            <th>Titre</th>
+                            <th>Contenu</th>
+                            <th>Date</th>
+                            <th>edit</th>
+                            <th>delete</th>
+                            </thead>
+                            <tbody>
+                            {% for r in reclamation %}
+                            <td>{{ r.titre }}</td>
+                            <td>{{ r.contenu }}</td>
+                            <td>{{ r.DateCreation | date }}</td>
+                            <td>
+                                <a type="button" href="{{ path('modifyReclamation', {'id': r.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
+                            </td>
+                            <td>
+                                <form method="post" action="{{ path('deleteReclamation', {'id': r.id}) }}"  onsubmit="return confirm('Voulez vous supprimer cette reclamation ?')">
+                                    <input type="hidden" name="_method" value="SUP">
+                                    <input type="hidden" name="_token" value="{{r.id }}">
+                                    <button type="submit" value="supprimer" class="btn btn-danger btn-icon  rounded-pill"><i class="  ti-trash"></i></button>
+                                </form>
+                            </td>
+                            </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
