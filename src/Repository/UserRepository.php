@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -12,12 +13,35 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository
+class UserRepository extends ServiceEntityRepository implements UserLoaderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
     }
+    public function findallwithpagination()
+    {
+        return $this->createQueryBuilder('v')
+            ->getQuery();
+
+    }
+    public function findallwithpaginationVerif()
+    {
+        return $this->createQueryBuilder('v')
+            ->where('v.status = 2')
+            ->getQuery();
+
+    }
+    public function loadUserByUsername($email) {
+
+        return $this->createQueryBuilder('u')
+            ->where('u.email = :query')
+            ->andWhere('u.status = 1')
+            ->setParameter('query', $email)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 
     // /**
     //  * @return User[] Returns an array of User objects

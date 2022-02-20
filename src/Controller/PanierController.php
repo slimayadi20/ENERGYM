@@ -17,4 +17,13 @@ class PanierController extends AbstractController
             'controller_name' => 'PanierController',
         ]);
     }
+
+    /**
+     * @Route("/checkout", name="checkout")
+     */
+    public function checkout(): Response
+    {
+        return $this->render('panier/Checkout.html.twig', [
+        ]);
+    }
 }

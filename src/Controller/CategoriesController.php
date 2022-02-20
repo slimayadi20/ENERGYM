@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoriesController extends AbstractController
 {
     /**
-     * @Route("/categories", name="categories")
+     * @Route("/dashboard/categories", name="categories")
      */
     public function index(): Response
     {
@@ -26,7 +26,7 @@ class CategoriesController extends AbstractController
         ]);
     }
     /**
-     * @Route("/addCategories", name="addCategories")
+     * @Route("/dashboard/addCategories", name="addCategories")
      */
     public function addCategories(Request $request): Response
     {
@@ -48,7 +48,7 @@ class CategoriesController extends AbstractController
         ]);
     }
     /**
-     * @Route("/modifyCategories/{id}", name="modifyCategories")
+     * @Route("/dashboard/modifyCategories/{id}", name="modifyCategories")
      */
     public function modifyCategories(Request $request, int $id): Response
     {
@@ -71,7 +71,7 @@ class CategoriesController extends AbstractController
         ]);
     }
     /**
-     * @Route("/deleteCategories/{id}", name="deleteCategories")
+     * @Route("/dashboard/deleteCategories/{id}", name="deleteCategories")
      */
     public function deleteCategories(int $id): Response
     {

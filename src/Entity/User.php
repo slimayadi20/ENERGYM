@@ -51,6 +51,12 @@ class User implements UserInterface
     /**
      * @Assert\NotBlank(message="Get creative and think of a password!")
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *     min=8,
+     *     max=15,
+     *     minMessage="The pass must be at least 8 characters long",
+     *     maxMessage="The name cannot be longer than 15 characters"
+     * )
      */
     private $password;
 
@@ -59,9 +65,9 @@ class User implements UserInterface
      */
     private $roles;
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="integer")
      */
-    private $status= true;
+    private $status= 1;
     /**
      * @ORM\Column(type="datetime", nullable=false, options={"default" : "CURRENT_TIMESTAMP"})
      */
@@ -80,40 +86,45 @@ class User implements UserInterface
      */
     private $imageFile ;
 
-    public function getId(): ?int
+    /**
+     * @Assert\EqualTo(propertyPath="password",message="vous n'avez pas tapé le meme message ")
+     */
+    public $confirmPass ;
+
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getNom()
     {
         return $this->nom;
     }
 
-    public function setNom(string $nom): self
+    public function setNom(string $nom)
     {
         $this->nom = $nom;
 
         return $this;
     }
 
-    public function getPrenom(): ?string
+    public function getPrenom()
     {
         return $this->prenom;
     }
 
-    public function setPrenom(string $prenom): self
+    public function setPrenom(string $prenom)
     {
         $this->prenom = $prenom;
 
         return $this;
     }
-    public function getPassword(): ?string
+    public function getPassword()
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $password)
     {
         $this->password = $password;
 
@@ -130,50 +141,51 @@ class User implements UserInterface
         return [$this->roles];
 
     }
-    public function getStatus(): ? bool
+    public function getStatus()
     {
         return $this->status;
     }
 
-    public function setStatus(bool $status): self
+    public function setStatus(int $status)
     {
         $this->status = $status;
 
         return $this;
     }
-    public function getEmail(): ?string
+    public function getEmail()
     {
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $email)
     {
         $this->email = $email;
 
         return $this;
     }
-    public function getImageFile(): ?string
+    public function getImageFile()
     {
         return $this->imageFile;
     }
 
-    public function setImageFile(string $imageFile): self
+    public function setImageFile(string $imageFile)
     {
         $this->imageFile = $imageFile;
 
         return $this;
     }
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt()
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(\DateTimeInterface $created_at)
     {
         $this->createdAt = $created_at;
 
         return $this;
     }
+
 
     public function getSalt()
     {
