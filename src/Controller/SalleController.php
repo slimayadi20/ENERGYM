@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SalleController extends AbstractController
 {
     /**
-     * @Route("/salle", name="salle")
+     * @Route("/dashboard/salle", name="salle")
      */
     public function index(): Response
     {
@@ -22,7 +22,7 @@ class SalleController extends AbstractController
         ]);
     }
     /**
-     * @Route("/salleFront", name="salleFront")
+     * @Route("/dashboard/salleFront", name="salleFront")
      */
     public function salleFront(): Response
     {
@@ -31,7 +31,7 @@ class SalleController extends AbstractController
         ]);
     }
     /**
-     * @Route("/addSalle", name="addSalle")
+     * @Route("/dashboard/addSalle", name="addSalle")
      */
     public function addSalle(Request $request): Response
     {
@@ -53,7 +53,7 @@ class SalleController extends AbstractController
         ]);
     }
     /**
-     * @Route("/modifySalle/{id}", name="modifySalle")
+     * @Route("/dashboard/modifySalle/{id}", name="modifySalle")
      */
     public function modifySalle(Request $request, int $id): Response
     {
@@ -76,7 +76,7 @@ class SalleController extends AbstractController
         ]);
     }
     /**
-     * @Route("/deleteSalle/{id}", name="deleteSalle")
+     * @Route("/dashboard/deleteSalle/{id}", name="deleteSalle")
      */
     public function deleteSalle(int $id): Response
     {

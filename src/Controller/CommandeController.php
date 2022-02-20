@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CommandeController extends AbstractController
 {
     /**
-     * @Route("/commande", name="commande")
+     * @Route("/dashboard/commande", name="commande")
      */
     public function index(): Response
     {
@@ -25,7 +25,7 @@ class CommandeController extends AbstractController
         ]);
     }
     /**
-     * @Route("/addCommande", name="addCommande")
+     * @Route("/dashboard/addCommande", name="addCommande")
      */
     public function addCommande(Request $request): Response
     {
@@ -47,7 +47,7 @@ class CommandeController extends AbstractController
         ]);
     }
     /**
-     * @Route("/modifyCommande/{id}", name="modifyCommande")
+     * @Route("/dashboard/modifyCommande/{id}", name="modifyCommande")
      */
     public function modifyCommande(Request $request, int $id): Response
     {
@@ -70,7 +70,7 @@ class CommandeController extends AbstractController
         ]);
     }
     /**
-     * @Route("/deleteCommande/{id}", name="deleteCommande")
+     * @Route("/dashboard/deleteCommande/{id}", name="deleteCommande")
      */
     public function deleteCommande(int $id): Response
     {

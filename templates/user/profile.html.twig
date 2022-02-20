@@ -1,0 +1,45 @@
+{% extends "base-back.html.twig" %}
+{% block body %}
+    {{ include('Dashboard/navbar.html.twig') }}
+    {{ include('Dashboard/leftSideBar.html.twig') }}
+    <div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+    <div class="container-fluid">
+<div class="bg-picture card-box">
+    <div class="profile-info-name">
+        <a type="button" href="{{ path('modifyUser', {'id': user.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
+
+        <img src="{{ asset('Dashboard/images/profile.jpg')  }}" class="img-thumbnail" alt="profile-image">
+        <div class="profile-info-detail">
+            <h4 class="m-0">{{ user.nom }} {{ user.prenom }}</h4>
+            <p class="text-muted m-b-20"><i>CALIFORNIA GYM</i></p>
+            <p>Hi I'm {{ user.nom }},has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC,making it over 2000 years old.Contrary to popular belief, Lorem Ipsum is not simplyrandom text. It has roots in a piece of classical Latin literature from 45 BC.</p>
+
+            <div class="button-list m-t-20">
+                <button type="button" class="btn btn-facebook btn-sm waves-effect waves-light">
+                    <i class="fa fa-facebook"></i>
+                </button>
+
+                <button type="button" class="btn btn-sm btn-twitter waves-effect waves-light">
+                    <i class="fa fa-twitter"></i>
+                </button>
+
+                <button type="button" class="btn btn-sm btn-linkedin waves-effect waves-light">
+                    <i class="fa fa-linkedin"></i>
+                </button>
+
+                <button type="button" class="btn btn-sm btn-dribbble waves-effect waves-light">
+                    <i class="fa fa-dribbble"></i>
+                </button>
+
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

@@ -138,8 +138,11 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/web-server-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-intl-grapheme" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/string" />
+<<<<<<< HEAD
+=======
 =======
 >>>>>>> 626f6ec78554c5771d3eebe4ad9b19945ac73135
+>>>>>>> 31b4f26755070fda8bc995c2d899d36ef30bf076
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

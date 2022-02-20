@@ -22,7 +22,6 @@ class UserFormType extends AbstractType
             ->add('password',PasswordType::class)
             ->add('confirmPass',PasswordType::class)
             ->add('email',EmailType::class)
-
             ->add('imageFile', FileType::class, [
                 'required' => false,
             ])
