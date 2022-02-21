@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ReclamationController extends AbstractController
 {
     /**
-     * @Route("/reclamation", name="reclamation")
+     * @Route("/dashboard/reclamation", name="reclamation")
      */
     public function index(): Response
     {
@@ -25,7 +25,7 @@ class ReclamationController extends AbstractController
         ]);
     }
     /**
-     * @Route("/addReclamation", name="addReclamation")
+     * @Route("/dashboard/addReclamation", name="addReclamation")
      */
     public function addReclamation(Request $request): Response
     {
@@ -50,7 +50,7 @@ class ReclamationController extends AbstractController
         ]);
     }
     /**
-     * @Route("/modifyReclamation/{id}", name="modifyReclamation")
+     * @Route("/dashboard/modifyReclamation/{id}", name="modifyReclamation")
      */
     public function modifyReclamation(Request $request, int $id): Response
     {
@@ -73,7 +73,7 @@ class ReclamationController extends AbstractController
         ]);
     }
     /**
-     * @Route("/deleteReclamation/{id}", name="deleteReclamation")
+     * @Route("/dashboard/deleteReclamation/{id}", name="deleteReclamation")
      */
     public function deleteReclamation(int $id): Response
     {
@@ -87,4 +87,8 @@ class ReclamationController extends AbstractController
         return $this->redirectToRoute("reclamation");
     }
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> daef2f058f84d19f446762f4265099089d16e6ff

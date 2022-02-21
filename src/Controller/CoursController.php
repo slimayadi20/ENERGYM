@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CoursController extends AbstractController
 {
     /**
-     * @Route("/cours", name="cours")
+     * @Route("/dashboard/cours", name="cours")
      */
     public function index(): Response
     {
@@ -31,7 +31,7 @@ class CoursController extends AbstractController
         ]);
     }
     /**
-     * @Route("/addCours", name="addCours")
+     * @Route("/dashboard/addCours", name="addCours")
      */
     public function addcours(Request $request): Response
     {
@@ -53,7 +53,7 @@ class CoursController extends AbstractController
         ]);
     }
     /**
-     * @Route("/modifyCours/{id}", name="modifyCours")
+     * @Route("/dashboard/modifyCours/{id}", name="modifyCours")
      */
     public function modifyCours(Request $request, int $id): Response
     {
@@ -76,7 +76,7 @@ class CoursController extends AbstractController
         ]);
     }
     /**
-     * @Route("/deleteCours/{id}", name="deleteCours")
+     * @Route("/dashboard/deleteCours/{id}", name="deleteCours")
      */
     public function deleteCours(int $id): Response
     {

@@ -135,6 +135,16 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/type-resolver" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-common" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/web-server-bundle" />
+<<<<<<< HEAD
+=======
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-intl-grapheme" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/string" />
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 626f6ec78554c5771d3eebe4ad9b19945ac73135
+>>>>>>> 31b4f26755070fda8bc995c2d899d36ef30bf076
+>>>>>>> daef2f058f84d19f446762f4265099089d16e6ff
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
