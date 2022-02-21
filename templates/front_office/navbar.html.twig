@@ -60,6 +60,7 @@
 
                     <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
                         <ul class="navigation clearfix">
+
                             <li class="current dropdown" ><a  href="{{ path('front_office') }}">Home</a>
                                 <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
                             <li class="dropdown"><a href="{{ path('coursFront') }}">Classes</a>
@@ -80,7 +81,11 @@
                                     <li><a href="{{ path('EvenementDetailFront') }}">Evenement single</a></li>
                                 </ul>
                                 <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
-                            <li><a href="{{ path('loginFront') }}">Contact us</a></li>
+                            {% if app.user %}
+                                <li><a href="{{ path('app_logout') }}">DeConnect</a></li>
+                                {% else %}
+                                    <li><a href="{{ path('app_login') }}">Connect</a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 </nav>
