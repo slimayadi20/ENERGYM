@@ -22,6 +22,8 @@ class CategorieEventController extends AbstractController
 
     }
 
+
+
     /**
      * @Route("/AjouterCategEvent", name="AjouterCategEvent")
      */
@@ -79,5 +81,6 @@ class CategorieEventController extends AbstractController
             "f" => $form->createView(),
         ]);
     }
+
 
 }

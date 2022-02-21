@@ -18,7 +18,7 @@ class EvénementController extends AbstractController
      */
     public function index(): Response
     {
-        $Evenement = $this->getDoctrine()->getManager()->getRepository(Evenement::class)->findAll(); // select * from product
+        $Evenement = $this->getDoctrine()->getManager()->getRepository(Evenement::class)->findAll();
 
         return $this->render("evénement/index.html.twig",array("Evenement"=>$Evenement));
     }
@@ -27,8 +27,9 @@ class EvénementController extends AbstractController
      */
     public function EvenementFront(): Response
     {
-        return $this->render('evénement/AfficherEventFront.html.twig', [
-        ]);
+        $CategoriesEvent = $this->getDoctrine()->getManager()->getRepository(CategoriesEvent::class)->findAll();
+        $Evenement = $this->getDoctrine()->getManager()->getRepository(Evenement::class)->findAll();
+        return $this->render("evénement/AfficherEventFront.html.twig",array("Evenement"=>$Evenement,"CategoriesEvent"=>$CategoriesEvent));
     }
     /**
      * @Route("/EvenementDetailFront", name="EvenementDetailFront")
@@ -114,5 +115,26 @@ class EvénementController extends AbstractController
 
 
     }
+    /**
+     * @Route("/detailEventFront/{id}", name="detailFront")
+     */
+    public function detailEventFront(Request $req, $id) {
+        $em= $this->getDoctrine()->getManager();
+        $prod = $em->getRepository(Evenement::class)->find($id);
+
+
+        return $this->render('evénement/AfficherEventDetailFront.html.twig',array(
+            'id'=>$prod->getId(),
+            'NomEvent'=>$prod->getNomEvent(),
+            'DescriptionEvent'=>$prod->getDescriptionEvent(),
+            'LieuEvent'=>$prod->getLieuEvent(),
+            'DateEvent'=>$prod->getDateEvent(),
+            'NbrParticipantsEvent'=>$prod->getNbrParticipantsEvent(),
+            // 'image'=>$prod->getImage()
+        ));
+
+
+    }
+
 
 }

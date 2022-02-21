@@ -52,7 +52,7 @@
 
                                         <th scope="row">{{ e.id }}</th>
                                         <td>{{ e.NomEvent }}</td>
-                                        <td>{{ e.DateEvent }}</td>
+                                        <td>{{ e.DateEvent |date('Y-m-d') }}</td>
                                         <td>{{ e.LieuEvent }}</td>
                                         <td><a href="{{ path('ModifierEvent',{'id':e.id}) }}"><i class="fa fa-pencil" style="color:#00aff0;font-size:20px"></i> </a> </td>
                                         <td><a href="{{ path('SupprimerEvent',{'id':e.id}) }}"><i class="fa fa-trash" style="color:#ff5b5b;font-size:20px"></i> </a> </td>

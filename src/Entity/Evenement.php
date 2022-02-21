@@ -30,9 +30,10 @@ class Evenement
      */
     private $NomEvent;
 
+
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Entrez quelque chose !")
+     * @ORM\Column(type="date")
+     * @Assert\GreaterThanOrEqual("today", message="La date  doit etre valide .")
      */
     private $DateEvent;
 
@@ -66,6 +67,13 @@ class Evenement
      */
     private $NbrParticipantsEvent;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=CategoriesEvent::class, inversedBy="evenementss")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $NomCategorie;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -83,18 +91,18 @@ class Evenement
 
         return $this;
     }
-    public function getDateEvent(): ?string
+    public function getDateEvent(): ?\DateTimeInterface
     {
         return $this->DateEvent;
     }
 
-
-    public function setDateEvent(string $DateEvent): self
+    public function setDateEvent(\DateTimeInterface $date): self
     {
-        $this->DateEvent = $DateEvent;
+        $this->DateEvent = $date;
 
         return $this;
     }
+
 
     public function getDescriptionEvent(): ?string
     {
@@ -131,4 +139,23 @@ class Evenement
 
         return $this;
     }
+
+    public function getNomCategorie(): ?CategoriesEvent
+    {
+        return $this->NomCategorie;
+    }
+
+    public function setNomCategorie(?CategoriesEvent $NomCategorie): self
+    {
+        $this->NomCategorie = $NomCategorie;
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return (string) $this->getNomCategorie();
+    }
+
+
+
 }

@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Evenement;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,10 +15,13 @@ class EvenementType extends AbstractType
     {
         $builder
             ->add('NomEvent')
-            ->add('DescriptionEvent')
+            ->add('DescriptionEvent',TextareaType::class)
             ->add('LieuEvent')
             ->add('DateEvent')
             ->add('NbrParticipantsEvent')
+            ->add('NomCategorie')
+
+
             ->add('Submit',SubmitType::class)
         ;
     }
