@@ -28,7 +28,7 @@ class UserController extends AbstractController
         $users =  $paginator->paginate(
             $repository->findallwithpagination(),
             $request->query->getInt('page' , 1), // nombre de page
-            10 //nombre limite
+            3 //nombre limite
         );
 
         if(!$utilisateur)
@@ -136,6 +136,7 @@ class UserController extends AbstractController
             "f" => $form->createView(),
         ]);
     }
+
     /**
      * @Route("/dashboard/Profile", name="Profile")
      */

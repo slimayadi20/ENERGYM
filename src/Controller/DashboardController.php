@@ -30,9 +30,8 @@ class DashboardController extends AbstractController
             $session->set("message", "Merci de vous connecter");
             return $this->redirectToRoute('front_office');
         }
-
         else {
-            return $this->render('dashboard/home.html.twig');
+            return $this->render('front_office/home.html.twig');
         }
 
     }
