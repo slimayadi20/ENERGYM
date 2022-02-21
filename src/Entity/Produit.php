@@ -33,10 +33,10 @@ class Produit
     /**
      * @Assert\NotBlank(message="Ecrivez quelques chose !")
      * @Assert\Length(
-     *      min = 100,
+     *      min = 30,
      *      max = 1000,
      *      minMessage = "Description très courte ! ",
-     *      maxMessage = "doit etre <=100" )
+     *      maxMessage = "doit etre <=1000" )
      * @ORM\Column(type="string", length=1000)
      */
     private $description;
