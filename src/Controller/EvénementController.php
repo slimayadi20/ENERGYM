@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EvénementController extends AbstractController
 {
     /**
-     * @Route("evenement", name="evenement")
+     * @Route("/dashboard/evenement", name="evenement")
      */
     public function index(): Response
     {
@@ -40,7 +40,7 @@ class EvénementController extends AbstractController
         ]);
     }
     /**
-     * @Route("/AjouterEvent", name="AjouterEvent")
+     * @Route("/dashboard/AjouterEvent", name="AjouterEvent")
      */
     public function AjouterEvent(Request  $request) {
 
@@ -61,7 +61,7 @@ class EvénementController extends AbstractController
     }
 
     /**
-     * @Route("/SupprimerEvent/{id}", name="SupprimerEvent")
+     * @Route("/dashboard/SupprimerEvent/{id}", name="SupprimerEvent")
      */
     public function  SupprimerEvent($id) {
         $em= $this->getDoctrine()->getManager();
@@ -74,7 +74,7 @@ class EvénementController extends AbstractController
 
     }
     /**
-     * @Route("/ModifierEvent/{id}", name="ModifierEvent")
+     * @Route("/dashboard/ModifierEvent/{id}", name="ModifierEvent")
      */
     public function ModifierEvent(Request $req, $id) {
         $em= $this->getDoctrine()->getManager();
@@ -96,7 +96,7 @@ class EvénementController extends AbstractController
 
 
     /**
-     * @Route("/detail_produit/{id}", name="detail")
+     * @Route("/dashboard/detail_produit/{id}", name="detail")
      */
     public function detailProduit(Request $req, $id) {
         $em= $this->getDoctrine()->getManager();

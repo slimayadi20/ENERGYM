@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategorieEventController extends AbstractController
 {
     /**
-     * @Route("/categorie/event", name="categorie_event")
+     * @Route("/dashboard/categorie/event", name="categorie_event")
      */
     public function index(): Response
     {
@@ -25,7 +25,7 @@ class CategorieEventController extends AbstractController
 
 
     /**
-     * @Route("/AjouterCategEvent", name="AjouterCategEvent")
+     * @Route("/dashboard/AjouterCategEvent", name="AjouterCategEvent")
      */
     public function AjouterCategEvent(Request  $request) {
 
@@ -46,7 +46,7 @@ class CategorieEventController extends AbstractController
     }
 
     /**
-     * @Route("/SupprimerCategEvent/{id}", name="SupprimerCategEvent")
+     * @Route("/dashboard/SupprimerCategEvent/{id}", name="SupprimerCategEvent")
      */
     public function  SupprimerCategEvent($id) {
         $em= $this->getDoctrine()->getManager();
@@ -59,7 +59,7 @@ class CategorieEventController extends AbstractController
 
     }
     /**
-     * @Route("/ModifierCategEvent/{id}", name="ModifierCategEvent")
+     * @Route("/dashboard/ModifierCategEvent/{id}", name="ModifierCategEvent")
      */
     public function ModifierCategEvent(Request $request, int $id): Response
     {

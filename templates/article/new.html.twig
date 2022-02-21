@@ -1,0 +1,15 @@
+{% extends 'base-back.html.twig' %}
+
+
+{% block main %}
+    <h1>Create new Article</h1>
+
+<div class="col-xl-6">
+    <div class="card-box">
+
+    {{ include('article/_form.html.twig') }}
+    </div>
+
+</div>
+    <a href="{{ path('article_index') }}">back to list</a>
+{% endblock %}
