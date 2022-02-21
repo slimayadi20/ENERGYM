@@ -20,6 +20,7 @@ class UserFormType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('password',PasswordType::class)
+            ->add('confirmPass',PasswordType::class)
             ->add('email',EmailType::class)
 
             ->add('imageFile', FileType::class, [

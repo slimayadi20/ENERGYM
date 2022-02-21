@@ -16,13 +16,9 @@ class ReclamationController extends AbstractController
      */
     public function index(): Response
     {
-<<<<<<< HEAD
-        return $this->render('reclamation/afficher.html.twig', [
-=======
         $reclamation = $this->getDoctrine()->getRepository(Reclamation::class)->findAll();
 
         return $this->render('reclamation/index.html.twig', [
->>>>>>> 626f6ec78554c5771d3eebe4ad9b19945ac73135
             'controller_name' => 'ReclamationController',
             "reclamation" => $reclamation,
 
@@ -90,4 +86,5 @@ class ReclamationController extends AbstractController
 
         return $this->redirectToRoute("reclamation");
     }
+
 }

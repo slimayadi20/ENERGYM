@@ -48,6 +48,10 @@ class Livraison
     /**
      * @ORM\OneToOne(targetEntity=Commande::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
+<<<<<<< HEAD
+     * @Assert\NotBlank()
+=======
+>>>>>>> f5c42423b0204de8b626e48965f92eb1d5eff3a3
      */
     private $idCommande;
 

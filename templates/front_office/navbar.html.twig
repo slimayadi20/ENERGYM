@@ -60,60 +60,27 @@
 
                     <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
                         <ul class="navigation clearfix">
-                            <li class="current dropdown"><a href="#">Home</a>
-                                <ul>
-                                    <li><a href="index.html">Home Page 01</a></li>
-                                    <li><a href="index-2.html">Home Page 02</a></li>
-                                    <li><a href="index-3.html">Home Page 03</a></li>
-                                    <li class="dropdown"><a href="#">Header Styles</a>
-                                        <ul>
-                                            <li><a href="index.html">Header Style 01</a></li>
-                                            <li><a href="index-2.html">Header Style 02</a></li>
-                                            <li><a href="index-3.html">Header Style 03</a></li>
-                                        </ul>
-                                        <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
-                                </ul>
+                            <li class="current dropdown" ><a  href="{{ path('front_office') }}">Home</a>
                                 <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
-                            <li class="dropdown"><a href="#">About</a>
-                                <ul>
-                                    <li><a href="about.html">About Us</a></li>
-                                    <li><a href="faq.html">Faq</a></li>
-                                    <li><a href="price.html">Price</a></li>
-                                    <li><a href="team.html">Team</a></li>
-                                    <li><a href="time-table.html">Time Table</a></li>
-                                    <li><a href="testimonial.html">Testimonial</a></li>
-                                    <li><a href="comming-soon.html">Comming Soon</a></li>
-                                </ul>
+                            <li class="dropdown"><a href="{{ path('coursFront') }}">Classes</a>
                                 <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
-                            <li class="dropdown"><a href="#">Classes</a>
-                                <ul>
-                                    <li><a href="classes.html">Classes</a></li>
-                                    <li><a href="classes-detail.html">Classes Detail</a></li>
-                                </ul>
-                                <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
-                            <li class="dropdown"><a href="#">Portfolio</a>
-                                <ul>
-                                    <li><a href="portfolio.html">Portfolio</a></li>
-                                    <li><a href="portfolio-detail.html">Portfolio Detail</a></li>
-                                </ul>
+                            <li class="dropdown"><a href="{{ path('salleFront') }}">salle</a>
                                 <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
                             <li class="dropdown"><a href="#">Shop</a>
                                 <ul>
-                                    <li><a href="shop.html">Our Products</a></li>
-                                    <li><a href="shop-single.html">Product Single</a></li>
-                                    <li><a href="shopping-cart.html">Shopping Cart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="account.html">Account</a></li>
+                                    <li><a href="{{ path('shop') }}">Our Products</a></li>
+                                    <li><a href="{{ path('product') }}">Product Single</a></li>
+                                  {#   <li><a href="checkout.html">Checkout</a></li>
+                                    <li><a href="account.html">Account</a></li>#}
                                 </ul>
                                 <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
-                            <li class="dropdown"><a href="#">Blog</a>
+                            <li class="dropdown"><a href="">evenement</a>
                                 <ul>
-                                    <li><a href="blog.html">Our Blog</a></li>
-                                    <li><a href="blog-single.html">Blog Single</a></li>
-                                    <li><a href="not-found.html">Not Found</a></li>
+                                    <li><a href="{{ path('EvenementFront') }}">Evenement</a></li>
+                                    <li><a href="{{ path('EvenementDetailFront') }}">Evenement single</a></li>
                                 </ul>
                                 <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
-                            <li><a href="contact.html">Contact us</a></li>
+                            <li><a href="{{ path('loginFront') }}">Contact us</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -128,27 +95,19 @@
                             <div class="dropdown-menu pull-right cart-panel" aria-labelledby="dropdownMenu3">
 
                                 <div class="cart-product">
+                                    {% for element in dataPanier %}
                                     <div class="inner">
-                                        <div class="cross-icon"><span class="icon fa fa-remove"></span></div>
+                                        <div class="cross-icon"><a href="{{path("delete", {id: element.produit.id})}}" class="icon fa fa-remove"></a></div>
                                         <div class="image"><img src="https://via.placeholder.com/70x70" alt=""></div>
-                                        <h3><a href="shop-single.html">Flying Ninja</a></h3>
-                                        <div class="quantity-text">Quantity 1</div>
-                                        <div class="price">$99.00</div>
+                                        <h3><a href="shop-single.html">{{ element.produit.nom }}</a></h3>
+                                        <div class="quantity-text">Quantité : {{ element.quantite }}</div>
+                                        <div class="quantity-text">Prix Unitaire : {{ element.produit.prix }} TND</div>
                                     </div>
-                                </div>
-                                <div class="cart-product">
-                                    <div class="inner">
-                                        <div class="cross-icon"><span class="icon fa fa-remove"></span></div>
-                                        <div class="image"><img src="https://via.placeholder.com/70x70" alt=""></div>
-                                        <h3><a href="shop-single.html">Patient Ninja</a></h3>
-                                        <div class="quantity-text">Quantity 1</div>
-                                        <div class="price">$99.00</div>
-                                    </div>
-                                </div>
-                                <div class="cart-total">Sub Total: <span>$198</span></div>
+
+                                    {% endfor %}
                                 <ul class="btns-boxed">
-                                    <li><a href="shoping-cart.html">View Cart</a></li>
-                                    <li><a href="checkout.html">CheckOut</a></li>
+                                    <li><a  href="{{ path('panier') }}">View Cart</a></li>
+                                    <li><a href="{{ path('checkout') }}">CheckOut</a></li>
                                 </ul>
 
                             </div>
