@@ -8,11 +8,14 @@ use App\Repository\UserRepository;
 use App\Form\UserFormType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
 
 class UserController extends AbstractController
 {
@@ -21,7 +24,7 @@ class UserController extends AbstractController
     /**
      * @Route("/dashboard/user", name="user")
      */
-    public function index( Session $session, PaginatorInterface $paginator,UserRepository $repository , Request $request): Response
+    public function index( Session $session, PaginatorInterface $paginator,UserRepository $repository , Request $request)
     {
         //besoin de droits admin
         $utilisateur = $this->getUser();
@@ -50,7 +53,7 @@ class UserController extends AbstractController
     /**
      * @Route("/dashboard/verif", name="verif")
      */
-    public function verif(Session $session, PaginatorInterface $paginator,UserRepository $repository, Request $request): Response
+    public function verif(Session $session, PaginatorInterface $paginator,UserRepository $repository, Request $request)
     {
         $utilisateur = $this->getUser();
 
@@ -74,28 +77,48 @@ class UserController extends AbstractController
     /**
      * @Route("/dashboard/addUser", name="addUser")
      */
-    public function addUser(Request $request, UserPasswordEncoderInterface $encoder): Response
+    public function addUser(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $utilisateur = $this->getUser();
 
 
         if (in_array('ROLE_ADMIN', $utilisateur->getRoles())) {
 
-            $user = new User();
-            $form = $this->createForm(UserFormType::class,$user);
-            $form->handleRequest($request);
-            if($form->isSubmitted() && $form->isValid())
-            {
-                $entityManager = $this->getDoctrine()->getManager();
-                $user->setRoles('ROLE_ADMIN');
-                $user->setStatus(1);
-                $user->setCreatedAt(new \DateTime()) ;
-                $passwordcrypt = $encoder->encodePassword($user,$user->getPassword());
-                $user->setPassword($passwordcrypt);
-                $entityManager->persist($user);
-                $entityManager->flush();
-                $this->addFlash('success' , 'L"action a été effectué');
-                return $this->redirectToRoute("user");
+
+
+        $user = new User();
+        $form = $this->createForm(UserFormType::class,$user);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form->get('imageFile')->getData();
+            // this condition is needed because the 'image' field is not required
+
+            if ($imageFile) {
+                // generate new name to the file image with the function generateUniqueFileName
+                $fileName = $this->generateUniqueFileName().'.'.$imageFile->guessExtension();
+
+                // moves the file to the directory where products are stored
+                $imageFile->move(
+                    $this->getParameter('imagesUser_directory'),
+                    $fileName
+                );
+
+                // updates the 'product' property to store the image file name
+                // instead of its contents
+                $user->setImagefile($fileName);
+            }
+            $entityManager = $this->getDoctrine()->getManager();
+            $user->setRoles('ROLE_ADMIN');
+            $user->setStatus(1);
+            $user->setCreatedAt(new \DateTime()) ;
+            $passwordcrypt = $encoder->encodePassword($user,$user->getPassword());
+            $user->setPassword($passwordcrypt);
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $this->addFlash('success' , 'L"action a été effectué');
+            return $this->redirectToRoute("user");
 
             }
             return $this->render("user/ajouter.html.twig", [
@@ -108,7 +131,7 @@ class UserController extends AbstractController
     /**
      * @Route("/dashboard/modifyUser/{id}", name="modifyUser")
      */
-    public function modifyUser(Request $request, int $id, Session $session, UserPasswordEncoderInterface $encoder): Response
+    public function modifyUser(Request $request, int $id, Session $session, UserPasswordEncoderInterface $encoder)
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -140,7 +163,7 @@ class UserController extends AbstractController
     /**
      * @Route("/dashboard/Profile", name="Profile")
      */
-    public function Profile( Session $session): Response
+    public function Profile( Session $session)
     {
         // $users = $this->getDoctrine()->getRepository(User::class)->find();
         $user = $this->getUser();
@@ -154,7 +177,7 @@ class UserController extends AbstractController
     /**
      * @Route("/dashboard/deleteUser/{id}", name="deleteUser")
      */
-    public function deleteUser(int $id, Session $session): Response
+    public function deleteUser(int $id, Session $session)
     {
         $user = $this->getUser();
         if($user->getId() == $id )
@@ -176,7 +199,7 @@ class UserController extends AbstractController
     /**
      * @Route("/dashboard/modifyStatus/{id}", name="modifyStatus")
      */
-    public function modifyStatus(Request $request, int $id): Response
+    public function modifyStatus(Request $request, int $id)
     {
         $utilisateur = $this->getUser();
 
@@ -205,4 +228,19 @@ class UserController extends AbstractController
         }
         return $this->redirectToRoute('dashboard');
     }
+
+
+
+    // fonction qui generer un identifiant unique pour chaque image
+    /**
+     * @return string
+     */
+    private function generateUniqueFileName()
+    {
+        // md5() reduces the similarity of the file names generated by
+        // uniqid(), which is based on timestamps
+        return md5(uniqid());
+    }
+    // fonction qui generer un identifiant unique pour chaque image
+
 }

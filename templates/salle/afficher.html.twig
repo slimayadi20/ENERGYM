@@ -43,7 +43,8 @@
                             <td>{{ u.prix }}</td>
                             <td>{{ u.heureo|date('H:i')}}</td>
                             <td>{{ u.heuref|date('H:i') }}</td>
-                            <td><img src="Dashboard/images/profile.jpg" style="width:10% ; height:0%;"></td>
+                            <td><img src="{{ asset('uploads/salle/'~ u.image)  }}" alt="" width="50">
+                            </td>
 
 
                                 {# {% if u.date = format_datetime %}
