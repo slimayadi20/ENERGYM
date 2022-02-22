@@ -26,9 +26,10 @@
     <div class="auto-container">
 
         <!--Default Links-->
+        {#
         <ul class="default-links">
             <li>Returning customer? <a href="#" data-toggle="modal" data-target="#schedule-box">Click here to login</a></li>
-        </ul>
+        </ul> #}
 
         <!--Billing Details-->
         <div class="billing-details">
@@ -43,28 +44,29 @@
 
                                     <!--Form Group-->
                                     <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                                        <div class="field-label">First name <sup>*</sup></div>
-                                        <input type="text" name="field-name" value="" placeholder="First Name">
+                                        <div class="field-label"> Prénom<sup>*</sup></div>
+                                        <input type="text" name="field-name" value="{{ app.user.nom }}" placeholder="First Name">
                                     </div>
 
                                     <!--Form Group-->
                                     <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                                        <div class="field-label">Last name <sup>*</sup></div>
-                                        <input type="text" name="field-name" value="" placeholder="Last Name">
-                                    </div>
+                                        <div class="field-label">Nom <sup>*</sup></div>
 
+                                        <input type="text" name="field-name" value="{{ app.user.prenom }}" placeholder="Last Name">
+                                    </div>
                                     <!--Form Group-->
+                                    <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                        <div class="field-label">Address <sup>*</sup></div>
+                                        <input type="email" name="field-name" value="" placeholder="Street Address">
+
+                                    </div>
+                                   {#  <!--Form Group-->
                                     <div class="form-group col-md-12 col-sm-12 col-xs-12">
                                         <div class="field-label">Company name </div>
                                         <input type="text" name="field-name" value="" placeholder="Company name">
                                     </div>
 
-                                    <!--Form Group-->
-                                    <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                                        <div class="field-label">Address <sup>*</sup></div>
-                                        <input type="email" name="field-name" value="" placeholder="Street Address">
-                                        <input class="address-two" type="email" name="field-name" value="" placeholder="Apartment, Suit unit etc (optional)">
-                                    </div>
+
 
                                     <!--Form Group-->
                                     <div class="form-group col-md-12 col-sm-12 col-xs-12">
@@ -89,11 +91,11 @@
                                         <div class="field-label">Postcode / Zip <sup>*</sup></div>
                                         <input type="text" name="code" value="" placeholder="Postcode / Zip">
                                     </div>
-
+                                   #}
                                     <!--Form Group-->
                                     <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                         <div class="field-label">Email Address <sup>*</sup></div>
-                                        <input type="text" name="field-name" value="" placeholder="Email Address">
+                                        <input type="text" name="field-name" value="{{ app.user.email }}" placeholder="Email Address">
                                     </div>
 
                                     <!--Form Group-->
@@ -102,17 +104,13 @@
                                         <input type="text" name="field-name" value="" placeholder="Select an option">
                                     </div>
 
-                                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="check-box"><input type="checkbox" name="shipping-option" id="account-option"> &ensp; <label for="account-option">Creat an account?</label></div>
-                                    </div>
 
-                                    <div class="form-group sec-title col-md-12 col-xs-12"><h2>Ship to Different Address</h2></div>
+
 
                                     <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                                        <div class="field-label">Order Notes</div>
+                                        <div class="field-label">Description</div>
                                         <textarea placeholder="Note about your order. e.g. special note for delivery"></textarea>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -122,10 +120,12 @@
                             <div class="shop-order-box">
                                 <ul class="order-list">
                                     <li>Prodcut<span>TOTAL</span></li>
-                                    <li>Electric Hummer x 1<span>$65.00</span></li>
-                                    <li>Subtotal<span class="dark">$65.00</span></li>
+                                    {% for element in dataPanier %}
+                                    <li>{{ element.produit.nom }} x {{ element.produit.quantite }}<span>{{ element.quantite * element.produit.prix }} TND</span></li>
+                                    {% endfor %}
                                     <li>Shipping And Handling<span>Free Shipping</span></li>
-                                    <li class="total">TOTAL<span class="dark">$65.00</span></li>
+                                    <li class="total">TOTAL<span class="dark">5444 TND</span></li>
+
                                 </ul>
 
 

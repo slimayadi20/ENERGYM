@@ -1,11 +1,7 @@
 {% extends "base-front.html.twig" %}
 
 {% block title %}
-<<<<<<< HEAD
-    Votre panier
-=======
-    Panier!
->>>>>>> daef2f058f84d19f446762f4265099089d16e6ff
+    Votre Panier!
 {% endblock %}
 
 {% block body %}
@@ -36,11 +32,11 @@
                 <table class="cart-table">
                     <thead class="cart-header">
                     <tr>
-                        <th class="prod-column">Product</th>
-                        <th class="price">Price</th>
-                        <th>Quantity</th>
+                        <th class="prod-column">Produit</th>
+                        <th class="price">Prix</th>
+                        <th>Quantité</th>
                         <th>Total</th>
-                        <th>Remove</th>
+
                     </tr>
                     </thead>
 
@@ -49,20 +45,32 @@
                     <tr>
                         <td class="prod-column">
                             <div class="column-box">
-                                <figure class="prod-thumb"><a href="#"><img src="images/resource/products/thumb-1.jpg" alt=""></a></figure>
+                                <figure class="prod-thumb"><a href="#"><img src="{{ asset('uploads/produit/'~ element.produit.image)}}" alt=""></a></figure>
                                 <h6 class="prod-title">{{ element.produit.nom }}</h6>
                             </div>
                         </td>
                         <td class="price">{{ element.produit.prix }} TND</td>
-                        <td class="qty">{{ element.quantite }}</td>
+                        <td class="qty">
+                            <div class="pull-left">
+                                <div class="item-quantity"><div class="input-group bootstrap-touchspin"><span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span><input class="quantity-spinner form-control" type="text" value="{{ element.quantite }}" name="quantity" style="display: block;"><span class="input-group-addon bootstrap-touchspin-postfix" style="display: none;"></span><span class="input-group-btn-vertical">
+                                            <a  href="{{path("add", {id: element.produit.id})}}" class="btn btn-default bootstrap-touchspin-up" type="button"><i class="glyphicon glyphicon-chevron-up"></i></a>
+                                            <a href="{{path("remove", {idS: element.produit.id,idP : monPanier.id})}}" class="btn btn-default bootstrap-touchspin-down" type="button"><i class="glyphicon glyphicon-chevron-down"></i></a>
+                                        </span></div></div>
+                            </div>
+                        </td>
                         <td class="sub-total">{{ element.quantite * element.produit.prix }} TND</td>
-                        <td class="add-new-plus"><a href="{{path("add", {id: element.produit.id})}}" class="btn btn-success"><span class="flaticon-multiply"></span></a></td>
+
                     </tr>
+
+
                     {% else %}
                         <tr>
                             <td colspan="5" class="text-center">Votre panier est vide</td>
                         </tr>
+
+
                     {% endfor %}
+
                     </tbody>
                 </table>
             </div>
@@ -79,13 +87,13 @@
                     </div>
                 </div>
 
-                <div class="pull-right">
-                    <button type="button" class="theme-btn btn-style-three"><span class="txt">Update Cart</span></button>
-                </div>
 
             </div>
-
-
+            {% for element in dataPanier %}
+            <div class="pull-right">
+                <a href="{{path("delete", {id: monPanier.id})}}" type="button" class="theme-btn btn-style-three"><span class="txt">Effacer Mon Panier</span></a>
+            </div>
+            {% endfor %}
             <div class="text-left"><button type="submit" class="theme-btn checkout-btn">Proceed to Checkout</button></div>
         </div>
 

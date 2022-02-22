@@ -66,11 +66,13 @@
                                         <div class="overlay-content">
                                             <ul class="clearfix">
                                                 <li>
-                                                    <a href="/product"><span class="flaticon-shopping-bag-3"></span>
+                                                    {% if app.user %}
+                                                    <a href="{{path("add", {id: p.id})}}"><span class="flaticon-shopping-bag-3"></span>
                                                         <div class="toltip-content">
                                                             <p>Add to Cart</p>
                                                         </div>
                                                     </a>
+                                                    {% endif %}
                                                 </li>
                                                 <li>
                                                     <a href="/product" class=""><span class="fa fa-heart"></span>

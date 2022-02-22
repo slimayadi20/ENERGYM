@@ -100,7 +100,7 @@
                             <div class="dropdown-menu pull-right cart-panel" aria-labelledby="dropdownMenu3">
 
                                 <div class="cart-product">
-                                    {% for element in dataPanier %}
+                                   {#  {% for element in dataPanier %}
                                     <div class="inner">
                                         <div class="cross-icon"><a href="{{path("delete", {id: element.produit.id})}}" class="icon fa fa-remove"></a></div>
                                         <div class="image"><img src="https://via.placeholder.com/70x70" alt=""></div>
@@ -109,7 +109,7 @@
                                         <div class="quantity-text">Prix Unitaire : {{ element.produit.prix }} TND</div>
                                     </div>
 
-                                    {% endfor %}
+                                    {% endfor %} #}
                                 <ul class="btns-boxed">
                                     <li><a  href="{{ path('panier') }}">View Cart</a></li>
                                     <li><a href="{{ path('checkout') }}">CheckOut</a></li>

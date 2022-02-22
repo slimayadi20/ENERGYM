@@ -87,8 +87,6 @@ class ReclamationController extends AbstractController
         return $this->redirectToRoute("reclamation");
     }
 
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> daef2f058f84d19f446762f4265099089d16e6ff
+

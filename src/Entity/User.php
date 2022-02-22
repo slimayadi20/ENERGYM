@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\True_;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -90,6 +92,21 @@ class User implements UserInterface
      * @Assert\EqualTo(propertyPath="password",message="vous n'avez pas tapé le meme message ")
      */
     public $confirmPass ;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Panier::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $panier;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Panier::class, mappedBy="user")
+     */
+    private $paniers;
+
+    public function __construct()
+    {
+        $this->paniers = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -200,5 +217,56 @@ class User implements UserInterface
     public function getUsername()
     {
         // TODO: Implement getUsername() method.
+    }
+
+    public function getPanier(): ?Panier
+    {
+        return $this->panier;
+    }
+
+    public function setPanier(Panier $panier): self
+    {
+        // set the owning side of the relation if necessary
+        if ($panier->getUser() !== $this) {
+            $panier->setUser($this);
+        }
+
+        $this->panier = $panier;
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return (string) $this->getEmail();
+    }
+
+    /**
+     * @return Collection<int, Panier>
+     */
+    public function getPaniers(): Collection
+    {
+        return $this->paniers;
+    }
+
+    public function addPanier(Panier $panier): self
+    {
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers[] = $panier;
+            $panier->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanier(Panier $panier): self
+    {
+        if ($this->paniers->removeElement($panier)) {
+            // set the owning side to null (unless already changed)
+            if ($panier->getUser() === $this) {
+                $panier->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
