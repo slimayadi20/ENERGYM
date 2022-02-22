@@ -1,0 +1,12 @@
+{% extends "base-back.html.twig" %}
+
+{% block title %}Evenement !{% endblock %}
+
+{% block body %}
+
+    {{ include('Dashboard/navbar.html.twig') }}
+    {{ include('Dashboard/leftsideBar.html.twig') }}
+    {{ include('evénement/AfficherEvent.html.twig') }}
+
+{% endblock %}
+

@@ -5,19 +5,22 @@
         <!-- User -->
         <div class="user-box">
             <div class="user-img">
-                <img src="assets/images/users/avatar-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
+                <img src="{{ asset('Dashboard/images/profile.jpg')  }}" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
                 <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>
             </div>
-            <h5><a href="#">Mat Helme</a> </h5>
+            {% if app.user %}
+            <h5><a href="#"> {{ app.user.nom}} {{ app.user.prenom  }}</a> </h5>
+            {% endif %}
+
             <ul class="list-inline">
                 <li class="list-inline-item">
-                    <a href="#" >
+                    <a href="{{ path('dashboard') }}" >
                         <i class="mdi mdi-settings"></i>
                     </a>
                 </li>
 
                 <li class="list-inline-item">
-                    <a href="#" class="text-custom">
+                    <a  href="{{ path('app_logout') }}" class="text-custom">
                         <i class="mdi mdi-power"></i>
                     </a>
                 </li>
@@ -29,16 +32,56 @@
         <div id="sidebar-menu">
             <ul>
                 <li class="text-muted menu-title">Navigation</li>
+                <li>
+                    <a  href="{{ path('dashboard') }}" class="waves-effect"><i class="mdi mdi-home"></i> <span> Home </span> </a>
+                </li>
+
+                {% for role in app.user.roles %}
+                {% if role == "ROLE_ADMIN" %}
+                <li>
+                    <a  href="{{ path('user') }}" class="waves-effect"><i class="mdi mdi-account"></i> <span> User </span> </a>
+                </li>
+                <li>
+                    <a  href="{{ path('verif') }}" class="waves-effect"><i class="mdi mdi-check"></i> <span> Confirmation </span> </a>
+                </li>
+
+                {% endif %}
+                {% endfor %}
+                <li>
+                    <a href="{{ path('Profile') }}"class="waves-effect"><i class="mdi mdi-account"></i> <span> Profile </span> </a>
+                </li>
+                <li>
+                    <a href="{{ path('reclamation') }}"class="waves-effect"><i class="mdi mdi-book-open"></i> <span> Reclamation </span> </a>
+                </li>
+                <li>
+                    <a href="{{ path('evenement') }}" class="waves-effect"><i class= "mdi mdi-alarm-light"></i> <span> Evénement </span> </a>
+                </li>
+                <li>
+                    <a href="{{ path('categorie_event') }}"class="waves-effect"><i class="mdi mdi-bookmark"></i> <span> Catégories d'événements </span> </a>
+                    <a href="{{ path('produit') }}"class="waves-effect"><i class="fa fa-product-hunt"></i> <span> Produit </span> </a>
+                </li>
+                <li>
+                    <a href="{{ path('categories') }}"class="waves-effect"><i class="mdi mdi-bookmark"></i> <span> Categories </span> </a>
+                </li>
+<li>
+                    <a href="{{ path('cours') }}"class="waves-effect"><i class="ti-receipt"></i> <span> Cours </span> </a>
+                </li>
+                <li>
+                    <a href="{{ path('salle') }}"class="waves-effect"><i class="ti-basketball"></i> <span> Salle De Sport </span> </a>
+                </li>
+
 
                 <li>
-                    <a  href="{{ path('user') }}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i> <span> User </span> </a>
+                    <a href="{{ path('commande') }}"class="waves-effect"><i class="mdi mdi-shopping"></i> <span> Commande </span> </a>
                 </li>
 
                 <li>
-                    <a href="{{ path('reclamation') }}"class="waves-effect"><i class="mdi mdi-format-font"></i> <span> Reclamation </span> </a>
+                    <a href="{{ path('livraison') }}"class="waves-effect"><i class="mdi mdi-truck-delivery"></i> <span> Livraison </span> </a>
                 </li>
+                <li>
+                    <a href="{{ path('article_index') }}"class="waves-effect"><i class="mdi mdi-google-circles-communities"></i> <span> Articles </span> </a>
 
-
+                     </li>
             </ul>
             <div class="clearfix"></div>
         </div>

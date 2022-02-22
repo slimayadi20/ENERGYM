@@ -1,7 +1,14 @@
 {% extends 'base-back.html.twig' %}
 
 
-{% block main %}
+{% block body %}
+
+    {{ include('Dashboard/navbar.html.twig') }}
+    {{ include('Dashboard/leftsideBar.html.twig') }}
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
     <h1>Article</h1>
 
     <table class="table">
@@ -30,4 +37,7 @@
     <a href="{{ path('article_edit', {'id': article.id}) }}">edit</a>
 
     {{ include('article/_delete_form.html.twig') }}
+        </div>
+    </div>
+</div>
 {% endblock %}

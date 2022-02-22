@@ -1,0 +1,14 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}
+    Products!
+{% endblock %}
+
+{% block body %}
+    <!-- <div class="page-inner"> -->
+
+    {{ include('Dashboard/navbar.html.twig') }}
+    {{ include('Dashboard/leftSideBar.html.twig') }}
+    {{ include('produit/afficher.html.twig') }}
+
+{% endblock %}

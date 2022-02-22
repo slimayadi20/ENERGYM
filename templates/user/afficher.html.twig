@@ -1,43 +1,108 @@
+{% extends "base-back.html.twig" %}
+{% block body %}
+    {{ include('Dashboard/navbar.html.twig') }}
+    {{ include('Dashboard/leftSideBar.html.twig') }}
+
 <div class="content-page">
     <!-- Start content -->
     <div class="content">
         <div class="container-fluid">
 
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
             <div class="row">
                 <div class="col-12">
                     <div class="card-box table-responsive">
                         <h4 class="m-t-0 header-title">Gestion d'User </h4>
-                        <div class="col-4">
-                            <a class="btn btn-success d-block" href="{{ path('addUser') }}" >ajouter</a>
+                        <div>
+                            <a  style=" position:absolute;right:10%;top:1% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addUser') }}"> <i class="fa fa-plus dark"></i> </a>
                         </div>
                         <table id="datatable" class="table table-bordered">
                             <thead>
-                                <th>nom</th>
-                                <th>prenom</th>
-                                <th>edit</th>
-                                <th>delete</th>
-
+                            <th>Nom</th>
+                            <th>Prenom</th>
+                            <th>Email</th>
+                            <th>Created_at</th>
+                            <th>Status</th>
+                            <th>Role</th>
+                            <th>Image</th>
+                            <th>edit</th>
+                            <th>delete</th>
                             </thead>
                             <tbody>
-                            {% for u in users %}
-
+                            {% for u in users  %}
                             <td>{{ u.nom }}</td>
                             <td>{{ u.prenom }}</td>
+                            <td>{{ u.email }}</td>
+                            <td>{{ u.createdAt | date }}</td>
                             <td>
-                                <button type="button" class="btn btn-primary btn-icon rounded-pill">edit</button>
+                                {% if u.status == 1 %}
+                                    <a type="button" href="{{ path('modifyStatus', {'id': u.id}) }}" class="btn btn-success btn-rounded w-md waves-effect waves-light m-b-5">Active</a>
+                                {% elseif u.status == 0 %}
+                                    <a type="button" href="{{ path('modifyStatus', {'id': u.id}) }}"  class="btn btn-danger btn-rounded w-md waves-effect waves-light m-b-5">Banned</a>
+                                {% elseif u.status == 2 %}
+                                    <a type="button" href="{{ path('modifyStatus', {'id': u.id}) }}"  class="btn btn-warning btn-rounded w-md waves-effect waves-light m-b-5">freshly added</a>
+
+                                {% endif %}
                             </td>
                             <td>
-                                <button type="button" class="btn btn-danger btn-icon  rounded-pill">delete</button>
+                                {% for role in u.roles %}
+                                    {% if role == "ROLE_USER" %}
+                                        <span class="badge badge-primary badge-pill">ROLE_USER</span>
+                                    {% elseif role == "ROLE_GERANT" %}
+                                        <span class="badge badge-danger badge-pill">ROLE_GERANT</span>
+                                    {% elseif role == "ROLE_ADMIN" %}
+                                        <span class="badge badge-warning badge-pill">ROLE_ADMIN</span>
+
+                                    {% endif %}
+                                {% endfor %}
+
+
+                            </td>
+                            <td>
+
+                                <img src="{{ asset('Dashboard/images/profile.jpg')  }}" alt="" width="50">
+                            </td>
+                            <td>
+                                <a type="button" href="{{ path('modifyUser', {'id': u.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
+                            </td>
+                            <td>
+                                <form method="post" action="{{ path('deleteUser', {'id': u.id}) }}"  onsubmit="return confirm('Voulez vous supprimer cet utilisateur ?')">
+                                    <input type="hidden" name="_method" value="SUP">
+                                    <input type="hidden" name="_token" value="{{u.id }}">
+                                    <button type="submit" value="supprimer" class="btn btn-danger btn-icon  rounded-pill"><i class="  ti-trash"></i></button>
+                                </form>
                             </td>
                             </tbody>
-
                             {% endfor %}
-
                         </table>
-
+                        <div class="row">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="datatable-buttons_info" role="status" aria-live="polite">
+                                    Showing 1 to {{ users|length }} entries
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-7" >
+                                <div class="dataTables_paginate paging_simple_numbers" id="datatable-buttons_paginate">
+                                    <div class="navigation" style="float:right;">
+                                        {{ knp_pagination_render(users) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}

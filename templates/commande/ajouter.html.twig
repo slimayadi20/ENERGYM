@@ -1,0 +1,50 @@
+
+{% extends "base-back.html.twig" %}
+{% block body %}
+    {{ include('Dashboard/navbar.html.twig') }}
+    {{ include('Dashboard/leftSideBar.html.twig') }}
+
+<div class="content-page">
+    <!-- Start content -->
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-box">
+                        <h4 class="m-t-0 header-title">create Commande</h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="p-20">
+
+                                    {{ form_start(form_commande) }}
+
+                                    <form class="form-horizontal" role="form">
+
+                                        <div class="form-group row">
+                                            <label class="col-2 col-form-label">Description</label>
+                                            <div class="col-10">
+                                                {{ form_widget(form_commande.description) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-2 col-form-label" for="example-email">Méthode de paiement</label>
+                                            <div class="col-10">
+                                                {{ form_widget(form_commande.methodePaiement) }}
+                                            </div>
+                                        </div>
+                                        <a class="btn btn-primary" href="{{ path('commande') }}">Retour</a>
+                                        <input type="submit" value="modifier"   class="btn btn-success">
+                                        {{ form_end(form_commande) }}
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

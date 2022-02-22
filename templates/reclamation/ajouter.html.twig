@@ -1,0 +1,65 @@
+
+{% extends "base-back.html.twig" %}
+{% block body %}
+    {{ include('Dashboard/navbar.html.twig') }}
+    {{ include('Dashboard/leftSideBar.html.twig') }}
+    <div class="spinner-grow" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="content-page">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card-box">
+                            <h4 class="m-t-0 header-title">create reclamation</h4>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="p-20">
+
+                                        {{
+                                        form_start(form_reclamation,
+                                            {
+                                                'attr'
+                                                :
+                                                {
+                                                    'novalidate'
+                                                    :
+                                                    'novalidate'
+                                                }})
+                                        }}
+                                        <form class="form-horizontal" role="form">
+
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">titre</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_reclamation.titre, { 'attr': {'class': 'form-control','placeholder': 'Ecrire un titre..'} }) }}
+                                                    {{ form_errors(form_reclamation.titre, { 'attr': {'class': 'form-control'} }) }}
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label" for="example-email">contenu</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_reclamation.contenu, { 'attr': {'class': 'form-control' ,'placeholder': 'Ecrire un Contenu..'} }) }}
+                                                    {{ form_errors(form_reclamation.contenu, { 'attr': {'class': 'form-control'} }) }}
+
+                                                </div>
+                                            </div>
+
+
+                                            <a class="btn btn-primary" href="{{ path('user') }}">Retour</a>
+                                            <input type="submit" value="Ajouter"   class="btn btn-success">
+                                            {{ form_end(form_reclamation) }}
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

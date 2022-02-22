@@ -1,7 +1,7 @@
-{% extends 'base.html.twig' %}
+{% extends "base-back.html.twig" %}
 
 {% block title %}
-    Hello HomeController!
+    Reclamation!
 {% endblock %}
 
 {% block body %}
@@ -9,5 +9,6 @@
 
     {{ include('Dashboard/navbar.html.twig') }}
     {{ include('Dashboard/leftSideBar.html.twig') }}
+    {{ include('reclamation/afficher.html.twig') }}
 
 {% endblock %}

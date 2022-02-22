@@ -1,0 +1,60 @@
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-box table-responsive">
+                        <h4 class="m-t-0 header-title">Gestion de reclamation </h4>
+
+                        <table id="datatable" class="table table-bordered">
+                            <thead>
+                            <th>Titre</th>
+                            <th>Contenu</th>
+                            <th>Date </th>
+                            <th>Status  {% if order is odd %}
+                                    <a href="{{ path('croissant') }}"><img src="{{ asset('Dashboard/images/up.png') }}" height="20" width="20"> </a>
+                                {% else%}
+                                    <a href="{{ path('decroissant') }}"><img src="{{ asset('Dashboard/images/down.png') }}" height="20" width="20"> </a>
+                                {% endif %}</th>
+                            <th>Sender Email</th>
+                            <th>Repondre</th>
+                            <th>Effacer</th>
+                            </thead>
+                            <tbody>
+                            {% for r in reclamation %}
+                            <td>{{ r.titre }}</td>
+                            <td>{{ r.contenu }}</td>
+                            <td>{{ r.DateCreation | date }}</td>
+                            <td>{% if r.statut == "Encours" %}
+                                <span class="badge badge-warning badge-pill">en cours</span>
+                                {% else %}
+                                <span class="badge badge-success badge-pill">Traitée</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ r.NomUser.email }}</td>
+                            <td>
+                                <a type="button" href="{{ path('reply', {'id': r.id}) }}"  class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
+                            </td>
+                            <td>
+                                <form method="post" action="{{ path('deleteReclamation', {'id': r.id}) }}"  onsubmit="return confirm('Voulez vous supprimer cette reclamation ?')">
+                                    <input type="hidden" name="_method" value="SUP">
+                                    <input type="hidden" name="_token" value="{{r.id }}">
+                                    <button type="submit" value="supprimer" class="btn btn-danger btn-icon  rounded-pill"><i class="  ti-trash"></i></button>
+                                </form>
+                            </td>
+                            </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+{% extends "base-back.html.twig" %}
+
+{% block title %}
+    Livraison!
+{% endblock %}
+
+{% block body %}
+    <!-- <div class="page-inner"> -->
+
+    {{ include('Dashboard/navbar.html.twig') }}
+    {{ include('Dashboard/leftSideBar.html.twig') }}
+    {{ include('livraison/afficher.html.twig') }}
+
+{% endblock %}
