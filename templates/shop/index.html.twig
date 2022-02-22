@@ -1,7 +1,7 @@
 {% extends "base-front.html.twig" %}
 
 {% block title %}
-    Hello HomeController!
+    Shop!
 {% endblock %}
 
 {% block body %}
@@ -15,7 +15,7 @@
                 </div>
                 <div class="pull-right">
                     <ul class="page-breadcrumb">
-                        <li><a href="index.html">home</a></li>
+                        <li><a href="{{ path('front_office') }}">home</a></li>
                         <li>Shops</li>
                     </ul>
                 </div>
@@ -52,35 +52,35 @@
                         <div class="our-shops">
 
                             <div class="row clearfix">
-
+                                {% for p in listProduit %}
                                 <!-- Shop Item -->
                                 <div class="single-product-item col-lg-4 col-md-6 col-sm-12 text-center">
                                     <div class="img-holder">
-                                        <img width="270" height="300" src="{{ asset('front-officeimages/resource/products/1.jpg')}}" class="" alt="">
+                                        <img width="270" height="300" src="{{ asset('uploads/produit/'~ p.image)  }}" class="" alt="">
                                     </div>
                                     <div class="title-holder text-center">
                                         <div class="static-content">
-                                            <h3 class="title text-center"><a href="shop-single.html">Product 01</a></h3>
-                                            <span class="price"><span class="amount"><span class="">$</span>90.00</span></span>
+                                            <h3 class="title text-center"><a href="/product">{{ p.nom }}</a></h3>
+                                            <span class="price"><span class="amount"><span class="">$</span>{{ p.prix }}</span></span>
                                         </div>
                                         <div class="overlay-content">
                                             <ul class="clearfix">
                                                 <li>
-                                                    <a href="shop-single.html"><span class="flaticon-shopping-bag-3"></span>
+                                                    <a href="/product"><span class="flaticon-shopping-bag-3"></span>
                                                         <div class="toltip-content">
                                                             <p>Add to Cart</p>
                                                         </div>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="shop-single.html" class=""><span class="fa fa-heart"></span>
+                                                    <a href="{{ path('product', {'id': p.id}) }}" class=""><span class="fa fa-heart"></span>
                                                         <div class="toltip-content">
-                                                            <p>Add Whishlist</p>
+                                                            <p>details</p>
                                                         </div>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="images/resource/products/1.jpg" class="lightbox-image" data-fancybox="shop-gallery"><span class="fa fa-expand"></span>
+                                                    <a href="front-office/images/resource/products/1.jpg" class="lightbox-image" data-fancybox="shop-gallery"><span class="fa fa-expand"></span>
                                                         <div class="toltip-content">
                                                             <p>Zoom In</p>
                                                         </div>
@@ -91,423 +91,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Shop Item -->
-                                <div class="single-product-item col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <div class="img-holder">
-                                        <img width="270" height="300" src="{{ asset('front-officeimages/resource/products/2.jpg')}}" class="" alt="">
-                                    </div>
-                                    <div class="title-holder text-center">
-                                        <div class="static-content">
-                                            <h3 class="title text-center"><a href="shop-single.html">Product 02</a></h3>
-                                            <span class="price"><span class="amount"><span class="">$</span>90.00</span></span>
-                                        </div>
-                                        <div class="overlay-content">
-                                            <ul class="clearfix">
-                                                <li>
-                                                    <a href="shop-single.html"><span class="flaticon-shopping-bag-3"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add to Cart</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="shop-single.html" class=""><span class="fa fa-heart"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add Whishlist</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="images/resource/products/1.jpg" class="lightbox-image" data-fancybox="shop-gallery"><span class="fa fa-expand"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Zoom In</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Shop Item -->
-                                <div class="single-product-item col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <div class="img-holder">
-                                        <img width="270" height="300" src="{{ asset('front-officeimages/resource/products/3.jpg')}}" class="" alt="">
-                                    </div>
-                                    <div class="title-holder text-center">
-                                        <div class="static-content">
-                                            <h3 class="title text-center"><a href="shop-single.html">Product 03</a></h3>
-                                            <span class="price"><span class="amount"><span class="">$</span>90.00</span></span>
-                                        </div>
-                                        <div class="overlay-content">
-                                            <ul class="clearfix">
-                                                <li>
-                                                    <a href="shop-single.html"><span class="flaticon-shopping-bag-3"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add to Cart</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="shop-single.html" class=""><span class="fa fa-heart"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add Whishlist</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="images/resource/products/1.jpg" class="lightbox-image" data-fancybox="shop-gallery"><span class="fa fa-expand"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Zoom In</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Shop Item -->
-                                <div class="single-product-item col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <div class="img-holder">
-                                        <img width="270" height="300" src="{{ asset('front-officeimages/resource/products/4.jpg')}}" class="" alt="">
-                                    </div>
-                                    <div class="title-holder text-center">
-                                        <div class="static-content">
-                                            <h3 class="title text-center"><a href="shop-single.html">Product 04</a></h3>
-                                            <span class="price"><span class="amount"><span class="">$</span>90.00</span></span>
-                                        </div>
-                                        <div class="overlay-content">
-                                            <ul class="clearfix">
-                                                <li>
-                                                    <a href="shop-single.html"><span class="flaticon-shopping-bag-3"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add to Cart</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="shop-single.html" class=""><span class="fa fa-heart"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add Whishlist</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="images/resource/products/1.jpg" class="lightbox-image" data-fancybox="shop-gallery"><span class="fa fa-expand"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Zoom In</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Shop Item -->
-                                <div class="single-product-item col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <div class="img-holder">
-                                        <img width="270" height="300" src="{{ asset('front-officeimages/resource/products/5.jpg')}}" class="" alt="">
-                                    </div>
-                                    <div class="title-holder text-center">
-                                        <div class="static-content">
-                                            <h3 class="title text-center"><a href="shop-single.html">Product 05</a></h3>
-                                            <span class="price"><span class="amount"><span class="">$</span>90.00</span></span>
-                                        </div>
-                                        <div class="overlay-content">
-                                            <ul class="clearfix">
-                                                <li>
-                                                    <a href="shop-single.html"><span class="flaticon-shopping-bag-3"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add to Cart</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="shop-single.html" class=""><span class="fa fa-heart"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add Whishlist</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="images/resource/products/1.jpg" class="lightbox-image" data-fancybox="shop-gallery"><span class="fa fa-expand"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Zoom In</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Shop Item -->
-                                <div class="single-product-item col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <div class="img-holder">
-                                        <img width="270" height="300" src="{{ asset('front-officeimages/resource/products/6.jpg')}}" class="" alt="">
-                                    </div>
-                                    <div class="title-holder text-center">
-                                        <div class="static-content">
-                                            <h3 class="title text-center"><a href="shop-single.html">Product 06</a></h3>
-                                            <span class="price"><span class="amount"><span class="">$</span>90.00</span></span>
-                                        </div>
-                                        <div class="overlay-content">
-                                            <ul class="clearfix">
-                                                <li>
-                                                    <a href="shop-single.html"><span class="flaticon-shopping-bag-3"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add to Cart</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="shop-single.html" class=""><span class="fa fa-heart"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add Whishlist</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="images/resource/products/1.jpg" class="lightbox-image" data-fancybox="shop-gallery"><span class="fa fa-expand"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Zoom In</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Shop Item -->
-                                <div class="single-product-item col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <div class="img-holder">
-                                        <img width="270" height="300" src="{{ asset('front-officeimages/resource/products/7.jpg')}}" class="" alt="">
-                                    </div>
-                                    <div class="title-holder text-center">
-                                        <div class="static-content">
-                                            <h3 class="title text-center"><a href="shop-single.html">Product 07</a></h3>
-                                            <span class="price"><span class="amount"><span class="">$</span>90.00</span></span>
-                                        </div>
-                                        <div class="overlay-content">
-                                            <ul class="clearfix">
-                                                <li>
-                                                    <a href="shop-single.html"><span class="flaticon-shopping-bag-3"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add to Cart</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="shop-single.html" class=""><span class="fa fa-heart"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add Whishlist</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="images/resource/products/1.jpg" class="lightbox-image" data-fancybox="shop-gallery"><span class="fa fa-expand"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Zoom In</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Shop Item -->
-                                <div class="single-product-item col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <div class="img-holder">
-                                        <img width="270" height="300" src="{{ asset('front-officeimages/resource/products/8.jpg')}}" class="" alt="">
-                                    </div>
-                                    <div class="title-holder text-center">
-                                        <div class="static-content">
-                                            <h3 class="title text-center"><a href="shop-single.html">Product 08</a></h3>
-                                            <span class="price"><span class="amount"><span class="">$</span>90.00</span></span>
-                                        </div>
-                                        <div class="overlay-content">
-                                            <ul class="clearfix">
-                                                <li>
-                                                    <a href="shop-single.html"><span class="flaticon-shopping-bag-3"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add to Cart</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="shop-single.html" class=""><span class="fa fa-heart"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add Whishlist</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="images/resource/products/1.jpg" class="lightbox-image" data-fancybox="shop-gallery"><span class="fa fa-expand"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Zoom In</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Shop Item -->
-                                <div class="single-product-item col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <div class="img-holder">
-                                        <img width="270" height="300" src="{{ asset('front-officeimages/resource/products/9.jpg')}}" class="" alt="">
-                                    </div>
-                                    <div class="title-holder text-center">
-                                        <div class="static-content">
-                                            <h3 class="title text-center"><a href="shop-single.html">Product 09</a></h3>
-                                            <span class="price"><span class="amount"><span class="">$</span>90.00</span></span>
-                                        </div>
-                                        <div class="overlay-content">
-                                            <ul class="clearfix">
-                                                <li>
-                                                    <a href="shop-single.html"><span class="flaticon-shopping-bag-3"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add to Cart</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="shop-single.html" class=""><span class="fa fa-heart"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add Whishlist</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="images/resource/products/1.jpg" class="lightbox-image" data-fancybox="shop-gallery"><span class="fa fa-expand"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Zoom In</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Shop Item -->
-                                <div class="single-product-item col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <div class="img-holder">
-                                        <img width="270" height="300" src="{{ asset('front-officeimages/resource/products/10.jpg')}}" class="" alt="">
-                                    </div>
-                                    <div class="title-holder text-center">
-                                        <div class="static-content">
-                                            <h3 class="title text-center"><a href="shop-single.html">Product 10</a></h3>
-                                            <span class="price"><span class="amount"><span class="">$</span>90.00</span></span>
-                                        </div>
-                                        <div class="overlay-content">
-                                            <ul class="clearfix">
-                                                <li>
-                                                    <a href="shop-single.html"><span class="flaticon-shopping-bag-3"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add to Cart</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="shop-single.html" class=""><span class="fa fa-heart"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add Whishlist</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="images/resource/products/1.jpg" class="lightbox-image" data-fancybox="shop-gallery"><span class="fa fa-expand"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Zoom In</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Shop Item -->
-                                <div class="single-product-item col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <div class="img-holder">
-                                        <img width="270" height="300" src="{{ asset('front-officeimages/resource/products/11.jpg')}}" class="" alt="">
-                                    </div>
-                                    <div class="title-holder text-center">
-                                        <div class="static-content">
-                                            <h3 class="title text-center"><a href="shop-single.html">Product 11</a></h3>
-                                            <span class="price"><span class="amount"><span class="">$</span>90.00</span></span>
-                                        </div>
-                                        <div class="overlay-content">
-                                            <ul class="clearfix">
-                                                <li>
-                                                    <a href="shop-single.html"><span class="flaticon-shopping-bag-3"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add to Cart</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="shop-single.html" class=""><span class="fa fa-heart"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add Whishlist</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="images/resource/products/1.jpg" class="lightbox-image" data-fancybox="shop-gallery"><span class="fa fa-expand"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Zoom In</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Shop Item -->
-                                <div class="single-product-item col-lg-4 col-md-6 col-sm-12 text-center">
-                                    <div class="img-holder">
-                                        <img width="270" height="300" src="{{ asset('front-officeimages/resource/products/12.jpg')}}" class="" alt="">
-                                    </div>
-                                    <div class="title-holder text-center">
-                                        <div class="static-content">
-                                            <h3 class="title text-center"><a href="shop-single.html">Product 12</a></h3>
-                                            <span class="price"><span class="amount"><span class="">$</span>90.00</span></span>
-                                        </div>
-                                        <div class="overlay-content">
-                                            <ul class="clearfix">
-                                                <li>
-                                                    <a href="shop-single.html"><span class="flaticon-shopping-bag-3"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add to Cart</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="shop-single.html" class=""><span class="fa fa-heart"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Add Whishlist</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="images/resource/products/1.jpg" class="lightbox-image" data-fancybox="shop-gallery"><span class="fa fa-expand"></span>
-                                                        <div class="toltip-content">
-                                                            <p>Zoom In</p>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+                                {% endfor %}
 
 
                             </div>
@@ -515,17 +99,11 @@
                         </div>
 
                         <!-- Post Share Options -->
-                        <div class="pagination-outer text-center">
-                            <div class="styled-pagination text-center">
-                                <ul class="clearfix">
-                                    <li class="prev"><a href="#"><span class="fa fa-angle-double-left"></span> Prev</a></li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li class="active"><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li class="next"><a href="#">Next <span class="fa fa-angle-double-right"></span></a></li>
-                                </ul>
+                        <div class="col-sm-12 col-md-7" >
+                            <div class="dataTables_paginate paging_simple_numbers" id="datatable-buttons_paginate">
+                                <div class="navigation" style="float:right;">
+                                    {{ knp_pagination_render(listProduit) }}
+                                </div>
                             </div>
                         </div>
 
@@ -547,81 +125,34 @@
                         </div>
 
                         <!-- Categories Widget -->
+
                         <div class="sidebar-widget categories-widget">
                             <div class="sidebar-title">
                                 <h4>Categories</h4>
                             </div>
+                            {% for c in listCategories  %}
+
                             <div class="widget-content">
+
                                 <ul class="blog-cat">
-                                    <li><a href="#">FITNESS <span>( 24 )</span></a></li>
-                                    <li><a href="#">HEALTH  <span>( 03 )</span></a></li>
-                                    <li><a href="#">LIFESTYLE <span>( 01 )</span></a></li>
-                                    <li><a href="#">NUTRITION <span>( 02 )</span></a></li>
-                                    <li><a href="#">SPORT SCIENCE <span>( 10 )</span></a></li>
-                                    <li><a href="#">TRAINING PROGRAM <span>( 02 )</span></a></li>
+
+                                    <li><a href="#">{{c.nom}} <span>()</span></a></li>
+
                                 </ul>
                             </div>
+                            {% endfor %}
                         </div>
+
+
 
                         <!-- Categories Widget -->
-                        <div class="sidebar-widget popular-posts">
-                            <div class="sidebar-title">
-                                <h4>Recent Post</h4>
-                            </div>
-                            <div class="widget-content">
-                                <article class="post">
-                                    <div class="post-inner">
-                                        <figure class="post-thumb"><img src="{{ asset('https://via.placeholder.com/100x100')}}" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                        <div class="text"><a href="blog-single.html">Meal prep for a full week easy</a></div>
-                                        <div class="post-info">19.9.2019</div>
-                                    </div>
-                                </article>
-                                <article class="post">
-                                    <div class="post-inner">
-                                        <figure class="post-thumb"><img src="{{ asset('https://via.placeholder.com/100x100')}}" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                        <div class="text"><a href="blog-single.html">Off Season is finnish now what?</a></div>
-                                        <div class="post-info">19.9.2019</div>
-                                    </div>
-                                </article>
-                                <article class="post">
-                                    <div class="post-inner">
-                                        <figure class="post-thumb"><img src="{{ asset('https://via.placeholder.com/100x100')}}" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                        <div class="text"><a href="blog-single.html">Fitness helps you think &amp; Feel Better.</a></div>
-                                        <div class="post-info">19.9.2019</div>
-                                    </div>
-                                </article>
-                            </div>
-                        </div>
+
 
                         <!-- Search -->
-                        <div class="sidebar-widget newsletter-box">
-                            <div class="sidebar-title">
-                                <h4>GET NEWSLETTER</h4>
-                            </div>
-                            <form method="post" action="contact.html">
-                                <div class="form-group">
-                                    <input type="search" name="search-field" value="" placeholder="Entery Email" required="">
-                                    <button type="submit"><span class="icon flaticon-paper-plane-1"></span></button>
-                                </div>
-                            </form>
-                        </div>
+
 
                         <!-- Popular Posts -->
-                        <div class="sidebar-widget popular-tags">
-                            <div class="sidebar-title">
-                                <h4>TAGS</h4>
-                            </div>
-                            <div class="widget-content">
-                                <a href="#">Fitness</a>
-                                <a href="#">Health</a>
-                                <a href="#">Lifestyle</a>
-                                <a href="#">Nutrition</a>
-                                <a href="#">Sport</a>
-                                <a href="#">Science</a>
-                                <a href="#">Training</a>
-                                <a href="#">Program</a>
-                            </div>
-                        </div>
+
 
                     </aside>
                 </div>

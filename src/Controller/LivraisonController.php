@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class LivraisonController extends AbstractController
 {
     /**
-     * @Route("/livraison", name="livraison")
+     * @Route("/dashboard/livraison", name="livraison")
      */
     public function index(): Response
     {
@@ -24,7 +24,7 @@ class LivraisonController extends AbstractController
         ]);
     }
     /**
-     * @Route("/addLivraison", name="addLivraison")
+     * @Route("/dashboard/addLivraison", name="addLivraison")
      */
     public function addCommande(Request $request): Response
     {
@@ -46,7 +46,7 @@ class LivraisonController extends AbstractController
         ]);
     }
     /**
-     * @Route("/modifyLivraison/{id}", name="modifyLivraison")
+     * @Route("/dashboard/modifyLivraison/{id}", name="modifyLivraison")
      */
     public function modifyLivraison(Request $request, int $id): Response
     {
@@ -69,7 +69,7 @@ class LivraisonController extends AbstractController
         ]);
     }
     /**
-     * @Route("/deleteLivraison/{id}", name="deleteLivraison")
+     * @Route("/dashboard/deleteLivraison/{id}", name="deleteLivraison")
      */
     public function deleteLivraison(int $id): Response
     {

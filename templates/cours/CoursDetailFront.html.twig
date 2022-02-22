@@ -15,7 +15,7 @@
             </div>
             <div class="pull-right">
                 <ul class="page-breadcrumb">
-                    <li><a href="index.html">home</a></li>
+                    <li><a  href="{{ path('front_office') }}">home</a></li>
                     <li>{{ Nom }}</li>
                 </ul>
             </div>
@@ -63,7 +63,7 @@
                     <div class="inner-column wow fadeInRight animated" data-wow-delay="0ms" data-wow-duration="1500ms" style="visibility: visible; animation-duration: 1500ms; animation-delay: 0ms; animation-name: fadeInRight;">
                         <div class="award"><img src="images/resource/award.png" alt=""></div>
                         <div class="image">
-                            <img src="https://via.placeholder.com/654x717" alt="">
+                            <img src="{{ asset('uploads/cour/'~image)  }}" alt="">
                         </div>
                     </div>
                 </div>

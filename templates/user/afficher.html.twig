@@ -13,6 +13,12 @@
                     {{ message }}
                 </div>
             {% endfor %}
+
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
             <div class="row">
                 <div class="col-12">
                     <div class="card-box table-responsive">
@@ -22,41 +28,49 @@
                         </div>
                         <table id="datatable" class="table table-bordered">
                             <thead>
-                                <th>Nom</th>
-                                <th>Prenom</th>
-                                <th>Email</th>
-                                <th>Created_at</th>
-                                <th>Status</th>
-                                <th>Role</th>
-                                <th>Image</th>
-                                <th>edit</th>
-                                <th>delete</th>
+                            <th>Nom</th>
+                            <th>Prenom</th>
+                            <th>Email</th>
+                            <th>Created_at</th>
+                            <th>Status</th>
+                            <th>Role</th>
+                            <th>Image</th>
+                            <th>edit</th>
+                            <th>delete</th>
                             </thead>
                             <tbody>
-                            {% for u in users %}
+                            {% for u in users  %}
                             <td>{{ u.nom }}</td>
                             <td>{{ u.prenom }}</td>
                             <td>{{ u.email }}</td>
                             <td>{{ u.createdAt | date }}</td>
                             <td>
                                 {% if u.status == 1 %}
-                                 <a type="button" href="{{ path('modifyStatus', {'id': u.id}) }}" class="btn btn-success btn-rounded w-md waves-effect waves-light m-b-5">Active</a>
-                                {% else %}
+                                    <a type="button" href="{{ path('modifyStatus', {'id': u.id}) }}" class="btn btn-success btn-rounded w-md waves-effect waves-light m-b-5">Active</a>
+                                {% elseif u.status == 0 %}
                                     <a type="button" href="{{ path('modifyStatus', {'id': u.id}) }}"  class="btn btn-danger btn-rounded w-md waves-effect waves-light m-b-5">Banned</a>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if u.roles == "ROLE_MEMBRE" %}
-                                <span class="badge badge-primary badge-pill">ROLE_MEMBRE</span>
-                                {% elseif u.roles == "ROLE_GERANT" %}
-                                <span class="badge badge-danger badge-pill">ROLE_GERANT</span>
-                                {% else %}
-                                <span class="badge badge-warning badge-pill">ROLE_ADMIN</span>
-                                {% endif %}
-                            </td>
-                            <td>
+                                {% elseif u.status == 2 %}
+                                    <a type="button" href="{{ path('modifyStatus', {'id': u.id}) }}"  class="btn btn-warning btn-rounded w-md waves-effect waves-light m-b-5">freshly added</a>
 
-                                <img src="{{ asset('Dashboard/images/profile.jpg')  }}" alt="" width="50">
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% for role in u.roles %}
+                                    {% if role == "ROLE_USER" %}
+                                        <span class="badge badge-primary badge-pill">ROLE_USER</span>
+                                    {% elseif role == "ROLE_GERANT" %}
+                                        <span class="badge badge-danger badge-pill">ROLE_GERANT</span>
+                                    {% elseif role == "ROLE_ADMIN" %}
+                                        <span class="badge badge-warning badge-pill">ROLE_ADMIN</span>
+
+                                    {% endif %}
+                                {% endfor %}
+
+
+                            </td>
+
+
+                            <td><img src="{{ asset('uploads/user/'~ u.imageFile)  }}" alt="" width="50">
                             </td>
                             <td>
                                 <a type="button" href="{{ path('modifyUser', {'id': u.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
@@ -71,6 +85,20 @@
                             </tbody>
                             {% endfor %}
                         </table>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="datatable-buttons_info" role="status" aria-live="polite">
+                                    Showing 1 to {{ users|length }} entries
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-7" >
+                                <div class="dataTables_paginate paging_simple_numbers" id="datatable-buttons_paginate">
+                                    <div class="navigation" style="float:right;">
+                                        {{ knp_pagination_render(users) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,3 +1,4 @@
+
 {% extends "base-back.html.twig" %}
 
 {% block title %}Log in!{% endblock %}
@@ -19,15 +20,15 @@
 <div class="clearfix"></div>
 <div class="wrapper-page">
     <div class="text-center">
-        <a href="index.html" class="logo"><span>Admin<span>to</span></span></a>
-        <h5 class="text-muted m-t-0 font-600">Responsive Admin Dashboard</h5>
+        <a href="index.html" class="logo"><span>ENER<span>GYM</span></span></a>
+        <h5 class="text-muted m-t-0 font-600">Welcome to our WebSite</h5>
     </div>
     <div class="m-t-40 card-box">
         <div class="text-center">
             <h4 class="text-uppercase font-bold m-b-0">Sign In</h4>
         </div>
         <div class="p-20">
-            <form class="form-horizontal m-t-20" action="index.html">
+            <form class="form-horizontal m-t-20">
 
                 <div class="form-group">
                     <div class="col-xs-12">
@@ -58,7 +59,7 @@
                 <div class="form-group ">
                     <div class="col-xs-12">
                         <div class="checkbox checkbox-custom">
-                            <input id="checkbox-signup" type="checkbox">
+                            <input id="checkbox-signup"  name="_remember_me"  type="checkbox">
                             <label for="checkbox-signup">
                                 Remember me
                             </label>
@@ -87,7 +88,8 @@
 
     <div class="row">
         <div class="col-sm-12 text-center">
-            <p class="text-muted">Don't have an account? <a href="page-register.html" class="text-primary m-l-5"><b>Sign Up</b></a></p>
+            <p class="text-muted">Don't have an account? <a  href="{{ path('signup') }}" class="text-primary m-l-5"><b>Sign Up as Gerant</b></a></p>
+            <p class="text-muted">Don't have an account? <a  href="{{ path('signupUser') }}" class="text-primary m-l-5"><b>Sign Up as User</b></a></p>
         </div>
     </div>
 

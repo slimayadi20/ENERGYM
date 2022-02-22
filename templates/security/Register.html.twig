@@ -1,0 +1,105 @@
+{% extends "base-back.html.twig" %}
+
+{% block title %}SignUp!{% endblock %}
+
+{% block body %}
+<body>
+
+<div class="account-pages"></div>
+<div class="clearfix"></div>
+<div class="wrapper-page">
+    <div class="text-center">
+        <a href="index.html" class="logo"><span>Admin<span>to</span></span></a>
+        <h5 class="text-muted m-t-0 font-600">Responsive Admin Dashboard</h5>
+    </div>
+    <div class="m-t-40 card-box">
+        <div class="text-center">
+            <h4 class="text-uppercase font-bold m-b-0">Register</h4>
+        </div>
+        <div class="p-20">
+            {{
+            form_start(form_user,
+                {
+                    'attr'
+                    :
+                    {
+                        'novalidate'
+                        :
+                        'novalidate'
+                    }})
+            }}
+            <form class="form-horizontal m-t-20" action="index.html">
+
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        {{ form_widget(form_user.email, { 'attr': {'class': 'form-control','placeholder': 'Ecrire votre email..'} }) }}
+                        {{ form_errors(form_user.email, { 'attr': {'class': 'form-control'} }) }}
+
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        {{ form_widget(form_user.nom, { 'attr': {'class': 'form-control','placeholder': 'Ecrire votre Nom..'} }) }}
+                        {{ form_errors(form_user.nom, { 'attr': {'class': 'form-control'} }) }}
+
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        {{ form_widget(form_user.prenom, { 'attr': {'class': 'form-control','placeholder': 'Ecrire votre preNom..'} }) }}
+                        {{ form_errors(form_user.prenom, { 'attr': {'class': 'form-control'} }) }}
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        {{ form_widget(form_user.password, { 'attr': {'class': 'form-control','placeholder': 'Ecrire votre password..'} }) }}
+                        {{ form_errors(form_user.password, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+                 <div class="form-group">
+                        <div class="col-xs-12">
+                            {{ form_widget(form_user.confirmPass, { 'attr': {'class': 'form-control','placeholder': 'repetez votre password..'} }) }}
+                            {{ form_errors(form_user.confirmPass, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                    </div>
+                <div class="form-group">
+                        <div class="col-xs-12">
+                            {{ form_widget(form_user.imageFile, { 'attr': {'class': 'form-control','placeholder': 'inserez votre image..'} }) }}
+                            {{ form_errors(form_user.imageFile, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                    </div>
+
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="checkbox checkbox-custom">
+                            <input id="checkbox-signup" type="checkbox" checked="checked">
+                            <label for="checkbox-signup">I accept <a href="#">Terms and Conditions</a></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group text-center m-t-40">
+                    <div class="col-xs-12">
+                        {{ form_widget(form_user.Submit,{'attr':{'class':'btn btn-custom btn-bordred btn-block waves-effect waves-light'}}) }}
+
+                    </div>
+                </div>
+                {{ form_rest(form_user) }}
+
+            </form>
+                {{ form_end(form_user) }}
+
+        </div>
+    </div>
+    <!-- end card-box -->
+
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <p class="text-muted">Already have account?<a href="{{ path('app_login') }}"  class="text-primary m-l-5"><b>Sign In</b></a></p>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
