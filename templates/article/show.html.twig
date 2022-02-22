@@ -29,6 +29,11 @@
                 <th>Description</th>
                 <td>{{ article.description }}</td>
             </tr>
+            <tr>
+                <th>Image de l'article</th>
+
+                <td><img src="{{ asset('uploads/posts/' ~ article.image) }}" alt="image du post"></td>
+            </tr>
         </tbody>
     </table>
 

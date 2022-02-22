@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,7 +20,7 @@ class Article
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=40)
+     * @ORM\Column(type="string", length=150)
      * @Assert\NotBlank (message = "le titre est obligatoire")
      */
     private $titre;
@@ -36,13 +37,41 @@ class Article
     private $description;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $image;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Commentaire", mappedBy="article" , orphanRemoval=true)
      */
     private $comments;
 
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+
+    }
+
 
     /**
      * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image): void
+    {
+        $this->image = $image;
+    }
+
+
+    /**
+     * @return arrayCollection
      */
     public function getComments()
     {

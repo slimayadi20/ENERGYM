@@ -32,6 +32,8 @@ class CommentaireController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $commentaire = new Commentaire();
+        $commentaire->setDateCreation(date('Y-m-d '));
+
         $form = $this->createForm(CommentaireType::class, $commentaire);
         $form->handleRequest($request);
 
