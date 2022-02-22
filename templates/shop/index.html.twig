@@ -73,9 +73,9 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="/product" class=""><span class="fa fa-heart"></span>
+                                                    <a href="{{ path('product', {'id': p.id}) }}" class=""><span class="fa fa-heart"></span>
                                                         <div class="toltip-content">
-                                                            <p>Add Whishlist</p>
+                                                            <p>details</p>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -131,81 +131,34 @@
                         </div>
 
                         <!-- Categories Widget -->
+
                         <div class="sidebar-widget categories-widget">
                             <div class="sidebar-title">
                                 <h4>Categories</h4>
                             </div>
+                            {% for c in listCategories  %}
+
                             <div class="widget-content">
+
                                 <ul class="blog-cat">
-                                    <li><a href="#">FITNESS <span>( 24 )</span></a></li>
-                                    <li><a href="#">HEALTH  <span>( 03 )</span></a></li>
-                                    <li><a href="#">LIFESTYLE <span>( 01 )</span></a></li>
-                                    <li><a href="#">NUTRITION <span>( 02 )</span></a></li>
-                                    <li><a href="#">SPORT SCIENCE <span>( 10 )</span></a></li>
-                                    <li><a href="#">TRAINING PROGRAM <span>( 02 )</span></a></li>
+
+                                    <li><a href="#">{{c.nom}} <span>()</span></a></li>
+
                                 </ul>
                             </div>
+                            {% endfor %}
                         </div>
+
+
 
                         <!-- Categories Widget -->
-                        <div class="sidebar-widget popular-posts">
-                            <div class="sidebar-title">
-                                <h4>Recent Post</h4>
-                            </div>
-                            <div class="widget-content">
-                                <article class="post">
-                                    <div class="post-inner">
-                                        <figure class="post-thumb"><img src="{{ asset('https://via.placeholder.com/100x100')}}" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                        <div class="text"><a href="blog-single.html">Meal prep for a full week easy</a></div>
-                                        <div class="post-info">19.9.2019</div>
-                                    </div>
-                                </article>
-                                <article class="post">
-                                    <div class="post-inner">
-                                        <figure class="post-thumb"><img src="{{ asset('https://via.placeholder.com/100x100')}}" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                        <div class="text"><a href="blog-single.html">Off Season is finnish now what?</a></div>
-                                        <div class="post-info">19.9.2019</div>
-                                    </div>
-                                </article>
-                                <article class="post">
-                                    <div class="post-inner">
-                                        <figure class="post-thumb"><img src="{{ asset('https://via.placeholder.com/100x100')}}" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                        <div class="text"><a href="blog-single.html">Fitness helps you think &amp; Feel Better.</a></div>
-                                        <div class="post-info">19.9.2019</div>
-                                    </div>
-                                </article>
-                            </div>
-                        </div>
+
 
                         <!-- Search -->
-                        <div class="sidebar-widget newsletter-box">
-                            <div class="sidebar-title">
-                                <h4>GET NEWSLETTER</h4>
-                            </div>
-                            <form method="post" action="contact.html">
-                                <div class="form-group">
-                                    <input type="search" name="search-field" value="" placeholder="Entery Email" required="">
-                                    <button type="submit"><span class="icon flaticon-paper-plane-1"></span></button>
-                                </div>
-                            </form>
-                        </div>
+
 
                         <!-- Popular Posts -->
-                        <div class="sidebar-widget popular-tags">
-                            <div class="sidebar-title">
-                                <h4>TAGS</h4>
-                            </div>
-                            <div class="widget-content">
-                                <a href="#">Fitness</a>
-                                <a href="#">Health</a>
-                                <a href="#">Lifestyle</a>
-                                <a href="#">Nutrition</a>
-                                <a href="#">Sport</a>
-                                <a href="#">Science</a>
-                                <a href="#">Training</a>
-                                <a href="#">Program</a>
-                            </div>
-                        </div>
+
 
                     </aside>
                 </div>
