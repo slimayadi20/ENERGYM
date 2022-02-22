@@ -56,8 +56,8 @@
                             </td>
                             <td>
                                 {% for role in u.roles %}
-                                    {% if role == "ROLE_MEMBRE" %}
-                                        <span class="badge badge-primary badge-pill">ROLE_MEMBRE</span>
+                                    {% if role == "ROLE_USER" %}
+                                        <span class="badge badge-primary badge-pill">ROLE_USER</span>
                                     {% elseif role == "ROLE_GERANT" %}
                                         <span class="badge badge-danger badge-pill">ROLE_GERANT</span>
                                     {% elseif role == "ROLE_ADMIN" %}

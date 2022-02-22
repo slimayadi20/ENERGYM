@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\True_;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -90,6 +92,16 @@ class User implements UserInterface
      * @Assert\EqualTo(propertyPath="password",message="vous n'avez pas tapé le meme message ")
      */
     public $confirmPass ;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Reclamation::class, mappedBy="NomUser")
+     */
+    private $reclamations;
+
+    public function __construct()
+    {
+        $this->reclamations = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -201,4 +213,35 @@ class User implements UserInterface
     {
         // TODO: Implement getUsername() method.
     }
+
+    /**
+     * @return Collection<int, Reclamation>
+     */
+    public function getReclamations(): Collection
+    {
+        return $this->reclamations;
+    }
+
+    public function addReclamation(Reclamation $reclamation): self
+    {
+        if (!$this->reclamations->contains($reclamation)) {
+            $this->reclamations[] = $reclamation;
+            $reclamation->setNomUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReclamation(Reclamation $reclamation): self
+    {
+        if ($this->reclamations->removeElement($reclamation)) {
+            // set the owning side to null (unless already changed)
+            if ($reclamation->getNomUser() === $this) {
+                $reclamation->setNomUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
