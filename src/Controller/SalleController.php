@@ -15,6 +15,7 @@ class SalleController extends AbstractController
      */
     public function index(): Response
     {
+
         $salle = $this->getDoctrine()->getRepository(salle::class)->findAll();
         return $this->render('salle/index.html.twig', [
             'controller_name' => 'SalleController',
@@ -26,10 +27,26 @@ class SalleController extends AbstractController
      */
     public function salleFront(): Response
     {
+
+        $salle = $this->getDoctrine()->getRepository(salle::class)->findAll();
         return $this->render('salle/afficherFront.html.twig', [
             'controller_name' => 'SalleController',
+            "salle" => $salle,
         ]);
     }
+    /**
+     * @Route("/detailFront/{id}", name="detailFront")
+     */
+    public function detailFront(int $id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $salle = $entityManager->getRepository(salle::class)->find($id);
+        return $this->render('salle/detailFront.html.twig', [
+            'controller_name' => 'SalleController',
+            "salle" => $salle,
+        ]);
+    }
+
     /**
      * @Route("/addSalle", name="addSalle")
      */
@@ -88,6 +105,39 @@ class SalleController extends AbstractController
 
 
         return $this->redirectToRoute("salle");
+    }
+    /**
+     * @Route("/detail_salle/{id}", name="detailsalle")
+     */
+    public function detailSalle(Request $req, $id) {
+        $em= $this->getDoctrine()->getManager();
+        $salle = $em->getRepository(Salle::class)->find($id);
+        return $this->render('salle/DetailSalle.html.twig',array(
+            'nom'=>$salle->getNom(),
+            'adresse'=>$salle->getAdresse(),
+            'tel'=>$salle->getTel(),
+            'mail'=>$salle->getMail(),
+            'description'=>$salle->getDescription(),
+            'prix1'=>$salle->getPrix1(),
+            'prix2'=>$salle->getPrix2(),
+            'prix3'=>$salle->getPrix3(),
+            'heureo'=>$salle->getHeureo(),
+            'heuref'=>$salle->getHeuref(),
+            // 'image'=>$salle->getImage()
+        ));
+    }
+    /**
+     * @Route("/SallecoursFront/{id}", name="SallecoursFront")
+     */
+    public function SallecoursFront($id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $salle = $entityManager->getRepository(Salle::class)->find($id);
+
+
+        return $this->render('cours/afficherFront.html.twig', [
+            "salle" => $salle,
+        ]);
     }
 
 

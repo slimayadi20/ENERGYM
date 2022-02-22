@@ -56,12 +56,6 @@ class Cours
     private $image;
 
 
-    /**
-     * @ORM\Column(type="date")
-     * @Assert\GreaterThanOrEqual("today", message="La date  doit etre valide .")
-     */
-
-    private $date;
 
     /**
      * @ORM\Column(type="time")
@@ -79,6 +73,12 @@ class Cours
      *  @Assert\NotBlank(message="il faut choisir une salle de sport")
      */
     private $salleassocie;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     */
+    private $jour;
 
 
 
@@ -156,17 +156,6 @@ class Cours
 
 
 
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
-
-        return $this;
-    }
 
     public function getHeureD(): ?\DateTimeInterface
     {
@@ -200,6 +189,18 @@ class Cours
     public function setSalleassocie(?Salle $salleassocie): self
     {
         $this->salleassocie = $salleassocie;
+
+        return $this;
+    }
+
+    public function getJour(): ?string
+    {
+        return $this->jour;
+    }
+
+    public function setJour(string $jour): self
+    {
+        $this->jour = $jour;
 
         return $this;
     }

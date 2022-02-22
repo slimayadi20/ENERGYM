@@ -18,10 +18,12 @@ class SalleFormType extends AbstractType
             ->add('tel')
             ->add('mail')
             ->add('description')
-            ->add('prix')
+            ->add('prix1')
+            ->add('prix2')
+            ->add('prix3')
             ->add('heureo')
             ->add('heuref')
-            ->add('image',FileType::class)
+            ->add('image')
 
 
         ;

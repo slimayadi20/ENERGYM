@@ -1,0 +1,420 @@
+{% extends "base-front.html.twig" %}
+
+{% block title %}
+    Hello HomeController!
+{% endblock %}
+
+{% block body %}
+    {{ include('front_office/navbar.html.twig') }}
+    <section class="page-title" style="background-image:url(https://via.placeholder.com/1920x600)">
+        <div class="auto-container">
+            <div class="clearfix">
+                <div class="pull-left">
+                   <div class="row"> <h2 style="margin-right:20px">Découvrez </h2> <h2 style="color: red"> {{ salle.nom }} </h2>
+                   </div>
+                </div>
+                <div class="pull-right">
+                    <ul class="page-breadcrumb">
+                        <li><a href="index.html">home</a></li>
+                        <li>Classes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+<!--Sidebar Page Container-->
+<div class="sidebar-page-container grey-bg">
+    <div class="auto-container">
+        <div class="row clearfix">
+            <!-- Sidebar Side -->
+            <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+                <aside class="sidebar padding-right">
+                    <div  class="sidebar-widget help-widget">
+                        <div class="widget-content">
+                            <div class="inner-box">
+                                <div class="image">
+                                    <iframe width="100%" height="500" src="https://maps.google.com/maps?q=<?php echo {{ salle.adresse }}; ?>&output=embed"></iframe>
+                                </div>
+                                <div class="lower-content">
+                                    <h4>Contactez nous</h4>
+                                    <br>
+                                    <ul>
+                                        <li><span class="icon fa fa-phone"></span>+216{{ salle.tel }}</a></li>
+                                        <li><span class="icon fa fa-envelope"></span>{{salle.mail}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <ul class="service-list">
+                            <li  ><a href="{{ path('SallecoursFront',{'id':salle.id}) }}">Planning {{ salle.nom }}</a></li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Content Side -->
+            <div class="content-side col-lg-8 col-md-12 col-sm-12">
+                <div class="classes-detail">
+                    <div class="inner-box">
+                        <div class="image">
+                            <img src="https://www.california-gym.com/wp-content/uploads/2020/02/cun3.png" alt="" />
+                        </div>
+                        <div class="lower-content">
+                            <h3>{{ salle.nom}}</h3>
+                            <p>{{ salle.description}}</p>
+
+                            <h3>Nos horaires</h3>
+                            <div class="row clearfix">
+
+                                <!-- Schedule Column -->
+                                <div class="schedule-column col-lg-4 col-md-4 col-sm-12">
+                                    <div class="inner-column">
+                                        <h5>Lundi</h5>
+                                        <div class="time">{{ salle.heureo|date('H:i') }} <span>H</span> - {{ salle.heuref|date('H:i') }} <span>H</span></div>
+                                    </div>
+                                </div>
+
+                                <!-- Schedule Column -->
+                                <div class="schedule-column col-lg-4 col-md-4 col-sm-12">
+                                    <div class="inner-column">
+                                        <h5>Mardi</h5>
+                                        <div class="time">{{ salle.heureo|date('H:i') }} <span>H</span> - {{ salle.heuref|date('H:i') }} <span>H</span></div>
+                                    </div>
+                                </div>
+
+                                <!-- Schedule Column -->
+                                <div class="schedule-column col-lg-4 col-md-4 col-sm-12">
+                                    <div class="inner-column">
+                                        <h5>Mercredi</h5>
+                                        <div class="time">{{ salle.heureo|date('H:i') }} <span>H</span> - {{ salle.heuref|date('H:i') }} <span>H</span></div>
+                                    </div>
+                                </div>
+
+                                <!-- Schedule Column -->
+                                <div class="schedule-column col-lg-4 col-md-4 col-sm-12">
+                                    <div class="inner-column">
+                                        <h5>Jeudi</h5>
+                                        <div class="time">{{ salle.heureo|date('H:i') }} <span>H</span> - {{ salle.heuref|date('H:i') }} <span>H</span></div>
+                                    </div>
+                                </div>
+
+                                <!-- Schedule Column -->
+                                <div class="schedule-column col-lg-4 col-md-4 col-sm-12">
+                                    <div class="inner-column">
+                                        <h5>Vendredi</h5>
+                                        <div class="time">{{ salle.heureo|date('H:i') }} <span>H</span> - {{ salle.heuref|date('H:i') }} <span>H</span></div>
+                                    </div>
+                                </div>
+
+                                <!-- Schedule Column -->
+                                <div class="schedule-column col-lg-4 col-md-4 col-sm-12">
+                                    <div class="inner-column">
+                                        <h5>Samedi</h5>
+                                        <div class="time">{{ salle.heureo|date('H:i') }} <span>H</span> - {{ salle.heuref|date('H:i') }} <span>H</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3> Abonnements</h3>
+                            </div>
+<div class="row">
+
+                            <div class="pricing-block col-lg-4 col-md-6 col-sm-12">
+                                <div class="inner-box" style="background-image:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF4qHu1KVDLdoUpVnab2adA-YXZSbQawbbZA&usqp=CAU)">
+                                    <h4>Pack BRONZE</h4>
+
+                                    <div class="price">A partir de <h3 style="color: red">{{ salle.prix3 }} DT ! </h3></div>
+                                    <ul class="price-list">
+                                        <li>Cours</li>
+                                        <li>Acces illimité</li>
+
+                                    </ul>
+                                    <div class="btn-one-outer"><a href="#" class="theme-btn btn-style-one" type="submit"><span class="txt">Ajouter au panier</span></a></div>
+                                </div>
+                            </div>
+                            <div class="pricing-block col-lg-4 col-md-6 col-sm-12">
+                                <div class="inner-box" style="background-image:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw0NDQ0NDQ0NDQ0NDw0NDQ0NDQ8NDQ0NFREWFhURFRMYHSggGBolJxUVITEhJSk3Li4uFx8zODMsNygtLisBCgoKBQUFDgUFDisZExkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIALcBEwMBIgACEQEDEQH/xAAZAAACAwEAAAAAAAAAAAAAAAADBAACBQH/xAAdEAEAAwEBAQEBAQAAAAAAAAAAAQIDBCExEUHw/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/ANTmbHIxuaWxxyDYwGtPgGA1vgE9y376Y3kt++gYopqtSVdZAtZaitpXoBjM1mWzNZgYzHqDQegC1XhSokA646kgHIdhbBXADQvoZuX0AroV0N6SV0ArcTD6HdbCfQa/P8D7Pi/N8D7J8Bh9H1XJzon1MQPU+BbiU+Bb/AZnQz9D/R/WfeQDREBo80tjjljc8tjjkGzzz4Nf4Bz/AAa/wCe5X+meiSn76Bmkq6Smc+OaSAEr0DkTMDWZrMrmZzAzQegFB6ANVeFKiQDrky65IK2CsLYKwA3L6GLl9ALaFNTWhXQC11sfql3cp9Br83wLtnyV+afAu6fAYfRPqYqdE+u4SB+gW4lJ8C3BmdBC53okjeQUREA/ztfjY3O2OMG1z/B7l+f4Nf4BLokp++megp+gZzlzSXM5S4BSJT9CFoBnP9NZ/pXM1mBmg9AMx6gNVeFKrwC365LrkgpIdhJDsANy+hi5a4FtSuhrQroBW6ZfYS7mf0GrzfAu6fJE5vgPd8Bhbz6tgHv9WwBoU+BdEiZ/AdwZnRJG53oJWBVEQDmEtfjlj4S1uOQbnPPg9y3NPg9/gEegn/TXST/fQNZpdXOXbSCguYIucAazg1QrmazAzQegFB6ALUSA6iQDqIkgpYO4lg7gBcvqYuX0AroW0NaFNIAtopT6topT6DU5p8C7/i/NPgPdPgMPf6tgHt9XwBoZ/Aej4LnPgPRPgMvoKWNblJBxEQDWDV42Ri1uOQbnN8Hv8Lc0mNJ8Bn9JP+m+mSX6BnOVrKZytYFYGoDAuYGszWZXM1mBnMeoFJHpIDVXhSq8SCzjv65MgpYOwtpCsANy2hm5fQCuhXQ1oV0AroHWfRNA6g0eefAe6fF+efAu6fAYe0+r4SHt9WwBo5z4F0z4Jn8B6f6DL3krMmtysg5+o6gGMZafJLLyafHINzmnwxpPhbmnwxp8Bn9U/Sf6a6Z+k/6BnOV5kLOV5BIHzkCB8wNZmsyuZrMDNB6l8zFQFqvClV4BZEckFJDsLYKwA3L6GLl9AK6FdDWhXQCukBR9F0Bj6B7nnwHunwTCfAO2fAY+v1bAPX6tiDSz+A9P9Ez+A9MgzNvpeYH2ABPxE/31AGyaXIzMmlyA3Ob4Y0+FeX4Y0+Az+mfpM11f0mBnMQHMUFqj5l6mMwNZmaFsjWcAYoPQCkGKgLVeFKrwCzkupIByHYW0BWgALgaGLl9AK6FdDWhXUCugH9H0AkDWEg9kiYz4D2T4DJ1+rYqaT6tjPoNDOfAOn+i5z4B0T9BnagjaggiIgCZtHlZtJaHLINzmnwxpPhXlkxpPgM/pkn+mumScz6BjOwv6VpcetgHoYzktSTOcgazNZlczWYGKGKF6GKgLVeFKrwCyIgKWDuJYKwA3L6GLl9ALaFNDehTUCugEj6F5AfKQOuRM5A6ZBm6fXcp9c0lM5A/nIHRImc+A9EgR0+hCXDBERAXoe5ZIUPc0g2+UxpPhTlkxpPgEekjY30krAvQxmWqYoBrM1kUzNZgbzNZlMzWYGaD0AzHqA1V4UqvEAs5Lv45IKSHYSQ7ADctoZuW0AtoV0NaFdAK6F7GNC1wWoB0yJEgbyBK/1KJefXKAcpPgO69J8C2kCd1F7qAiIgLVOcxOpvnkGxyyZ0nwpzSYvPgEeiSkmuiSsyC1DOZehjMDOZnMtnJrOQM5m8yuZrMDGZioFB6ALUSA6iQDrjqSClgrCzIVwAuBoYuX0AtoU0NaFdAK6FrmdC1wU/QNpEtIGkgXu5VLOVAxWQtZWrIesgXsotKoIiIDtTWElamcJBrc0mLz4T57D3uBbeSw20gALQfOQKGMwM5yazkpmazA3mazK5GqAYoYoXzHqA1RIDqJAOpKOSCtgrC2CsANy+hi5fQC2hTU1oV0AroWuZ0groAF5AvIt4AsAVlYdsqAkSHpLv6paQDsq7LgIjiAtEDZyiAdyuLOnjqABeykOIA1IMZw4gGs/wBM5/qIBvOJNZwiAYzgesOoAtV4RAWclEBSQ7IgA3L6IgFdCuiIBXQroiAXuBdEAGwcogOTKsogKOIgIiID/9k=)">
+                                    <h4>Pack SILVER</h4>
+
+                                    <div class="price">A partir de<h3 style="color: red">{{ salle.prix2 }} DT ! </h3></div>
+                                    <ul class="price-list">
+
+                                        <li>Wifi gratuit</li>
+                                        <li>Evenements</li>
+                                    </ul>
+                                    <div class="btn-one-outer"><a href="#" class="theme-btn btn-style-one" type="submit"><span class="txt">Ajouter au panier</span></a></div>
+                                </div>
+                            </div>
+                            <div class="pricing-block col-lg-4 col-md-6 col-sm-12">
+                                <div class="inner-box" style="background-image:url(data:image/jpeg;base64,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)">
+                                    <h4>Pack GOLD</h4>
+
+                                    <div class="price">A partir de<h3 style="color: red">{{ salle.prix1 }} DT ! </h3></div>
+                                    <ul class="price-list">
+
+
+                                        <li>Parking gratuit</li>
+                                        <li>Coach privé</li>
+                                    </ul>
+                                    <div class="btn-one-outer"><a href="#" class="theme-btn btn-style-one" type="submit"><span class="txt">Ajouter au panier</span></a></div>
+                                </div>
+                            </div>
+</div>
+
+
+
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Subscribe Section -->
+<section class="subscribe-section">
+    <div class="auto-container">
+        <div class="inner-container margin-bottom">
+            <div class="pattern-layer" style="background-image:url(https://via.placeholder.com/1545x200)"></div>
+            <div class="section-image" style="background-image:url(https://via.placeholder.com/161x165)"></div>
+            <div class="row clearfix">
+
+                <!-- Title Column -->
+                <div class="title-column col-lg-6 col-md-12 col-sm-12">
+                    <div class="inner-column">
+                        <h3>Don’t miss any updates <br> Get subscribed!</h3>
+                    </div>
+                </div>
+
+                <!-- Form Column -->
+                <div class="form-column col-lg-6 col-md-12 col-sm-12">
+                    <div class="inner-column">
+
+                        <div class="newsletter-form">
+                            <form method="post" action="contact.html">
+                                <div class="form-group">
+                                    <input type="email" name="email" value="" placeholder="Add your email ......" required="">
+                                    <button type="submit" class="theme-btn submit-btn"><span class="txt">Subscribe</span></button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Subscribe Section -->
+
+<!-- Main Footer -->
+<footer class="main-footer style-four" style="background-image:url(https://via.placeholder.com/1920x650)">
+    <div class="auto-container">
+        <!-- Widgets Section -->
+        <div class="widgets-section">
+            <div class="row clearfix">
+
+                <!-- Big Column -->
+                <div class="big-column col-lg-6 col-md-12 col-sm-12">
+                    <div class="row clearfix">
+
+                        <!--Footer Column-->
+                        <div class="footer-column col-lg-6 col-md-6 col-sm-12">
+                            <div class="footer-widget logo-widget">
+                                <div class="logo">
+                                    <a href="index.html"><img src="https://via.placeholder.com/205x65" alt="" /></a>
+                                </div>
+                                <div class="text">Powerlift is a champ in providing its users with absolutely everything a fitness or gym site needs. consectetur adipiscing elit. Suspendisse interdum nulla eu posuere scelerisque.</div>
+                                <div class="social-links">
+                                    <span>Follow on Socials </span>
+                                    <a href="#" class="fa fa-facebook"></a>
+                                    <a href="#" class="fa fa-twitter"></a>
+                                    <a href="#" class="fa fa-instagram"></a>
+                                    <a href="#" class="fa fa-linkedin"></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer Column -->
+                        <div class="footer-column col-lg-6 col-md-6 col-sm-12">
+                            <div class="footer-widget news-widget">
+                                <h4>Latest Posts</h4>
+                                <!-- Footer Column -->
+                                <div class="widget-content">
+                                    <div class="post">
+                                        <div class="thumb"><a href="blog-single.html"><img src="https://via.placeholder.com/100x100" alt=""></a></div>
+                                        <h5><a href="blog-single.html">Your Future is Created by What You Do Today</a></h5>
+                                        <span class="date">JUNE 21, 2020</span>
+                                    </div>
+
+                                    <div class="post">
+                                        <div class="thumb"><a href="blog-single.html"><img src="https://via.placeholder.com/100x100" alt=""></a></div>
+                                        <h5><a href="blog-single.html">How to Maximise Time Spent at The GYM.</a></h5>
+                                        <span class="date">JUNE 21, 2019</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Big Column -->
+                <div class="big-column col-lg-6 col-md-12 col-sm-12">
+                    <div class="row clearfix">
+
+                        <!-- Footer Column -->
+                        <div class="footer-column col-lg-6 col-md-6 col-sm-12">
+                            <div class="footer-widget links-widget">
+                                <h4>Our Services</h4>
+                                <ul class="list-link">
+                                    <li><a href="">Fat Burn</a></li>
+                                    <li><a href="">Streching</a></li>
+                                    <li><a href="">Weight Loss</a></li>
+                                    <li><a href="">Self Defense</a></li>
+                                    <li><a href="">Body Building</a></li>
+                                    <li><a href="">Psycho Trainning</a></li>
+                                    <li><a href="">Strength Trainning</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Footer Column -->
+                        <div class="footer-column col-lg-6 col-md-6 col-sm-12">
+                            <div class="footer-widget timing-widget">
+                                <h4>Working Hours</h4>
+                                <ul>
+                                    <li>Monday – Friday:<span>07:00 – 21:00</span></li>
+                                    <li>Saturday:<span>07:00 – 16:00</span></li>
+                                    <li>Sunday Closed</li>
+                                </ul>
+
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="copyright">Copyright 2020 Theme by expertthemes</div>
+        </div>
+
+    </div>
+</footer>
+
+<!-- Sidebar Cart Item -->
+<div class="xs-sidebar-group info-group">
+    <div class="xs-overlay xs-bg-black"></div>
+    <div class="xs-sidebar-widget">
+        <div class="sidebar-widget-container">
+            <div class="widget-heading">
+                <a href="#" class="close-side-widget">
+                    X
+                </a>
+            </div>
+            <div class="sidebar-textwidget">
+
+                <!-- Sidebar Info Content -->
+                <div class="sidebar-info-contents">
+                    <div class="content-inner">
+                        <div class="logo">
+                            <a href="index.html"><img src="https://via.placeholder.com/230x100" alt="" /></a>
+                        </div>
+                        <div class="content-box">
+                            <h2>About Us</h2>
+                            <p class="text">The argument in favor of using filler text goes something like this: If you use real content in the Consulting Process, anytime you reach a review point you’ll end up reviewing and negotiating the content itself and not the design.</p>
+                            <a href="#" class="theme-btn btn-style-two"><span class="txt">Consultation</span></a>
+                        </div>
+                        <div class="contact-info">
+                            <h2>Contact Info</h2>
+                            <ul class="list-style-one">
+                                <li><span class="icon fa fa-location-arrow"></span>Chicago 12, Melborne City, USA</li>
+                                <li><span class="icon fa fa-phone"></span>(111) 111-111-1111</li>
+                                <li><span class="icon fa fa-envelope"></span>Gym@gmail.com</li>
+                                <li><span class="icon fa fa-clock-o"></span>Week Days: 09.00 to 18.00 Sunday: Closed</li>
+                            </ul>
+                        </div>
+
+                        <!-- Social Box -->
+                        <ul class="social-box">
+                            <li class="facebook"><a href="#" class="fa fa-facebook-f"></a></li>
+                            <li class="twitter"><a href="#" class="fa fa-twitter"></a></li>
+                            <li class="linkedin"><a href="#" class="fa fa-linkedin"></a></li>
+                            <li class="instagram"><a href="#" class="fa fa-instagram"></a></li>
+                            <li class="youtube"><a href="#" class="fa fa-youtube"></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END sidebar widget item -->
+
+</div>
+<!--End pagewrapper-->
+
+<!-- Color Palate / Color Switcher -->
+<div class="color-palate">
+    <div class="color-trigger">
+        <i class="fa fa-gear"></i>
+    </div>
+    <div class="color-palate-head">
+        <h6>Choose Your Color</h6>
+    </div>
+    <div class="various-color clearfix">
+        <div class="colors-list">
+            <span class="palate default-color active" data-theme-file="css/color-themes/default-theme.css"></span>
+            <span class="palate green-color" data-theme-file="css/color-themes/green-theme.css"></span>
+            <span class="palate olive-color" data-theme-file="css/color-themes/olive-theme.css"></span>
+            <span class="palate orange-color" data-theme-file="css/color-themes/orange-theme.css"></span>
+            <span class="palate purple-color" data-theme-file="css/color-themes/purple-theme.css"></span>
+            <span class="palate teal-color" data-theme-file="css/color-themes/teal-theme.css"></span>
+            <span class="palate brown-color" data-theme-file="css/color-themes/brown-theme.css"></span>
+            <span class="palate redd-color" data-theme-file="css/color-themes/redd-color.css"></span>
+        </div>
+    </div>
+
+    <h5>Other Options</h5>
+    <ul class="rtl-version option-box"> <li class="rtl">RTL Version</li> <li>LTR Version</li> </ul>
+
+    <a href="#" class="purchase-btn">Purchase now $17</a>
+
+    <div class="palate-foo">
+        <span>You will find much more options for colors and styling in admin panel. This color picker is used only for demonstation purposes.</span>
+    </div>
+
+</div>
+
+<!-- Search Popup -->
+<div class="search-popup">
+    <button class="close-search style-two"><span class="flaticon-multiply"></span></button>
+    <button class="close-search"><span class="flaticon-up-arrow-1"></span></button>
+    <form method="post" action="blog.html">
+        <div class="form-group">
+            <input type="search" name="search-field" value="" placeholder="Search Here" required="">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </div>
+    </form>
+</div>
+    {{ include('front_office/footer.html.twig') }}
+{% endblock %}

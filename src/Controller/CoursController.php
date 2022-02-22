@@ -21,15 +21,7 @@ class CoursController extends AbstractController
             "cours" => $cours,
         ]);
     }
-    /**
-     * @Route("/coursFront", name="coursFront")
-     */
-    public function coursFront(): Response
-    {
-        return $this->render('cours/afficherFront.html.twig', [
-            'controller_name' => 'CoursController',
-        ]);
-    }
+
     /**
      * @Route("/addCours", name="addCours")
      */
@@ -89,6 +81,55 @@ class CoursController extends AbstractController
 
         return $this->redirectToRoute("cours");
     }
+    /**
+     * @Route("/detail_cours/{id}", name="detailcours")
+     */
+    public function detailCours(Request $req, $id) {
+        $em= $this->getDoctrine()->getManager();
+        $cours = $em->getRepository(Cours::class)->find($id);
+
+
+        return $this->render('cours/DetailCours.html.twig',array(
+
+            'id'=>$cours->getId(),
+            'Nom'=>$cours->getNom(),
+            'Description'=>$cours->getDescription(),
+            'salleassocie'=>$cours->getSalleassocie(),
+            'heureD'=>$cours->getHeureD(),
+            'heureF'=>$cours->getHeureF(),
+            'jour'=>$cours->getJour(),
+            'nombre'=>$cours->getNombre(),
+            // 'image'=>$cours->getImage()
+        ));
+
+
+    }
+
+
+ /**
+     * @Route("/detail_coursFront/{id}", name="detailcoursFront")
+     */
+    public function detailCoursFront(Request $req, $id) {
+        $em= $this->getDoctrine()->getManager();
+        $cours = $em->getRepository(Cours::class)->find($id);
+        return $this->render('cours/CoursDetailFront.html.twig',array(
+
+            'id'=>$cours->getId(),
+            'Nom'=>$cours->getNom(),
+            'nomCoach'=>$cours->getNomCoach(),
+            'Description'=>$cours->getDescription(),
+            'salleassocie'=>$cours->getSalleassocie(),
+            'heureD'=>$cours->getHeureD(),
+            'heureF'=>$cours->getHeureF(),
+            'jour'=>$cours->getJour(),
+            'nombre'=>$cours->getNombre(),
+            //'image'=>$cours->getImage()
+        ));
+
+
+    }
+
+
 
 
 }

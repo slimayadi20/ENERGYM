@@ -1,0 +1,46 @@
+
+{% extends "base-back.html.twig" %}
+
+{% block title %}Hello CoursController!{% endblock %}
+
+{% block body %}
+
+    {{ include('Dashboard/navbar.html.twig') }}
+    {{ include('Dashboard/leftsideBar.html.twig') }}
+
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+                <a href="{{ path('cours') }}">
+                    <i class="fa fa-arrow-circle-left" style="font-size: 30px;"></i>
+                </a>
+            </div>
+            <div class="row" style="display: flex;align-items: center;justify-content: center">
+
+                <div class="col-md-6 col-lg-3">
+
+                    <div class="card m-b-20">
+                        <img class="card-img-top img-fluid" src="{{ asset('Dashboard/images/gallery/4.jpg')}}" alt="Card image cap">
+                        <div class="card-body">
+                            <h4 class="dropcap text-blue"> {{ Nom }}</h4>
+
+                            <p class="card-text">{{ Description }}</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"> de   {{ heureD|date('H:i')}}  jusqu'a  {{  heureF|date('H:i') }}</li>
+
+
+                        </ul>
+                        <div class="card-body">
+                            <a href="#" class="card-link">{{ nombre }} Personnes</a>
+                            <a href="#" class="card-link">{{ jour }}</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

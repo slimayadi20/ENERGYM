@@ -66,7 +66,19 @@ class Salle
      * @Assert\NotBlank
      * @Assert\Positive(message="le prix doit etre positif")
      */
-    private $prix;
+    private $prix1;
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank
+     * @Assert\Positive(message="le prix doit etre positif")
+     */
+    private $prix2;
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank
+     * @Assert\Positive(message="le prix doit etre positif")
+     */
+    private $prix3;
 
     /**
      * @ORM\Column(type="time")
@@ -171,14 +183,36 @@ class Salle
         return $this;
     }
 
-    public function getPrix(): ?int
+    public function getPrix1(): ?int
     {
-        return $this->prix;
+        return $this->prix1;
     }
 
-    public function setPrix(int $prix): self
+    public function setPrix1(int $prix1): self
     {
-        $this->prix = $prix;
+        $this->prix1 = $prix1;
+
+        return $this;
+    }
+    public function getPrix2(): ?int
+    {
+        return $this->prix2;
+    }
+
+    public function setPrix2(int $prix2): self
+    {
+        $this->prix2 = $prix2;
+
+        return $this;
+    }
+    public function getPrix3(): ?int
+    {
+        return $this->prix3;
+    }
+
+    public function setPrix3(int $prix3): self
+    {
+        $this->prix3 = $prix3;
 
         return $this;
     }
