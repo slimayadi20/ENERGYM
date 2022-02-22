@@ -75,6 +75,7 @@
                                     <li><a href="account.html">Account</a></li>#}
                                 </ul>
                                 <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
+
                             <li class="dropdown"><a href="">evenement</a>
                                 <ul>
                                     <li><a href="{{ path('EvenementFront') }}">Evenement</a></li>
@@ -86,6 +87,19 @@
                                 {% else %}
                                     <li><a href="{{ path('app_login') }}">Connect</a></li>
                             {% endif %}
+                            <li class="current dropdown"><a href="#">Also</a>
+                                <ul>
+                                    <li><a href="{{ path('reclamationFront') }}">Reclamation</a></li>
+
+                                    {% if app.user  %}
+                                    {% for role in app.user.roles %}
+                                    {% if role != "ROLE_USER" %}
+                                        <li><a href="{{ path('dashboard') }}">dashboard</a></li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                        <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
+                                </ul>
                         </ul>
                     </div>
                 </nav>

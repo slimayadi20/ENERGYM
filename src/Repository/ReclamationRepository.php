@@ -19,6 +19,32 @@ class ReclamationRepository extends ServiceEntityRepository
         parent::__construct($registry, Reclamation::class);
     }
 
+    public function triStatusASC(){
+        return $this->createQueryBuilder('u')
+            ->orderBy('u.statut','ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function triStatusDESC(){
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.statut','DESC')
+            ->getQuery()
+            ->getResult();
+    }
+    public function triDateASC(){
+        return $this->createQueryBuilder('r')
+            ->orderBy('r.DateCreation','ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function triDateDESC(){
+        return $this->createQueryBuilder('e')
+            ->orderBy('e.DateCreation','DESC')
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Reclamation[] Returns an array of Reclamation objects
     //  */

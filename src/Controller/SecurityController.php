@@ -60,6 +60,31 @@ class SecurityController extends AbstractController
         ]);
     }
     /**
+     * @Route("/signupUser", name="signupUser")
+     */
+    public function signupUser(Request $request, UserPasswordEncoderInterface $encoder): Response
+    {
+        $user = new User();
+        $form = $this->createForm(GerantFormType::class,$user);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $entityManager = $this->getDoctrine()->getManager();
+            $user->setRoles('ROLE_USER');
+            $user->setStatus(1);
+            $user->setCreatedAt(new \DateTime()) ;
+            $passwordcrypt = $encoder->encodePassword($user,$user->getPassword());
+            $user->setPassword($passwordcrypt);
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->render("front_office/index.html.twig");
+        }
+        return $this->render("security/Register.html.twig", [
+            "form_title" => "Ajouter un user",
+            "form_user" => $form->createView(),
+        ]);
+    }
+    /**
      * @Route("/loginFront", name="loginFront")
      */
     public function loginFront(AuthenticationUtils $authenticationUtils): Response
