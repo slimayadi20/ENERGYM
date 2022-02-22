@@ -99,17 +99,11 @@
                         </div>
 
                         <!-- Post Share Options -->
-                        <div class="pagination-outer text-center">
-                            <div class="styled-pagination text-center">
-                                <ul class="clearfix">
-                                    <li class="prev"><a href="#"><span class="fa fa-angle-double-left"></span> Prev</a></li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li class="active"><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li class="next"><a href="#">Next <span class="fa fa-angle-double-right"></span></a></li>
-                                </ul>
+                        <div class="col-sm-12 col-md-7" >
+                            <div class="dataTables_paginate paging_simple_numbers" id="datatable-buttons_paginate">
+                                <div class="navigation" style="float:right;">
+                                    {{ knp_pagination_render(listProduit) }}
+                                </div>
                             </div>
                         </div>
 
