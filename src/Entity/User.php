@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\True_;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -90,6 +92,17 @@ class User implements UserInterface
      * @Assert\EqualTo(propertyPath="password",message="vous n'avez pas tapé le meme message ")
      */
     public $confirmPass ;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Participation::class, mappedBy="idUser", orphanRemoval=true)
+     */
+    private $participations;
+
+    public function __construct()
+    {
+        $this->participations = new ArrayCollection();
+    }
+
 
     public function getId()
     {
@@ -201,4 +214,36 @@ class User implements UserInterface
     {
         // TODO: Implement getUsername() method.
     }
+
+    /**
+     * @return Collection<int, Participation>
+     */
+    public function getParticipations(): Collection
+    {
+        return $this->participations;
+    }
+
+    public function addParticipation(Participation $participation): self
+    {
+        if (!$this->participations->contains($participation)) {
+            $this->participations[] = $participation;
+            $participation->setIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipation(Participation $participation): self
+    {
+        if ($this->participations->removeElement($participation)) {
+            // set the owning side to null (unless already changed)
+            if ($participation->getIdUser() === $this) {
+                $participation->setIdUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

@@ -6,6 +6,8 @@ use App\Entity\CategoriesEvent;
 use App\Entity\Evenement;
 use App\Form\CategoriesEventType;
 use App\Form\EvenementType;
+use App\Entity\Participation;
+use http\Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,13 +46,19 @@ class EvénementController extends AbstractController
      */
     public function AjouterEvent(Request  $request) {
 
-        $prod = new Evenement(); // construct vide
-        $form = $this->createForm(EvenementType::class,$prod);
+        $Event = new Evenement(); // construct vide
+        $form = $this->createForm(EvenementType::class,$Event);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            $uploadFile = $form['image']->getData();
+            $filename = md5(uniqid()) . '.' .$uploadFile->guessExtension();
+
+            $uploadFile->move($this->getParameter('kernel.project_dir').'/public/uploads/Event_image',$filename);
+            $Event->setImage($filename);
+
             $em = $this->getDoctrine()->getManager();
-            $em->persist($prod); // Ajouter catégorie
+            $em->persist($Event); // Ajouter catégorie
             $em->flush(); // commit
             // Page ely fiha table ta3 affichage
 
@@ -78,11 +86,20 @@ class EvénementController extends AbstractController
      */
     public function ModifierEvent(Request $req, $id) {
         $em= $this->getDoctrine()->getManager();
-        $prod = $em->getRepository(Evenement::class)->find($id);
-        $form = $this->createForm(EvenementType::class,$prod);
+        $Event = $em->getRepository(Evenement::class)->find($id);
+        $form = $this->createForm(EvenementType::class,$Event);
         $form->handleRequest($req);
 
         if($form->isSubmitted() && $form->isValid()) {
+
+            $uploadFile = $form['image']->getData();
+            $filename = md5(uniqid()) . '.' .$uploadFile->guessExtension();
+
+            $uploadFile->move($this->getParameter('kernel.project_dir').'/public/uploads/Event_image',$filename);
+            $Event->setImage($filename);
+
+
+
             $em->flush();
 
             return $this->redirectToRoute('evenement');
@@ -96,9 +113,9 @@ class EvénementController extends AbstractController
 
 
     /**
-     * @Route("/dashboard/detail_produit/{id}", name="detail")
+     * @Route("/dashboard/detail/{id}", name="detail")
      */
-    public function detailProduit(Request $req, $id) {
+    public function detail(Request $req, $id) {
         $em= $this->getDoctrine()->getManager();
         $prod = $em->getRepository(Evenement::class)->find($id);
 
@@ -110,7 +127,7 @@ class EvénementController extends AbstractController
             'LieuEvent'=>$prod->getLieuEvent(),
             'DateEvent'=>$prod->getDateEvent(),
             'NbrParticipantsEvent'=>$prod->getNbrParticipantsEvent(),
-           // 'image'=>$prod->getImage()
+            'image'=>$prod->getImage(),
         ));
 
 
@@ -130,11 +147,75 @@ class EvénementController extends AbstractController
             'LieuEvent'=>$prod->getLieuEvent(),
             'DateEvent'=>$prod->getDateEvent(),
             'NbrParticipantsEvent'=>$prod->getNbrParticipantsEvent(),
-            // 'image'=>$prod->getImage()
+            'image'=>$prod->getImage(),
+
         ));
 
 
     }
+    /**
+     * @Route("/ParticiperEvent/{id}", name="ParticiperEvent")
+     */
+    public function ParticiperEvent(Request $req, $id) {
+        $user= $this->getUser() ;
+        $iduser= $user->getId() ;
+        $em= $this->getDoctrine()->getManager();
+        $Event = $em->getRepository(Evenement::class)->find($id);
+
+        //TEST PARTICIPATION:
+        $currentPart =$em->getRepository(Participation::class)->findBy(["idUser"=>$iduser]);
+        $currentEvt =$em->getRepository(Participation::class)->findBy(["idEvent"=>$id]);
+
+
+        if(  !$currentEvt )
+        {
+            $Participation= new Participation();
+            $em= $this->getDoctrine()->getManager();
+            $Event = $em->getRepository(evenement::class)->find($id);
+            $Participation->setIdUser($user);
+            $Participation->setIdEvent($Event);
+            $em->persist($Participation);
+            $em->flush();
+            return $this->render('evénement/AfficherEventDetailFront.html.twig',array(
+                'id'=>$Event->getId(),
+                'NomEvent'=>$Event->getNomEvent(),
+                'DescriptionEvent'=>$Event->getDescriptionEvent(),
+                'LieuEvent'=>$Event->getLieuEvent(),
+                'DateEvent'=>$Event->getDateEvent(),
+                'NbrParticipantsEvent'=>$Event->getNbrParticipantsEvent(),
+                'image'=>$Event->getImage(),
+
+            ));
+        }
+
+        return $this->redirectToRoute('ParticipationEffectue');
+            }
+
+
+
+
+
+    /**
+     * @Route("/dashboard/AfficherParticipant", name="AfficherParticipant")
+     */
+    public function AfficherParticipant(): Response
+    {
+        $Participation = $this->getDoctrine()->getManager()->getRepository(Participation::class)->findAll();
+
+        return $this->render("evénement/AfficherParticipation.html.twig",array("Participation"=>$Participation));
+    }
+
+
+
+    /**
+     * @Route("/ParticipationEffectue", name="ParticipationEffectue")
+     */
+    public function ParticipationEffectue(): Response
+    {
+        return $this->render('evénement/ParticipationEffectue.html.twig', [
+        ]);
+    }
+
 
 
 }

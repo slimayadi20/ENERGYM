@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use App\Repository\EvenementRepository;
@@ -20,9 +22,8 @@ class Evenement
 
     /**
      * @Assert\NotBlank(message="Le nom doit etre non vide")
-     * @Assert\Type(type="alpha", message="Le nom ne doit pas contenir des chiffres .")
      * @Assert\Length(
-     *      max = 15,
+     *      max = 50,
      *      maxMessage=" Très long !"
      *
      *     )
@@ -33,7 +34,7 @@ class Evenement
 
     /**
      * @ORM\Column(type="date")
-     * @Assert\GreaterThanOrEqual("today", message="La date  doit etre valide .")
+     * @Assert\GreaterThanOrEqual("today", message="La date  est incorrecte .")
      */
     private $DateEvent;
 
@@ -72,6 +73,21 @@ class Evenement
      * @ORM\JoinColumn(nullable=false)
      */
     private $NomCategorie;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Participation::class, mappedBy="idEvent", orphanRemoval=true)
+     */
+    private $participations;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $image;
+
+    public function __construct()
+    {
+        $this->participations = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -154,6 +170,48 @@ class Evenement
     public function __toString()
     {
         return (string) $this->getNomCategorie();
+    }
+
+    /**
+     * @return Collection<int, Participation>
+     */
+    public function getParticipations(): Collection
+    {
+        return $this->participations;
+    }
+
+    public function addParticipation(Participation $participation): self
+    {
+        if (!$this->participations->contains($participation)) {
+            $this->participations[] = $participation;
+            $participation->setIdEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipation(Participation $participation): self
+    {
+        if ($this->participations->removeElement($participation)) {
+            // set the owning side to null (unless already changed)
+            if ($participation->getIdEvent() === $this) {
+                $participation->setIdEvent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
     }
 
 

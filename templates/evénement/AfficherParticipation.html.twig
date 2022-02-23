@@ -1,9 +1,16 @@
 {% extends "base-back.html.twig" %}
 
-{% block title %}Evenement!{% endblock %}
+
+
+
+{% block title %}Participation!{% endblock %}
 
 
 {% block body %}
+
+    {{ include('Dashboard/navbar.html.twig') }}
+    {{ include('Dashboard/leftsideBar.html.twig') }}
+
 
     <div class="content-page">
         <!-- Start content -->
@@ -31,34 +38,29 @@
                                     <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
                                 </div>
                             </div>
-                            <h4 class="m-t-0 header-title">Les événements</h4>
+                            <h4 class="m-t-0 header-title">Les Participations</h4>
 
                             <table class="table">
                                 <thead class="thead-light">
                                 <tr>
 
-                                    <th>Nom</th>
-                                    <th>Date </th>
-                                    <th>Lieu</th>
-                                    <th>Image</th>
-                                    <th>Modifier</th>
+                                    <th> Nom de l'événement</th>
+                                    <th>Nom du participant  </th>
+                                    <th>Email du participant</th>
                                     <th>Supprimer</th>
-                                    <th>Détail</th>
                                 </tr>
                                 </thead>
                                 <tbody>
 
-                                {% for e in Evenement %}
+                                {% for P in Participation %}
                                     <tr>
 
 
-                                        <td>{{ e.NomEvent }}</td>
-                                        <td>{{ e.DateEvent |date('Y-m-d') }}</td>
-                                        <td>{{ e.LieuEvent }}</td>
-                                        <td> <img class="card-img-top img-fluid" src="{{ asset('uploads/Event_image/' )~e.image  }}" alt="Card image cap" > </td>
-                                        <td><a href="{{ path('ModifierEvent',{'id':e.id}) }}"><i class="fa fa-pencil" style="color:#00aff0;font-size:20px"></i> </a> </td>
-                                        <td><a href="{{ path('SupprimerEvent',{'id':e.id}) }}"><i class="fa fa-trash" style="color:#ff5b5b;font-size:20px"></i> </a> </td>
-                                        <td><a href="{{ path('detail',{'id':e.id}) }}"><i class="fa fa-list" style="color:#0eac5c;font-size:20px"></i> </a> </td>
+                                        <td>{{ P.idEvent.NomEvent }}</td>
+                                        <td>{{ P.idUser.nom}}</td>
+                                        <td>{{ P.idUser.email }}</td>
+                                     {#}   <td><a href="{{ path('SupprimerEvent',{'id':e.id}) }}"><i class="fa fa-trash" style="color:#ff5b5b;font-size:20px"></i> </a> </td>{#}
+
 
                                     </tr>
 
@@ -67,10 +69,9 @@
 
                                 </tbody>
                             </table>
-                            <a href="{{ path('AjouterEvent') }}">
-                                <button type="button" class="btn btn-purple btn-rounded w-md waves-effect waves-light m-b-5">Ajouter Un événement</button>
 
-                            </a>
+
+
                         </div>
 
                     </div>

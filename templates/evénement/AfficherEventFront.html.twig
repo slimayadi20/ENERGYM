@@ -39,7 +39,8 @@
                         <div class="inner-box">
 
                             <div class="image">
-                                <a href="blog-single.html"><img src="Dashboard/images/gallery/4.jpg/770x420" alt="" /></a>
+
+                                 <img class="card-img-top img-fluid" src="{{ asset('uploads/Event_image/' )~e.image  }}" alt="Card image cap" >
                             </div>
                             <div class="lower-content">
                                 <ul class="post-meta">
@@ -96,7 +97,7 @@
                         <div class="widget-content">
                             <ul class="blog-cat">
                                 {% for c in CategoriesEvent %}
-                                <li><a href="#">{{ c.nomCategorie}} </a></li>
+                                <li><a href="{{ path('ShowEvents',{'id':c.id}) }}">{{ c.nomCategorie}} </a></li>
                                 {% endfor %}
                                {#} <li><a href="#">HEALTH  <span>( 03 )</span></a></li> {#}
 
