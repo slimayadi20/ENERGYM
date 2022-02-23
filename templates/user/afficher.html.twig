@@ -56,8 +56,8 @@
                             </td>
                             <td>
                                 {% for role in u.roles %}
-                                    {% if role == "ROLE_MEMBRE" %}
-                                        <span class="badge badge-primary badge-pill">ROLE_MEMBRE</span>
+                                    {% if role == "ROLE_USER" %}
+                                        <span class="badge badge-primary badge-pill">ROLE_USER</span>
                                     {% elseif role == "ROLE_GERANT" %}
                                         <span class="badge badge-danger badge-pill">ROLE_GERANT</span>
                                     {% elseif role == "ROLE_ADMIN" %}
@@ -68,9 +68,9 @@
 
 
                             </td>
-                            <td>
 
-                                <img src="{{ asset('Dashboard/images/profile.jpg')  }}" alt="" width="50">
+
+                            <td><img src="{{ asset('uploads/user/'~ u.imageFile)  }}" alt="" width="50">
                             </td>
                             <td>
                                 <a type="button" href="{{ path('modifyUser', {'id': u.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>

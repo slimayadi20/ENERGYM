@@ -47,6 +47,25 @@ class Reclamation
      */
     private $contenu;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reclamations")
+     */
+    private $NomUser;
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $statut;
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(string $statut): self
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -86,5 +105,22 @@ class Reclamation
         $this->contenu = $contenu;
 
         return $this;
+    }
+
+    public function getNomUser(): ?User
+    {
+        return $this->NomUser;
+    }
+
+    public function setNomUser(?User $NomUser): self
+    {
+        $this->NomUser = $NomUser;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return (string) $this->NomUser;
     }
 }

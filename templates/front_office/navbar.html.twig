@@ -62,30 +62,31 @@
                         <ul class="navigation clearfix">
 
                             <li class="current dropdown" ><a  href="{{ path('front_office') }}">Home</a>
-                                <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
-                            <li class="dropdown"><a href="{{ path('coursFront') }}">Classes</a>
-                                <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
+
                             <li class="dropdown"><a href="{{ path('salleFront') }}">salle</a>
-                                <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
-                            <li class="dropdown"><a href="#">Shop</a>
-                                <ul>
-                                    <li><a href="{{ path('shop') }}">Our Products</a></li>
-                                    <li><a href="{{ path('product') }}">Product Single</a></li>
-                                    {#   <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="account.html">Account</a></li>#}
-                                </ul>
-                                <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
-                            <li class="dropdown"><a href="">evenement</a>
-                                <ul>
-                                    <li><a href="{{ path('EvenementFront') }}">Evenement</a></li>
-                                    <li><a href="{{ path('EvenementDetailFront') }}">Evenement single</a></li>
-                                </ul>
-                                <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
+                            <li class="dropdown"><a href="{{ path('shop') }}">Shop</a>
+
+
+                            <li class="dropdown"><a href="{{ path('EvenementFront') }}">evenement</a>
+                            <li class="dropdown"><a  href="{{ path('article_client_index') }}" >Blog</a>
                             {% if app.user %}
                                 <li><a href="{{ path('app_logout') }}">DeConnect</a></li>
                                 {% else %}
                                     <li><a href="{{ path('app_login') }}">Connect</a></li>
                             {% endif %}
+                            <li class="current dropdown"><a href="#">Also</a>
+                                <ul>
+                                    <li><a href="{{ path('reclamationFront') }}">Reclamation</a></li>
+
+                                    {% if app.user  %}
+                                    {% for role in app.user.roles %}
+                                    {% if role != "ROLE_USER" %}
+                                        <li><a href="{{ path('dashboard') }}">dashboard</a></li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                        <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
+                                </ul>
                         </ul>
                     </div>
                 </nav>
@@ -100,10 +101,10 @@
                             <div class="dropdown-menu pull-right cart-panel" aria-labelledby="dropdownMenu3">
 
                                 <div class="cart-product">
-                                   {#  {% for element in dataPanier %}
+                                  {#   {% for element in dataPanier %}
                                     <div class="inner">
-                                        <div class="cross-icon"><a href="{{path("delete", {id: element.produit.id})}}" class="icon fa fa-remove"></a></div>
-                                        <div class="image"><img src="https://via.placeholder.com/70x70" alt=""></div>
+
+                                        <div class="image"><img src="{{ asset('uploads/produit/'~ element.produit.image)}}" alt=""></div>
                                         <h3><a href="shop-single.html">{{ element.produit.nom }}</a></h3>
                                         <div class="quantity-text">Quantité : {{ element.quantite }}</div>
                                         <div class="quantity-text">Prix Unitaire : {{ element.produit.prix }} TND</div>

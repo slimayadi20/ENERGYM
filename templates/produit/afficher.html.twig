@@ -26,7 +26,7 @@
                             <th>categories</th>
                             <th>edit</th>
                             <th>delete</th>
-                            <th></th>
+
                             </thead>
                             <tbody>
                             {% for p in produit %}
@@ -52,10 +52,6 @@
                                     <button type="submit" value="supprimer" class="btn btn-danger btn-icon  rounded-pill"><i class="  ti-trash"></i></button>
                                 </form>
                             </td>
-                            <td> <a href="{{path("panier", {id: p.id})}}" class="btn btn-success">
-                                    <i class="bi bi-cart-plus"></i> Ajouter
-                                </a></td>
-                            </tbody>
 
                             {% endfor %}
 
