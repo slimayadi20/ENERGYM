@@ -36,8 +36,8 @@
                     <a  href="{{ path('dashboard') }}" class="waves-effect"><i class="mdi mdi-home"></i> <span> Home </span> </a>
                 </li>
 
-                {% for role in app.user.roles %}
-                {% if role == "ROLE_ADMIN" %}
+            {#     {% for role in app.user.roles %}
+                {% if role == "ROLE_ADMIN" %} #}
                 <li>
                     <a  href="{{ path('user') }}" class="waves-effect"><i class="mdi mdi-account"></i> <span> User </span> </a>
                 </li>
@@ -45,8 +45,8 @@
                     <a  href="{{ path('verif') }}" class="waves-effect"><i class="mdi mdi-check"></i> <span> Confirmation </span> </a>
                 </li>
 
-                {% endif %}
-                {% endfor %}
+                {#   {% endif %}
+                {% endfor %} #}
                 <li>
                     <a href="{{ path('Profile') }}"class="waves-effect"><i class="mdi mdi-account"></i> <span> Profile </span> </a>
                 </li>

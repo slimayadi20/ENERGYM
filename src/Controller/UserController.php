@@ -23,13 +23,8 @@ class UserController extends AbstractController
      */
     public function index( Session $session, PaginatorInterface $paginator,UserRepository $repository , Request $request): Response
     {
-        //besoin de droits admin
+
         $utilisateur = $this->getUser();
-        $users =  $paginator->paginate(
-            $repository->findallwithpagination(),
-            $request->query->getInt('page' , 1), // nombre de page
-            3 //nombre limite
-        );
 
         if(!$utilisateur)
         {
@@ -38,6 +33,21 @@ class UserController extends AbstractController
         }
 
         else if(in_array('ROLE_ADMIN', $utilisateur->getRoles())){
+            $users =  $paginator->paginate(
+                $repository->findallwithpagination(),
+                $request->query->getInt('page' , 1), // nombre de page
+                3 //nombre limite
+            );
+            return $this->render('user/afficher.html.twig', [
+                "users" => $users,
+            ]);
+        }
+        else if(in_array('ROLE_GERANT', $utilisateur->getRoles())){
+            $users =  $paginator->paginate(
+                $repository->findUserGerantwithpagination(),
+                $request->query->getInt('page' , 1), // nombre de page
+                3 //nombre limite
+            );
             return $this->render('user/afficher.html.twig', [
                 "users" => $users,
             ]);
