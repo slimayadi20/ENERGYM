@@ -26,6 +26,7 @@
                             <th>categories</th>
                             <th>edit</th>
                             <th>delete</th>
+
                             </thead>
                             <tbody>
                             {% for p in produit %}
@@ -34,9 +35,10 @@
                             <td>{{ p.description }}</td>
                             <td>{{ p.prix }}</td>
                             <td>{{ p.quantite }}</td>
-                            <td><img src="{{ asset('Dashboard/images/profile.jpg')  }}" alt="" width="50">
+                            <td><img src="{{ asset('uploads/produit/'~ p.image)  }}" alt="" width="50">
                             </td>
                             <td>{{p.categories}}</td>
+
 
 
 
@@ -50,7 +52,6 @@
                                     <button type="submit" value="supprimer" class="btn btn-danger btn-icon  rounded-pill"><i class="  ti-trash"></i></button>
                                 </form>
                             </td>
-                            </tbody>
 
                             {% endfor %}
 

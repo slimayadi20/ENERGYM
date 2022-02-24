@@ -68,9 +68,9 @@
 
 
                             </td>
-                            <td>
 
-                                <img src="{{ asset('Dashboard/images/profile.jpg')  }}" alt="" width="50">
+
+                            <td><img src="{{ asset('uploads/user/'~ u.imageFile)  }}" alt="" width="50">
                             </td>
                             <td>
                                 <a type="button" href="{{ path('modifyUser', {'id': u.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>

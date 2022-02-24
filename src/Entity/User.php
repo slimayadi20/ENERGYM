@@ -94,13 +94,18 @@ class User implements UserInterface
     public $confirmPass ;
 
     /**
-     * @ORM\OneToMany(targetEntity=Reclamation::class, mappedBy="NomUser")
+     * @ORM\OneToOne(targetEntity=Panier::class, mappedBy="user", cascade={"persist", "remove"})
      */
-    private $reclamations;
+    private $panier;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Panier::class, mappedBy="user")
+     */
+    private $paniers;
 
     public function __construct()
     {
-        $this->reclamations = new ArrayCollection();
+        $this->paniers = new ArrayCollection();
     }
 
     public function getId()
@@ -214,34 +219,54 @@ class User implements UserInterface
         // TODO: Implement getUsername() method.
     }
 
-    /**
-     * @return Collection<int, Reclamation>
-     */
-    public function getReclamations(): Collection
+    public function getPanier(): ?Panier
     {
-        return $this->reclamations;
+        return $this->panier;
     }
 
-    public function addReclamation(Reclamation $reclamation): self
+    public function setPanier(Panier $panier): self
     {
-        if (!$this->reclamations->contains($reclamation)) {
-            $this->reclamations[] = $reclamation;
-            $reclamation->setNomUser($this);
+        // set the owning side of the relation if necessary
+        if ($panier->getUser() !== $this) {
+            $panier->setUser($this);
+        }
+
+        $this->panier = $panier;
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return (string) $this->getEmail();
+    }
+
+    /**
+     * @return Collection<int, Panier>
+     */
+    public function getPaniers(): Collection
+    {
+        return $this->paniers;
+    }
+
+    public function addPanier(Panier $panier): self
+    {
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers[] = $panier;
+            $panier->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeReclamation(Reclamation $reclamation): self
+    public function removePanier(Panier $panier): self
     {
-        if ($this->reclamations->removeElement($reclamation)) {
+        if ($this->paniers->removeElement($panier)) {
             // set the owning side to null (unless already changed)
-            if ($reclamation->getNomUser() === $this) {
-                $reclamation->setNomUser(null);
+            if ($panier->getUser() === $this) {
+                $panier->setUser(null);
             }
         }
 
         return $this;
     }
-
 }

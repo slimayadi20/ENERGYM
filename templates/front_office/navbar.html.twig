@@ -62,26 +62,13 @@
                         <ul class="navigation clearfix">
 
                             <li class="current dropdown" ><a  href="{{ path('front_office') }}">Home</a>
-                                <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
-                            <li class="dropdown"><a href="{{ path('coursFront') }}">Classes</a>
-                                <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
-                            <li class="dropdown"><a href="{{ path('salleFront') }}">salle</a>
-                                <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
-                            <li class="dropdown"><a href="#">Shop</a>
-                                <ul>
-                                    <li><a href="{{ path('shop') }}">Our Products</a></li>
-                                    <li><a href="{{ path('product') }}">Product Single</a></li>
-                                    {#   <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="account.html">Account</a></li>#}
-                                </ul>
-                                <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
 
-                            <li class="dropdown"><a href="">evenement</a>
-                                <ul>
-                                    <li><a href="{{ path('EvenementFront') }}">Evenement</a></li>
-                                    <li><a href="{{ path('EvenementDetailFront') }}">Evenement single</a></li>
-                                </ul>
-                                <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
+                            <li class="dropdown"><a href="{{ path('salleFront') }}">salle</a>
+                            <li class="dropdown"><a href="{{ path('shop') }}">Shop</a>
+
+
+                            <li class="dropdown"><a href="{{ path('EvenementFront') }}">evenement</a>
+                            <li class="dropdown"><a  href="{{ path('article_client_index') }}" >Blog</a>
                             {% if app.user %}
                                 <li><a href="{{ path('app_logout') }}">DeConnect</a></li>
                                 {% else %}
@@ -114,24 +101,16 @@
                             <div class="dropdown-menu pull-right cart-panel" aria-labelledby="dropdownMenu3">
 
                                 <div class="cart-product">
+                                  {#   {% for element in dataPanier %}
                                     <div class="inner">
-                                        <div class="cross-icon"><span class="icon fa fa-remove"></span></div>
-                                        <div class="image"><img src="https://via.placeholder.com/70x70" alt=""></div>
-                                        <h3><a href="shop-single.html">Flying Ninja</a></h3>
-                                        <div class="quantity-text">Quantity 1</div>
-                                        <div class="price">$99.00</div>
+
+                                        <div class="image"><img src="{{ asset('uploads/produit/'~ element.produit.image)}}" alt=""></div>
+                                        <h3><a href="shop-single.html">{{ element.produit.nom }}</a></h3>
+                                        <div class="quantity-text">Quantité : {{ element.quantite }}</div>
+                                        <div class="quantity-text">Prix Unitaire : {{ element.produit.prix }} TND</div>
                                     </div>
-                                </div>
-                                <div class="cart-product">
-                                    <div class="inner">
-                                        <div class="cross-icon"><span class="icon fa fa-remove"></span></div>
-                                        <div class="image"><img src="https://via.placeholder.com/70x70" alt=""></div>
-                                        <h3><a href="shop-single.html">Patient Ninja</a></h3>
-                                        <div class="quantity-text">Quantity 1</div>
-                                        <div class="price">$99.00</div>
-                                    </div>
-                                </div>
-                                <div class="cart-total">Sub Total: <span>$198</span></div>
+
+                                    {% endfor %} #}
                                 <ul class="btns-boxed">
                                     <li><a  href="{{ path('panier') }}">View Cart</a></li>
                                     <li><a href="{{ path('checkout') }}">CheckOut</a></li>
