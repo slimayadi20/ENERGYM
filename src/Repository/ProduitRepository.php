@@ -18,7 +18,12 @@ class ProduitRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Produit::class);
     }
+    public function findallwithpagination()
+    {
+        return $this->createQueryBuilder('v')
+            ->getQuery();
 
+    }
     // /**
     //  * @return Produit[] Returns an array of Produit objects
     //  */

@@ -10,13 +10,13 @@
     <div class="auto-container">
         <div class="clearfix">
             <div class="pull-left">
-                <h2>Our Classes</h2>
+                <h2>Nos salles de sport</h2>
                 <div class="text">Fitness is not a destination it is a way of life.</div>
             </div>
             <div class="pull-right">
                 <ul class="page-breadcrumb">
-                    <li><a href="index.html">home</a></li>
-                    <li>Classess</li>
+                    <li><a href="{{ path('front_office') }}">home</a></li>
+                    <li>Classes</li>
                 </ul>
             </div>
         </div>
@@ -25,114 +25,27 @@
 <section class="classess-page-section">
     <div class="auto-container">
         <div class="row clearfix">
-
+            {% for u in salle %}
             <!-- Classess Block -->
             <div class="classess-block col-lg-4 col-md-6 col-sm-12">
                 <div class="inner-box">
                     <div class="image">
-                        <a href="classes-detail.html"><img src="https://via.placeholder.com/330x220" alt=""></a>
-                        <div class="icon-box">
-                            <span class="icon flaticon-tools-and-utensils-1"></span>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <div class="title">GYM</div>
-                        <h4><a href="classes-detail.html">Psycho Training</a></h4>
-                        <div class="text">Winning means you’re willing to go longer, work harder for more.</div>
-                        <a class="read-more" href="classes-detail.html">Read More</a>
-                    </div>
-                </div>
-            </div>
+                        <a href="{{ path('detailFront', {'id': u.id}) }}"><img src="{{ asset('uploads/salle/'~u.image)}}"  }} alt=""></a>
 
-            <!-- Classess Block -->
-            <div class="classess-block col-lg-4 col-md-6 col-sm-12">
-                <div class="inner-box">
-                    <div class="image">
-                        <a href="classes-detail.html"><img src="https://via.placeholder.com/330x220" alt=""></a>
-                        <div class="icon-box">
-                            <span class="icon flaticon-muscle"></span>
-                        </div>
                     </div>
                     <div class="lower-content">
-                        <div class="title">CARDIO</div>
-                        <h4><a href="classes-detail.html">Self Defence</a></h4>
-                        <div class="text">Don’t practice until you get it right practice until can’t wrong</div>
-                        <a class="read-more" href="classes-detail.html">Read More</a>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Classess Block -->
-            <div class="classess-block col-lg-4 col-md-6 col-sm-12">
-                <div class="inner-box">
-                    <div class="image">
-                        <a href="classes-detail.html"><img src="https://via.placeholder.com/330x220" alt=""></a>
-                        <div class="icon-box">
-                            <span class="icon flaticon-people"></span>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <div class="title">Fitness</div>
-                        <h4><a href="classes-detail.html">FITNESS FOR MAN</a></h4>
-                        <div class="text">Winning means you’re willing to go longer, work harder for more.</div>
-                        <a class="read-more" href="classes-detail.html">Read More</a>
+                        <h4><a href="{{ path('detailFront', {'id': u.id}) }}">{{ u.nom }}</a></h4>
+                        <br>
+                        <a class="read-more" href="{{ path('detailFront', {'id': u.id}) }}">Plus de detail</a>
                     </div>
                 </div>
             </div>
+            {% endfor %}
 
-            <!-- Classess Block -->
-            <div class="classess-block col-lg-4 col-md-6 col-sm-12">
-                <div class="inner-box">
-                    <div class="image">
-                        <a href="classes-detail.html"><img src="https://via.placeholder.com/330x220" alt=""></a>
-                        <div class="icon-box">
-                            <span class="icon flaticon-fitness"></span>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <div class="title">STRENGTH</div>
-                        <h4><a href="classes-detail.html">Strength Training</a></h4>
-                        <div class="text">Winning means you’re willing to go longer, work harder for more.</div>
-                        <a class="read-more" href="classes-detail.html">Read More</a>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Classess Block -->
-            <div class="classess-block col-lg-4 col-md-6 col-sm-12">
-                <div class="inner-box">
-                    <div class="image">
-                        <a href="classes-detail.html"><img src="https://via.placeholder.com/330x220" alt=""></a>
-                        <div class="icon-box">
-                            <span class="icon flaticon-machine"></span>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <div class="title">CARDIO</div>
-                        <h4><a href="classes-detail.html">Cardio For Man</a></h4>
-                        <div class="text">Don’t practice until you get it right practice until can’t wrong</div>
-                        <a class="read-more" href="classes-detail.html">Read More</a>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Classess Block -->
-            <div class="classess-block col-lg-4 col-md-6 col-sm-12">
-                <div class="inner-box">
-                    <div class="image">
-                        <a href="classes-detail.html"><img src="https://via.placeholder.com/330x220" alt=""></a>
-                        <div class="icon-box">
-                            <span class="icon flaticon-gym"></span>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <div class="title">Nutrition</div>
-                        <h4><a href="classes-detail.html">Advance GYM</a></h4>
-                        <div class="text">Winning means you’re willing to go longer, work harder for more.</div>
-                        <a class="read-more" href="classes-detail.html">Read More</a>
-                    </div>
-                </div>
-            </div>
+
 
         </div>
     </div>

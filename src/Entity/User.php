@@ -94,15 +94,19 @@ class User implements UserInterface
     public $confirmPass ;
 
     /**
-     * @ORM\OneToMany(targetEntity=Participation::class, mappedBy="idUser", orphanRemoval=true)
+     * @ORM\OneToOne(targetEntity=Panier::class, mappedBy="user", cascade={"persist", "remove"})
      */
-    private $participations;
+    private $panier;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Panier::class, mappedBy="user")
+     */
+    private $paniers;
 
     public function __construct()
     {
-        $this->participations = new ArrayCollection();
+        $this->paniers = new ArrayCollection();
     }
-
 
     public function getId()
     {
@@ -215,35 +219,54 @@ class User implements UserInterface
         // TODO: Implement getUsername() method.
     }
 
-    /**
-     * @return Collection<int, Participation>
-     */
-    public function getParticipations(): Collection
+    public function getPanier(): ?Panier
     {
-        return $this->participations;
+        return $this->panier;
     }
 
-    public function addParticipation(Participation $participation): self
+    public function setPanier(Panier $panier): self
     {
-        if (!$this->participations->contains($participation)) {
-            $this->participations[] = $participation;
-            $participation->setIdUser($this);
+        // set the owning side of the relation if necessary
+        if ($panier->getUser() !== $this) {
+            $panier->setUser($this);
+        }
+
+        $this->panier = $panier;
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return (string) $this->getEmail();
+    }
+
+    /**
+     * @return Collection<int, Panier>
+     */
+    public function getPaniers(): Collection
+    {
+        return $this->paniers;
+    }
+
+    public function addPanier(Panier $panier): self
+    {
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers[] = $panier;
+            $panier->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeParticipation(Participation $participation): self
+    public function removePanier(Panier $panier): self
     {
-        if ($this->participations->removeElement($participation)) {
+        if ($this->paniers->removeElement($panier)) {
             // set the owning side to null (unless already changed)
-            if ($participation->getIdUser() === $this) {
-                $participation->setIdUser(null);
+            if ($panier->getUser() === $this) {
+                $panier->setUser(null);
             }
         }
 
         return $this;
     }
-
-
 }

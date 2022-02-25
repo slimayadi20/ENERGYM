@@ -20,13 +20,7 @@
                             <thead>
                             <th>Nom</th>
                             <th>Adresse</th>
-                            <th>Numero de Telephone</th>
-                            <th>Adresse Mail</th>
-                            <th>Description</th>
-                            <th>Prix abonnement</th>
-                            <th>Horaire d'ouverture</th>
-                            <th>Horaire de fermeture</th>
-                            <th>Image</th>
+                            <th>Detail</th>
 
 
                             <th>edit</th>
@@ -37,16 +31,11 @@
 
                             <td>{{ u.nom }}</td>
                             <td>{{ u.adresse }}</td>
-                            <td>{{ u.tel }}</td>
-                            <td>{{ u.mail }}</td>
-                            <td>{{ u.description }}</td>
-                            <td>{{ u.prix }}</td>
-                            <td>{{ u.heureo|date('H:i')}}</td>
-                            <td>{{ u.heuref|date('H:i') }}</td>
-                            <td><img src="Dashboard/images/profile.jpg" style="width:10% ; height:0%;"></td>
+                            <td><a href="{{ path('detailsalle',{'id':u.id}) }}"><i class="fa fa-list" style="color:#0eac5c;font-size:20px"></i> </a> </td>
 
 
-                                {# {% if u.date = format_datetime %}
+
+                            {# {% if u.date = format_datetime %}
                                 <button class="btn btn-success rounded-circle-5">hd: 400</button>
                                 <button class="btn btn-danger rounded-circle">hf: 400</button>
 

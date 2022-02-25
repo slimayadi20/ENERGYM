@@ -29,6 +29,7 @@ class Commande
      */
     private $methodePaiement;
 
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,4 +62,6 @@ class Commande
     {
         return (string) $this->getId();
     }
+
+
 }

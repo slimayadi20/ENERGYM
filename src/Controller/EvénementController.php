@@ -133,7 +133,7 @@ class EvénementController extends AbstractController
 
     }
     /**
-     * @Route("/detailEventFront/{id}", name="detailFront")
+     * @Route("/detailEventFront/{id}", name="detailFrontEvent")
      */
     public function detailEventFront(Request $req, $id) {
         $em= $this->getDoctrine()->getManager();
@@ -163,7 +163,6 @@ class EvénementController extends AbstractController
         $Event = $em->getRepository(Evenement::class)->find($id);
 
         //TEST PARTICIPATION:
-        $currentPart =$em->getRepository(Participation::class)->findBy(["idUser"=>$iduser]);
         $currentEvt =$em->getRepository(Participation::class)->findBy(["idEvent"=>$id]);
 
 
@@ -203,6 +202,7 @@ class EvénementController extends AbstractController
         $Participation = $this->getDoctrine()->getManager()->getRepository(Participation::class)->findAll();
 
         return $this->render("evénement/AfficherParticipation.html.twig",array("Participation"=>$Participation));
+
     }
 
 

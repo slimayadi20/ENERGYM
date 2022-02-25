@@ -1,0 +1,7 @@
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+{{ form_row(form.contenu,{'attr': {'class': 'form-control'}} ) }}
+{{ form_row(form.article,{'attr': {'class': 'form-control'}} ) }}
+
+
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

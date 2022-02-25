@@ -4,9 +4,11 @@
 
         <!-- User -->
         <div class="user-box">
+            {% if app.user %}
             <div class="user-img">
-                <img src="{{ asset('Dashboard/images/profile.jpg')  }}" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
+                <img  class="rounded-circle img-thumbnail img-responsive" src="{{ asset('uploads/user/'~ app.user.imageFile)  }}" alt="" width="150">
                 <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>
+                {% endif %}
             </div>
             {% if app.user %}
             <h5><a href="#"> {{ app.user.nom}} {{ app.user.prenom  }}</a> </h5>
@@ -80,7 +82,12 @@
 
                 <li>
                     <a href="{{ path('livraison') }}"class="waves-effect"><i class="mdi mdi-truck-delivery"></i> <span> Livraison </span> </a>
+
                 </li>
+                <li>
+                    <a href="{{ path('article_index') }}"class="waves-effect"><i class="mdi mdi-google-circles-communities"></i> <span> Articles </span> </a>
+
+                     </li>
             </ul>
             <div class="clearfix"></div>
         </div>

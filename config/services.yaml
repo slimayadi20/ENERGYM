@@ -5,7 +5,16 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
 
+    post_images_directory: '%kernel.project_dir%/public/uploads/posts'
+
+    imagesProduct_directory: '%kernel.project_dir%/public/uploads/produit'
+    imagesSalle_directory: '%kernel.project_dir%/public/uploads/salle'
+    imagesUser_directory: '%kernel.project_dir%/public/uploads/user'
+    imagesCour_directory: '%kernel.project_dir%/public/uploads/cour'
+
+
 services:
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
