@@ -14,7 +14,8 @@
                     <div class="card-box table-responsive">
                         <h4 class="m-t-0 header-title">Gestion Des salles </h4>
                         <div>
-                            <a  style=" position:absolute;right:10%;top:3% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addSalle') }}"> <i class="fa fa-plus dark"></i> </a>
+
+                            <a  style=" position:absolute;right:10%;top:1% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addSalle') }}"> <i class="fa fa-plus dark"></i> </a>
                         </div>
                         <table id="datatable" class="table table-bordered">
                             <thead>
@@ -58,6 +59,13 @@
                             {% endfor %}
 
                         </table>
+                        <div class="col-sm-12 col-md-7" >
+                            <div class="dataTables_paginate paging_simple_numbers" id="datatable-buttons_paginate">
+                                <div class="navigation" style="float:right;">
+                                    {{ knp_pagination_render(salle) }}
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>

@@ -1,7 +1,6 @@
 <!-- ========== Left Sidebar Start ========== -->
 <div class="left side-menu">
     <div class="sidebar-inner slimscrollleft">
-
         <!-- User -->
         <div class="user-box">
             {% if app.user %}
@@ -13,7 +12,6 @@
             {% if app.user %}
             <h5><a href="#"> {{ app.user.nom}} {{ app.user.prenom  }}</a> </h5>
             {% endif %}
-
             <ul class="list-inline">
                 <li class="list-inline-item">
                     <a href="{{ path('dashboard') }}" >
@@ -29,7 +27,6 @@
             </ul>
         </div>
         <!-- End User -->
-
         <!--- Sidemenu -->
         <div id="sidebar-menu">
             <ul>
@@ -37,20 +34,18 @@
                 <li>
                     <a  href="{{ path('dashboard') }}" class="waves-effect"><i class="mdi mdi-home"></i> <span> Home </span> </a>
                 </li>
-
-            {#     {% for role in app.user.roles %}
-                {% if role == "ROLE_ADMIN" %} #}
                 <li>
                     <a  href="{{ path('user') }}" class="waves-effect"><i class="mdi mdi-account"></i> <span> User </span> </a>
                 </li>
+                {% for role in app.user.roles %}
+                {% if role == "ROLE_ADMIN" %}
                 <li>
                     <a  href="{{ path('verif') }}" class="waves-effect"><i class="mdi mdi-check"></i> <span> Confirmation </span> </a>
                 </li>
-
-                {#   {% endif %}
-                {% endfor %} #}
+                  {% endif %}
+                {% endfor %}
                 <li>
-                    <a href="{{ path('Profile') }}"class="waves-effect"><i class="mdi mdi-account"></i> <span> Profile </span> </a>
+                    <a href="{{ path('Profile') }}"class="waves-effect"><i class=" mdi mdi-account-settings-variant"></i> <span> Profile </span> </a>
                 </li>
                 <li>
                     <a href="{{ path('reclamation') }}"class="waves-effect"><i class="mdi mdi-book-open"></i> <span> Reclamation </span> </a>
@@ -65,34 +60,28 @@
                 <li>
                     <a href="{{ path('categories') }}"class="waves-effect"><i class="mdi mdi-bookmark"></i> <span> Categories </span> </a>
                 </li>
-<li>
+                <li>
                     <a href="{{ path('cours') }}"class="waves-effect"><i class="ti-receipt"></i> <span> Cours </span> </a>
                 </li>
                 <li>
                     <a href="{{ path('salle') }}"class="waves-effect"><i class="ti-basketball"></i> <span> Salle De Sport </span> </a>
                 </li>
-
-
                 <li>
                     <a href="{{ path('commande') }}"class="waves-effect"><i class="mdi mdi-shopping"></i> <span> Commande </span> </a>
                 </li>
 
                 <li>
                     <a href="{{ path('livraison') }}"class="waves-effect"><i class="mdi mdi-truck-delivery"></i> <span> Livraison </span> </a>
-
                 </li>
                 <li>
                     <a href="{{ path('article_index') }}"class="waves-effect"><i class="mdi mdi-google-circles-communities"></i> <span> Articles </span> </a>
-
-                     </li>
+                </li>
             </ul>
             <div class="clearfix"></div>
         </div>
         <!-- Sidebar -->
         <div class="clearfix"></div>
-
     </div>
-
 </div>
 
 

@@ -24,13 +24,8 @@ class UserFormType extends AbstractType
             ->add('email',EmailType::class)
             ->add('imageFile', FileType::class, [
                 'required' => false,
-            ])
-
-
-        ;
-
+            ]);
     }
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

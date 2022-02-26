@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Entity\Produit;
 use App\Form\ProduitFormType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,30 +11,55 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use App\Repository\ProduitRepository;
 
 class ProduitController extends AbstractController
 {
     /**
      * @Route("/dashboard/produit", name="produit")
      */
-    public function index(): Response
+    public function index( PaginatorInterface $paginator,ProduitRepository $repository , Request $request): Response
     {
-        $produit = $this->getDoctrine()->getRepository(Produit::class)->findAll();
-        return $this->render('produit/index.html.twig', [
-            'controller_name' => 'ProduitController',
-            "produit"=>$produit,
-        ]);
+        $utilisateur = $this->getUser();
+        $utilisateurid = $utilisateur->getId();
+        if(in_array('ROLE_GERANT', $utilisateur->getRoles())){
+            $produit =  $paginator->paginate(
+                $repository->findGerantProduitwithpagination($utilisateurid),
+                $request->query->getInt('page' , 1), // nombre de page
+                1 //nombre limite
+            );
+            return $this->render('produit/index.html.twig', [
+                'controller_name' => 'ProduitController',
+                "produit"=>$produit,
+            ]);
+        }
+        else if(in_array('ROLE_ADMIN', $utilisateur->getRoles())){
+            $produit =  $paginator->paginate(
+                $repository->findallwithpagination(),
+                $request->query->getInt('page' , 1), // nombre de page
+                3 //nombre limite
+            );
+            return $this->render('produit/index.html.twig', [
+                'controller_name' => 'ProduitController',
+                "produit"=>$produit,
+            ]);
+        }
+        return $this->redirectToRoute('dashboard');
+
     }
     /**
      * @Route("/dashboard/addproduit", name="addproduit")
      */
     public function addproduit(Request $request): Response
     {
+        $utilisateur = $this->getUser();
         $produit = new produit();
         $form = $this->createForm(ProduitFormType::class,$produit);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
+            $produit->setUser($utilisateur);
+
             /** @var UploadedFile $imageFile */
             $imageFile = $form->get('image')->getData();
             // this condition is needed because the 'image' field is not required

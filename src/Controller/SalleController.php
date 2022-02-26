@@ -3,12 +3,15 @@
 namespace App\Controller;
 use App\Entity\Salle;
 use App\Form\SalleFormType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use App\Repository\SalleRepository;
 
 
 class SalleController extends AbstractController
@@ -16,14 +19,32 @@ class SalleController extends AbstractController
     /**
      * @Route("/dashboard/salle", name="salle")
      */
-    public function index(): Response
+    public function index( Session $session, PaginatorInterface $paginator,SalleRepository $repository , Request $request): Response
     {
-
-        $salle = $this->getDoctrine()->getRepository(salle::class)->findAll();
+        $utilisateur = $this->getUser();
+        $utilisateurid = $utilisateur->getId();
+         if(in_array('ROLE_GERANT', $utilisateur->getRoles())){
+        $salle =  $paginator->paginate(
+            $repository->findGerantSallewithpagination($utilisateurid),
+            $request->query->getInt('page' , 1), // nombre de page
+            1 //nombre limite
+        );
         return $this->render('salle/index.html.twig', [
-            'controller_name' => 'SalleController',
             "salle" => $salle,
         ]);
+    }
+    else if(in_array('ROLE_ADMIN', $utilisateur->getRoles())){
+        $salle =  $paginator->paginate(
+            $repository->findallwithpagination(),
+            $request->query->getInt('page' , 1), // nombre de page
+            3 //nombre limite
+        );
+        return $this->render('salle/index.html.twig', [
+            "salle" => $salle,
+        ]);
+    }
+        return $this->redirectToRoute('dashboard');
+
     }
     /**
      * @Route("/salleFront", name="salleFront")
@@ -55,6 +76,7 @@ class SalleController extends AbstractController
      */
     public function addSalle(Request $request): Response
     {
+        $utilisateur = $this->getUser();
         $salle= new salle();
         $form = $this->createForm(SalleFormType::class,$salle);
         $form->handleRequest($request);
@@ -77,6 +99,7 @@ class SalleController extends AbstractController
                 // updates the 'product' property to store the image file name
                 // instead of its contents
                 $salle->setImage($fileName);
+                $salle->addUser($utilisateur);
             }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($salle);

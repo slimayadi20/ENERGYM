@@ -18,7 +18,20 @@ class CategoriesRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Categories::class);
     }
+    public function findallwithpagination()
+    {
+        return $this->createQueryBuilder('v')
+            ->getQuery();
 
+    }
+    public function findGerantCategorieswithpagination($utilisateurid)
+    {
+        return $this->createQueryBuilder('v')
+            ->Where(' v.user in (:id) ')
+            ->setParameter('id',$utilisateurid)
+            ->getQuery();
+
+    }
     // /**
     //  * @return Categories[] Returns an array of Categories objects
     //  */

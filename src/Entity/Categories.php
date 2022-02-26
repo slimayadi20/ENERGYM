@@ -41,6 +41,12 @@ class Categories
      */
     private $nomProduit;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="CategorieProduit")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     public function __construct()
     {
         $this->produits = new ArrayCollection();
@@ -120,5 +126,17 @@ class Categories
     public function __toString()
     {
         return (string) $this->getNom();
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }

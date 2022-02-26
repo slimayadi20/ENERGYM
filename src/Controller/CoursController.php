@@ -3,25 +3,47 @@
 namespace App\Controller;
 use App\Entity\Cours;
 use App\Form\CoursFormType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use App\Repository\CoursRepository;
+use App\Repository\SalleRepository;
 
 class CoursController extends AbstractController
 {
     /**
      * @Route("/dashboard/cours", name="cours")
      */
-    public function index(): Response
+    public function index( PaginatorInterface $paginator,SalleRepository $repositorySalle ,CoursRepository $repository , Request $request): Response
     {
-        $cours = $this->getDoctrine()->getRepository(cours::class)->findAll();
-        return $this->render('cours/index.html.twig', [
-            'controller_name' => 'CoursController',
-            "cours" => $cours,
-        ]);
+        $utilisateur = $this->getUser();
+        $idSalle = $utilisateur->getIdSalle();
+        if(in_array('ROLE_GERANT', $utilisateur->getRoles())){
+            $cours =  $paginator->paginate(
+                $repository->findCoursGerantwithpagination($idSalle),
+                $request->query->getInt('page' , 1), // nombre de page
+                3 //nombre limite
+            );
+            return $this->render('cours/index.html.twig', [
+                "cours" => $cours,
+            ]);
+        }
+        else if(in_array('ROLE_ADMIN', $utilisateur->getRoles())){
+            $cours =  $paginator->paginate(
+                $repository->findallwithpagination(),
+                $request->query->getInt('page' , 1), // nombre de page
+                3 //nombre limite
+            );
+            return $this->render('cours/index.html.twig', [
+                "cours" => $cours,
+            ]);
+        }
+        return $this->redirectToRoute('dashboard');
+
     }
 
     /**
@@ -70,7 +92,6 @@ class CoursController extends AbstractController
     public function modifyCours(Request $request, int $id): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-
         $cours = $entityManager->getRepository(cours::class)->find($id);
         $form = $this->createForm(CoursFormType::class, $cours);
         $form->handleRequest($request);

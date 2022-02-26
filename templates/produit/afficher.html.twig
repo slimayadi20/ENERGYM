@@ -14,7 +14,7 @@
                     <div class="card-box table-responsive">
                         <h4 class="m-t-0 header-title">Gestion de Produit </h4>
                         <div>
-                            <a  style=" position:absolute;right:10%;top:3% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addproduit') }}"> <i class="fa fa-plus dark"></i> </a>
+                            <a  style=" position:absolute;right:10%;top:1% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addproduit') }}"> <i class="fa fa-plus dark"></i> </a>
                         </div>
                         <table id="datatable" class="table table-bordered">
                             <thead>
@@ -26,7 +26,6 @@
                             <th>categories</th>
                             <th>edit</th>
                             <th>delete</th>
-
                             </thead>
                             <tbody>
                             {% for p in produit %}
@@ -41,7 +40,6 @@
 
 
 
-
                             <td>
                                 <a type="button" href="{{ path('modifyproduit', {'id': p.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
                             </td>
@@ -52,11 +50,25 @@
                                     <button type="submit" value="supprimer" class="btn btn-danger btn-icon  rounded-pill"><i class="  ti-trash"></i></button>
                                 </form>
                             </td>
+                            </tbody>
 
                             {% endfor %}
 
                         </table>
-
+                        <div class="row">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="datatable-buttons_info" role="status" aria-live="polite">
+                                    Showing 1 to {{ produit|length }} entries
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-7" >
+                                <div class="dataTables_paginate paging_simple_numbers" id="datatable-buttons_paginate">
+                                    <div class="navigation" style="float:right;">
+                                        {{ knp_pagination_render(produit) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

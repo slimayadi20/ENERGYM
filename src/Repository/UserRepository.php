@@ -25,11 +25,13 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->getQuery();
 
     }
-    public function findUserGerantwithpagination()
+    public function findUserGerantwithpagination($SalleId)
     {
         return $this->createQueryBuilder('v')
             ->where('v.roles IN  (:string)')
+            ->andWhere(':id MEMBER OF v.IdSalle')
             ->setParameter('string', array('ROLE_USER'), \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
+            ->setParameter('id',$SalleId)
             ->getQuery();
 
     }

@@ -70,6 +70,12 @@ class Produit
      * @ORM\JoinColumn(nullable=false)
      */
     private $categories;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="Products")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
     public function getId(): ?int
     {
         return $this->id;
@@ -151,5 +157,17 @@ class Produit
     public function __toString()
     {
         return (string) $this->getCategories();
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }

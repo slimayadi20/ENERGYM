@@ -24,6 +24,14 @@ class ProduitRepository extends ServiceEntityRepository
             ->getQuery();
 
     }
+    public function findGerantProduitwithpagination($utilisateurid)
+    {
+        return $this->createQueryBuilder('v')
+            ->Where(' v.user in (:id) ')
+            ->setParameter('id',$utilisateurid)
+            ->getQuery();
+
+    }
     // /**
     //  * @return Produit[] Returns an array of Produit objects
     //  */
