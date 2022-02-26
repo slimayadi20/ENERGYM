@@ -23,7 +23,9 @@ class GerantFormType extends AbstractType
             ->add('confirmPass',PasswordType::class)
             ->add('password',PasswordType::class)
             ->add('email')
+            ->add('Submit',SubmitType::class)
             ->add('imageFile', FileType::class, [
+
                 'label' => 'Image (image file)',
 
                 // unmapped means that this field is not associated to any entity property

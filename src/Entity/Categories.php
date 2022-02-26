@@ -26,7 +26,6 @@ class Categories
     }
     /**
      * @Assert\NotBlank(message="Le nom doit etre non vide")
-     * @Assert\Type(type="alpha", message="Le nom ne doit pas contenir des chiffres .")
      * @Assert\Length(
      *      max = 30,
      *      maxMessage=" Très long !"

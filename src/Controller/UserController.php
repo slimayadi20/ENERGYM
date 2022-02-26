@@ -33,6 +33,11 @@ class UserController extends AbstractController
 
         $utilisateur = $this->getUser();
         $SalleId= $utilisateur->getIdSalle() ;
+        $users =  $paginator->paginate(
+            $repository->findallwithpagination(),
+            $request->query->getInt('page' , 1), // nombre de page
+            2 //nombre limite
+        );
 
         if(!$utilisateur)
         {
@@ -192,6 +197,49 @@ class UserController extends AbstractController
             "f" => $form->createView(),
         ]);
     }
+    /**
+     * @Route("/front/modifyUser/{id}", name="modifyUserFront")
+     */
+    public function modifyUserFront(Request $request, int $id, Session $session, UserPasswordEncoderInterface $encoder)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $user = $this->getUser();
+        $form = $this->createForm(GerantFormType::class, $user);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form->get('imageFile')->getData();
+            // this condition is needed because the 'image' field is not required
+
+            if ($imageFile) {
+                // generate new name to the file image with the function generateUniqueFileName
+                $fileName = $this->generateUniqueFileName().'.'.$imageFile->guessExtension();
+
+                // moves the file to the directory where products are stored
+                $imageFile->move(
+                    $this->getParameter('imagesUser_directory'),
+                    $fileName
+                );
+
+                // updates the 'product' property to store the image file name
+                // instead of its contents
+                $user->setImagefile($fileName);
+            }
+            $passwordcrypt = $encoder->encodePassword($user,$user->getPassword());
+            $user->setPassword($passwordcrypt);
+            $entityManager->flush();
+            $this->addFlash('success' , 'L"action a été effectué');
+            return $this->redirectToRoute("front_office");
+        }
+
+        return $this->render("user/modifierUserFront.html.twig", [
+            "form_title" => "Modifier un user",
+            "f" => $form->createView(),
+        ]);
+    }
 
     /**
      * @Route("/dashboard/Profile", name="Profile")
@@ -202,6 +250,20 @@ class UserController extends AbstractController
         $user = $this->getUser();
 
         return $this->render('user/profile.html.twig', [
+            'controller_name' => 'UserController',
+            'user'=>$user
+
+        ]);
+    }
+    /**
+     * @Route("/dashboard/AfficherProfileFront", name="AfficherProfileFront")
+     */
+    public function AfficherProfileFront( Session $session)
+    {
+        // $users = $this->getDoctrine()->getRepository(User::class)->find();
+        $user = $this->getUser();
+
+        return $this->render('user/AfficherProfileFront.html.twig', [
             'controller_name' => 'UserController',
             'user'=>$user
 

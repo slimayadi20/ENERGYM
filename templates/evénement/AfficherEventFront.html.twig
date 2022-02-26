@@ -34,101 +34,28 @@
                 <div class="blog-classic">
 
                     <!-- News Block Three -->
+                    {% for e in Evenement %}
                     <div class="news-block-three">
                         <div class="inner-box">
+
                             <div class="image">
-                                <a href="blog-single.html"><img src="https://via.placeholder.com/770x420" alt="" /></a>
+
+                                 <img class="card-img-top img-fluid" src="{{ asset('uploads/Event_image/' )~e.image  }}" alt="Card image cap" >
                             </div>
                             <div class="lower-content">
                                 <ul class="post-meta">
-                                    <li><span class="icon flaticon-folder"></span> GYM</li>
-                                    <li><span class="icon flaticon-user-1"></span> By Jone Ankar</li>
-                                    <li><span class="icon flaticon-comment-1"></span> 02</li>
-                                    <li><span class="icon flaticon-calendar-1"></span> 01.02.2012</li>
+                                    <li><span class="icon flaticon-map"></span> {{ e.LieuEvent }}</li>
+                                    <li><span class="icon flaticon-user-1"></span>  {{ e.NbrParticipantsEvent }}</li>
+                                    <li><span class="icon flaticon-calendar-1"></span> {{ e.DateEvent | date('Y-m-d')}}</li>
                                 </ul>
-                                <h3><a href="blog-single.html">Push your Fitness Further with Our GYM Facilities</a></h3>
-                                <div class="text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudanm, totam rem aperiam, eaque ipsa quae ab illo inventore.</div>
-                                <a class="read-more" href="blog-single.html">Read More</a>
+                                <h3><a href="blog-single.html">{{ e.NomEvent }}</a></h3>
+                                <div class="text">{{ e.DescriptionEvent }}</div>
+                                <a class="read-more" href="{{ path('detailFrontEvent',{'id':e.id}) }}">Read More</a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- News Block Four -->
-                    <div class="news-block-four">
-                        <div class="inner-box" style="background-image:url(images/background/pattern-12.png)">
-                            <h3><a href="blog-single.html">What an Amazing Trainning Class! <br> Excellent Mentor, Great Caew</a></h3>
-                            <div class="designation">GYM Member <span>Matie Simms Junior</span></div>
-                        </div>
-                    </div>
-
-                    <!-- News Block Three -->
-                    <div class="news-block-three">
-                        <div class="inner-box">
-                            <div class="image">
-                                <a href="blog-single.html"><img src="https://via.placeholder.com/770x420" alt="" /></a>
-                            </div>
-                            <div class="lower-content">
-                                <ul class="post-meta">
-                                    <li><span class="icon flaticon-folder"></span> GYM</li>
-                                    <li><span class="icon flaticon-user-1"></span> By Jone Ankar</li>
-                                    <li><span class="icon flaticon-comment-1"></span> 02</li>
-                                    <li><span class="icon flaticon-calendar-1"></span> 01.02.2012</li>
-                                </ul>
-                                <h3><a href="blog-single.html">How to keep your Body Health in Over Festival</a></h3>
-                                <div class="text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudanm, totam rem aperiam, eaque ipsa quae ab illo inventore.</div>
-                                <a class="read-more" href="blog-single.html">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- News Block Three -->
-                    <div class="news-block-three">
-                        <div class="inner-box">
-                            <div class="single-item-carousel owl-carousel owl-theme">
-                                <div class="image">
-                                    <a href="blog-single.html"><img src="https://via.placeholder.com/770x420" alt="" /></a>
-                                </div>
-                                <div class="image">
-                                    <a href="blog-single.html"><img src="https://via.placeholder.com/770x420" alt="" /></a>
-                                </div>
-                                <div class="image">
-                                    <a href="blog-single.html"><img src="https://via.placeholder.com/770x420" alt="" /></a>
-                                </div>
-                            </div>
-                            <div class="lower-content">
-                                <ul class="post-meta">
-                                    <li><span class="icon flaticon-folder"></span> GYM</li>
-                                    <li><span class="icon flaticon-user-1"></span> By Jone Ankar</li>
-                                    <li><span class="icon flaticon-comment-1"></span> 02</li>
-                                    <li><span class="icon flaticon-calendar-1"></span> 01.02.2012</li>
-                                </ul>
-                                <h3><a href="blog-single.html">Fitness a Boost with our GYM Challenge</a></h3>
-                                <div class="text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudanm, totam rem aperiam, eaque ipsa quae ab illo inventore.</div>
-                                <a class="read-more" href="blog-single.html">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- News Block Three -->
-                    <div class="news-block-three">
-                        <div class="inner-box">
-                            <div class="image">
-                                <a href="blog-single.html"><img src="https://via.placeholder.com/770x420" alt="" /></a>
-                                <a href="https://www.youtube.com/watch?v=kxPCFljwJws" class="lightbox-image overlay-box"><span class="icon flaticon-play-arrow"><i class="ripple"></i></span></a>
-                            </div>
-                            <div class="lower-content">
-                                <ul class="post-meta">
-                                    <li><span class="icon flaticon-folder"></span> GYM</li>
-                                    <li><span class="icon flaticon-user-1"></span> By Jone Ankar</li>
-                                    <li><span class="icon flaticon-comment-1"></span> 02</li>
-                                    <li><span class="icon flaticon-calendar-1"></span> 01.02.2012</li>
-                                </ul>
-                                <h3><a href="blog-single.html">How to Modify any Program to Improve Weakness</a></h3>
-                                <div class="text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudanm, totam rem aperiam, eaque ipsa quae ab illo inventore.</div>
-                                <a class="read-more" href="blog-single.html">Read More</a>
-                            </div>
-                        </div>
-                    </div>
+                   {% endfor %}
 
                     <!-- Post Share Options -->
                     <div class="pagination-outer text-center">
@@ -169,12 +96,11 @@
                         </div>
                         <div class="widget-content">
                             <ul class="blog-cat">
-                                <li><a href="#">FITNESS <span>( 24 )</span></a></li>
-                                <li><a href="#">HEALTH  <span>( 03 )</span></a></li>
-                                <li><a href="#">LIFESTYLE <span>( 01 )</span></a></li>
-                                <li><a href="#">NUTRITION <span>( 02 )</span></a></li>
-                                <li><a href="#">SPORT SCIENCE <span>( 10 )</span></a></li>
-                                <li><a href="#">TRAINING PROGRAM <span>( 02 )</span></a></li>
+                                {% for c in CategoriesEvent %}
+                                <li><a href="{{ path('ShowEvents',{'id':c.id}) }}">{{ c.nomCategorie}} </a></li>
+                                {% endfor %}
+                               {#} <li><a href="#">HEALTH  <span>( 03 )</span></a></li> {#}
+
                             </ul>
                         </div>
                     </div>

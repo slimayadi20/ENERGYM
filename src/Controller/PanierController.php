@@ -22,35 +22,37 @@ class PanierController extends AbstractController
      */
     public function index(SessionInterface $session, ProduitRepository $produitRepository): Response
     {
-        $panier = $session->get("panier", []);
-        $uid = $this->getUser()->getId();
-        $panierUser =$this->getUser()->getPanier($uid);
-        // On "fabrique" les données
-        $dataPanier = [];
-        $total = 0;
-        if (!$panierUser)
-        {
-            //print_r($panier);
-            return $this->render('panier/index.html.twig', compact("dataPanier", "total"));
+        $connecte = $this->getUser();
+        if ($connecte) {
+            $panier = $session->get("panier", []);
+            $uid = $this->getUser()->getId();
+            $panierUser = $this->getUser()->getPanier($uid);
+            // On "fabrique" les données
+            $dataPanier = [];
+            $total = 0;
+            if (!$panierUser) {
+                //print_r($panier);
+                return $this->render('panier/index.html.twig', compact("dataPanier", "total"));
+            } else {
+                $entityManager = $this->getDoctrine()->getManager();
+                $monPanier = $entityManager->getRepository(Panier::class)->loadPanierByUserId($uid);
+                $p = $monPanier->getUserPanier();
+                $a = array_column($p, 'id');
+                foreach ($p as $a => $quantite) {
+                    $product = $produitRepository->find($a);
+                    $dataPanier[] = [
+                        "produit" => $product,
+                        "quantite" => $quantite
+                    ];
+                    $total += $product->getPrix() * $quantite;
+
+                    //print_r($panier);
+                }
+            }
+
+            return $this->render('panier/index.html.twig', compact("dataPanier", "total", "monPanier"));
         }
-        else
-        {
-        $entityManager = $this->getDoctrine()->getManager();
-        $monPanier = $entityManager->getRepository(Panier::class)->loadPanierByUserId($uid);
-        $p= $monPanier->getUserPanier();
-        $a=array_column($p,'id');
-        foreach($p as $a => $quantite){
-            $product = $produitRepository->find($a);
-            $dataPanier[] = [
-                "produit" => $product,
-                "quantite" => $quantite
-            ];
-            $total += $product->getPrix() * $quantite;
-
-            //print_r($panier);
-        }}
-
-        return $this->render('panier/index.html.twig', compact("dataPanier", "total","monPanier" ));
+        return $this->redirectToRoute('connectez');
     }
 
     /**
@@ -178,5 +180,13 @@ class PanierController extends AbstractController
 
 
         return $this->redirectToRoute("panier");
+    }
+    /**
+     * @Route("/connectez", name="connectez")
+     */
+    public function ParticipationEffectue(): Response
+    {
+        return $this->render('panier/connectez.html.twig', [
+        ]);
     }
 }

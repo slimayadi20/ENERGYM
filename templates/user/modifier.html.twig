@@ -77,7 +77,8 @@
                                                 </div>
                                             </div>
                                             <a class="btn btn-primary" href="{{ path('user') }}">Retour</a>
-                                            <input type="submit" value="Modifier"   class="btn btn-success" >
+                                            {{ form_widget(f.Submit,{'attr':{'class':'btn btn-success'}}) }}
+
                                             {{ form_end(f) }}
                                         </form>
                                     </div>
