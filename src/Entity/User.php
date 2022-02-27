@@ -98,9 +98,15 @@ class User implements UserInterface
      */
     private $reclamations;
 
+    /**
+     * @ORM\OneToMany(targetEntity=SalleLike::class, mappedBy="user")
+     */
+    private $likes;
+
     public function __construct()
     {
         $this->reclamations = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     public function getId()
@@ -238,6 +244,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($reclamation->getNomUser() === $this) {
                 $reclamation->setNomUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SalleLike>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(SalleLike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(SalleLike $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getUser() === $this) {
+                $like->setUser(null);
             }
         }
 

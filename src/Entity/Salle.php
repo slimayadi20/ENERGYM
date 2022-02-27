@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Serializer\Annotation\Groups ;
 use App\Repository\SalleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=SalleRepository::class)
+ *
  */
 class Salle
 {
@@ -17,19 +18,21 @@ class Salle
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      *@Assert\NotBlank
-
+     *@Groups("post:read")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=500)
      * @Assert\NotBlank
+     * @Groups("post:read")
      */
     private $adresse;
 
@@ -37,6 +40,7 @@ class Salle
      * @ORM\Column(type="bigint")
      * @Assert\NotBlank
      * @Assert\Positive(message="le numero doit etre positif")
+     * @Groups("post:read")
      * @Assert\Length(
      *      min = 8,
      *      max = 8,
@@ -51,6 +55,7 @@ class Salle
      * @Assert\Email(
      *     message = "cette adresse ( '{{ value }}' ) n'est pas valide."
      * )
+     * @Groups("post:read")
      */
 
     private $mail;
@@ -58,6 +63,7 @@ class Salle
     /**
      * @ORM\Column(type="string", length=500)
      * @Assert\NotBlank
+     * @Groups("post:read")
      */
     private $description;
 
@@ -65,34 +71,39 @@ class Salle
      * @ORM\Column(type="integer")
      * @Assert\NotBlank
      * @Assert\Positive(message="le prix doit etre positif")
+     * @Groups("post:read")
      */
     private $prix1;
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank
      * @Assert\Positive(message="le prix doit etre positif")
+     * @Groups("post:read")
      */
     private $prix2;
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank
      * @Assert\Positive(message="le prix doit etre positif")
+     * @Groups("post:read")
      */
     private $prix3;
 
     /**
      * @ORM\Column(type="time")
-
+     * @Groups("post:read")
      */
     private $heureo;
 
     /**
      * @ORM\Column(type="time")
+     * @Groups("post:read")
      */
     private $heuref;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $image;
 
@@ -101,11 +112,17 @@ class Salle
      */
     private $cours;
 
+    /**
+     * @ORM\OneToMany(targetEntity=SalleLike::class, mappedBy="salle")
+     */
+    private $likes;
+
 
 
     public function __construct()
     {
         $this->cours = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
 
@@ -281,4 +298,46 @@ class Salle
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, SalleLike>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(SalleLike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setSalle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(SalleLike $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getSalle() === $this) {
+                $like->setSalle(null);
+            }
+        }
+
+        return $this;
+    }
+    /**
+     * @param User $user
+     * @return boolean
+     */
+    public function isLikedByUser(user $user) : bool
+    {
+        foreach($this->likes as $like){
+            if ($like->getUser() === $user) return true;
+        }
+        return false;
+    }
+
 }

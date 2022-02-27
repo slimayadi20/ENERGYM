@@ -2,13 +2,19 @@
 
 namespace App\Controller;
 use App\Entity\Salle;
+use App\Entity\SalleLike;
 use App\Form\SalleFormType;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use App\Repository\SalleLikeRepository;
+
+
 
 
 class SalleController extends AbstractController
@@ -189,6 +195,39 @@ class SalleController extends AbstractController
         return md5(uniqid());
     }
     // fonction qui generer un identifiant unique pour chaque image
+
+    /**
+     * @route ("/salleFront/{id}/like",name="Salle_like")
+     * @param SalleLikeRepository $likeRepo
+     */
+    public function like(Salle $salle,SalleLikeRepository $likeRepo): Response
+    {
+        $user = $this->getUser();
+        if (!$user)
+            return $this->redirectToRoute("salleFront");
+        if ($salle->isLikedByUser($user)) {
+            $like = $likeRepo->findOneBy([
+                'salle' => $salle,
+                'user' => $user]);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($like);
+            $entityManager->flush();
+
+            return $this->redirectToRoute("salleFront");
+
+        }
+        $like = new SalleLike();
+        $like->setSalle($salle)
+            ->setUser($user);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($like);
+        $entityManager->flush();
+        $response = new JsonResponse();
+        return $this->redirectToRoute("salleFront");
+    }
+
+
+
 
 
 }

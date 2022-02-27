@@ -9,7 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
-
+use Dompdf\Dompdf;
+use Dompdf\Options;
 class CoursController extends AbstractController
 {
     /**
@@ -148,6 +149,7 @@ class CoursController extends AbstractController
 
 
     }
+
     // fonction qui generer un identifiant unique pour chaque image
     /**
      * @return string
@@ -159,7 +161,6 @@ class CoursController extends AbstractController
         return md5(uniqid());
     }
     // fonction qui generer un identifiant unique pour chaque image
-
 
 
 
