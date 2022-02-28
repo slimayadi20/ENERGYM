@@ -38,7 +38,11 @@
                                 <span class="badge badge-success badge-pill">Traitée</span>
                                 {% endif %}
                             </td>
+                            {% if r.NomUser.email == null %}
+                            <td></td>
+                            {% else %}
                             <td>{{ r.NomUser.email }}</td>
+                            {% endif %}
                             <td>
                                 <a type="button" href="{{ path('reply', {'id': r.id}) }}"  class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
                             </td>

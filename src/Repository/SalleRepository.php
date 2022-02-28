@@ -28,9 +28,7 @@ class SalleRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('v')
             ->Where(':id MEMBER OF v.users')
-            ->setParameter('id',$utilisateurid)
-            ->getQuery();
-
+            ->setParameter('id',$utilisateurid);
     }
     // /**
     //  * @return Salle[] Returns an array of Salle objects

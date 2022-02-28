@@ -4,15 +4,18 @@ namespace App\Controller;
 
 use App\Entity\Categories;
 use App\Entity\Produit;
+use App\Entity\User;
 use App\Form\CategoriesFormType;
 use App\Form\ProduitFormType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\CategoriesRepository;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class CategoriesController extends AbstractController
 {
     /**
@@ -73,10 +76,25 @@ class CategoriesController extends AbstractController
         ]);
     }
     /**
-     * @Route("/dashboard/modifyCategories/{id}", name="modifyCategories")
+     * @Route("/dashboard/modifyCategories/{id}/{idU}/", name="modifyCategories")
+     * @ParamConverter("Categories", options={"mapping": {"id" : "id"}})
+     * @ParamConverter("UserA", options={"mapping": {"idU"   : "id"}})
+     * @Template()
      */
-    public function modifyCategories(Request $request, int $id): Response
+    public function modifyCategories(Categories $categ,User $UserA,Request $request,  Session $session ): Response
     {
+        $entityManager = $this->getDoctrine()->getManager();
+        $id = $categ->getId();
+        $idUser = $UserA->getId();
+        $user = $this->getUser();
+
+        if($user->getId() != $idUser )
+        {
+            $this->addFlash('error' , 'You cant edit anotherone');
+            $session->set("message", "Vous ne pouvez pas modifier cette salle");
+            return $this->redirectToRoute('categories');
+
+        }
         $entityManager = $this->getDoctrine()->getManager();
 
         $Categories = $entityManager->getRepository(Categories::class)->find($id);

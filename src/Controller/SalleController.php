@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use App\Entity\Salle;
+use App\Entity\User;
 use App\Form\SalleFormType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,7 +13,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Repository\SalleRepository;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class SalleController extends AbstractController
 {
@@ -27,7 +29,7 @@ class SalleController extends AbstractController
         $salle =  $paginator->paginate(
             $repository->findGerantSallewithpagination($utilisateurid),
             $request->query->getInt('page' , 1), // nombre de page
-            1 //nombre limite
+            3//nombre limite
         );
         return $this->render('salle/index.html.twig', [
             "salle" => $salle,
@@ -114,16 +116,34 @@ class SalleController extends AbstractController
         ]);
     }
     /**
-     * @Route("/dashboard/modifySalle/{id}", name="modifySalle")
+     * @Route("/dashboard/modifySalle/{id}/{idU}/", name="modifySalle")
+     * @ParamConverter("Salle", options={"mapping": {"id" : "id"}})
+     * @ParamConverter("UserA", options={"mapping": {"idU"   : "id"}})
+     * @Template()
      */
-    public function modifySalle(Request $request, int $id): Response
+    public function modifySalle(Salle $salle,User $UserA,Request $request,  Session $session): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
+        $id = $salle->getId();
+        $idUser = $UserA->getId();
+        $user = $this->getUser();
 
+        if($user->getId() != $idUser )
+        {
+            $this->addFlash('error' , 'You cant edit anotherone');
+            $session->set("message", "Vous ne pouvez pas modifier cette salle");
+            return $this->redirectToRoute('salle');
+
+        }
         $salle = $entityManager->getRepository(salle::class)->find($id);
         $form = $this->createForm(SalleFormType::class, $salle);
         $form->handleRequest($request);
-
+       /* print_r("***********************");
+        print_r($id);
+        print_r("***********************");
+        print_r($idUser);
+        print_r("***********************");
+        print_r($user->getId());*/
         if($form->isSubmitted() && $form->isValid())
         {
             /** @var UploadedFile $imageFile */
@@ -153,6 +173,7 @@ class SalleController extends AbstractController
             "form_title" => "Modifier une salle",
             "form_salle" => $form->createView(),
         ]);
+
     }
     /**
      * @Route("/dashboard/deleteSalle/{id}", name="deleteSalle")

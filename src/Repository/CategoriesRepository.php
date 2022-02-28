@@ -28,8 +28,7 @@ class CategoriesRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('v')
             ->Where(' v.user in (:id) ')
-            ->setParameter('id',$utilisateurid)
-            ->getQuery();
+            ->setParameter('id',$utilisateurid);
 
     }
     // /**

@@ -131,6 +131,19 @@ class User implements UserInterface
      */
     private $CategorieProduit;
 
+    /**
+     * @var string
+     * @ORM\Column(name="phone", type="string", length=255, nullable=false)
+     */
+    protected $phoneNumber;
+
+    public function getPhoneNumber() {
+        return $this->phoneNumber;
+    }
+    public function setPhoneNumber($phoneNumber) {
+        $this->phoneNumber = $phoneNumber;
+        return $this;
+    }
     public function getCaptchaCode()
     {
         return $this->captchaCode;
@@ -416,4 +429,6 @@ class User implements UserInterface
 
         return $this;
     }
+
+
 }

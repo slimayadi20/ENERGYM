@@ -9,6 +9,11 @@
                     {{ message }}
                 </div>
             {% endfor %}
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
             <div class="row">
                 <div class="col-12">
                     <div class="card-box table-responsive">
@@ -29,7 +34,7 @@
 
                             <td>{{ p.nom }}</td>
                             <td>
-                                <a type="button" href="{{ path('modifyCategories', {'id': p.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
+                                <a type="button" href="{{ path('modifyCategories', {'id': p.id, 'idU' : p.user.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
                             </td>
                             <td>
                                 <form method="post" action="{{ path('deleteCategories', {'id': p.id}) }}"  onsubmit="return confirm('Voulez vous supprimer cette Categories ?')">

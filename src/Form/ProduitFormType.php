@@ -3,14 +3,23 @@
 namespace App\Form;
 
 use App\Entity\Produit;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints\File;
+use App\Repository\CategoriesRepository;
 
 class ProduitFormType extends AbstractType
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -41,7 +50,18 @@ class ProduitFormType extends AbstractType
                     ])
                 ],
             ])
-            ->add('categories')
+            ->add('categories', EntityType::class, [
+                'class'         => 'App\Entity\Categories',
+                'query_builder' => function(CategoriesRepository $repository) {
+                    $user = $this->security->getUser()->getId();
+                    $categ=$repository->findGerantCategorieswithpagination($user) ;
+                    return $categ ;
+                },
+                'required'=> true
+
+            ])
+
+
 
         ;
     }

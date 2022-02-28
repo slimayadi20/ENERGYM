@@ -23,6 +23,7 @@ class GerantFormType extends AbstractType
             ->add('confirmPass',PasswordType::class)
             ->add('password',PasswordType::class)
             ->add('email')
+            ->add('phoneNumber')
             ->add('Submit',SubmitType::class)
             ->add('imageFile', FileType::class, [
 

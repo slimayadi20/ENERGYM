@@ -2,17 +2,20 @@
 
 namespace App\Controller;
 use App\Entity\Cours;
+use App\Entity\User;
 use App\Form\CoursFormType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Repository\CoursRepository;
 use App\Repository\SalleRepository;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class CoursController extends AbstractController
 {
     /**
@@ -87,10 +90,25 @@ class CoursController extends AbstractController
         ]);
     }
     /**
-     * @Route("/dashboard/modifyCours/{id}", name="modifyCours")
+     * @Route("/dashboard/modifyCours/{id}/{idU}/", name="modifyCours")
+     * @ParamConverter("Cours", options={"mapping": {"id" : "id"}})
+     * @ParamConverter("UserA", options={"mapping": {"idU"   : "id"}})
+     * @Template()
      */
-    public function modifyCours(Request $request, int $id): Response
+    public function modifyCours(Cours $cour,User $UserA,Request $request,  Session $session): Response
     {
+        $entityManager = $this->getDoctrine()->getManager();
+        $id = $cour->getId();
+        $idUser = $UserA->getId();
+        $user = $this->getUser();
+
+        if($user->getId() != $idUser )
+        {
+            $this->addFlash('error' , 'You cant edit anotherone');
+            $session->set("message", "Vous ne pouvez pas modifier cette salle");
+            return $this->redirectToRoute('cours');
+
+        }
         $entityManager = $this->getDoctrine()->getManager();
         $cours = $entityManager->getRepository(cours::class)->find($id);
         $form = $this->createForm(CoursFormType::class, $cours);

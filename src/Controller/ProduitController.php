@@ -2,17 +2,20 @@
 
 namespace App\Controller;
 use App\Entity\Produit;
+use App\Entity\User;
 use App\Form\ProduitFormType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Repository\ProduitRepository;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class ProduitController extends AbstractController
 {
     /**
@@ -26,7 +29,7 @@ class ProduitController extends AbstractController
             $produit =  $paginator->paginate(
                 $repository->findGerantProduitwithpagination($utilisateurid),
                 $request->query->getInt('page' , 1), // nombre de page
-                1 //nombre limite
+                3 //nombre limite
             );
             return $this->render('produit/index.html.twig', [
                 'controller_name' => 'ProduitController',
@@ -92,10 +95,25 @@ class ProduitController extends AbstractController
         ]);
     }
     /**
-     * @Route("/dashboard/modifyproduit/{id}", name="modifyproduit")
+     * @Route("/dashboard/modifyproduit/{id}/{idU}/", name="modifyproduit")
+     * @ParamConverter("Produit", options={"mapping": {"id" : "id"}})
+     * @ParamConverter("UserA", options={"mapping": {"idU"   : "id"}})
+     * @Template()
      */
-    public function modifyproduit(Request $request, int $id): Response
+    public function modifyproduit(Produit $prod,User $UserA,Request $request,  Session $session): Response
     {
+        $entityManager = $this->getDoctrine()->getManager();
+        $id = $prod->getId();
+        $idUser = $UserA->getId();
+        $user = $this->getUser();
+
+        if($user->getId() != $idUser )
+        {
+            $this->addFlash('error' , 'You cant edit anotherone');
+            $session->set("message", "Vous ne pouvez pas modifier cette salle");
+            return $this->redirectToRoute('produit');
+
+        }
         $entityManager = $this->getDoctrine()->getManager();
 
         $produit = $entityManager->getRepository(produit::class)->find($id);

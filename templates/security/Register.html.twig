@@ -52,6 +52,13 @@
 
                     </div>
                 </div>
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        {{ form_widget(form_user.phoneNumber, { 'attr': {'class': 'form-control','placeholder': 'Ecrire votre Number..'} }) }}
+                        {{ form_errors(form_user.phoneNumber, { 'attr': {'class': 'form-control'} }) }}
+
+                    </div>
+                </div>
                 <div class="form-group">
                     <div class="col-xs-12">
                         {{ form_widget(form_user.password, { 'attr': {'class': 'form-control','placeholder': 'Ecrire votre password..'} }) }}
