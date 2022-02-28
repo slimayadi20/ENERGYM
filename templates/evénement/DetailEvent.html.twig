@@ -18,10 +18,11 @@
         </div>
         <div class="row" style="display: flex;align-items: center;justify-content: center">
 
-    <div class="col-md-6 col-lg-3">
+    <div class="col-md-6">
 
         <div class="card m-b-20">
-            <img class="card-img-top img-fluid" src="{{ asset('Dashboard/images/gallery/4.jpg')}}" alt="Card image cap">
+            <img class="card-img-top img-fluid" src="{{ asset('uploads/Event_image/'~image ) }}" alt="Card image cap">
+
             <div class="card-body">
                 <h4 class="dropcap text-pink"> {{ NomEvent }}</h4>
 
@@ -33,7 +34,7 @@
             </ul>
             <div class="card-body">
                 <a href="#" class="card-link">{{ NbrParticipantsEvent }} Personnes</a>
-                <a href="#" class="card-link">{{ DateEvent }}</a>
+                <a href="#" class="card-link">{{ DateEvent |date('Y-m-d')}}</a>
             </div>
         </div>
 

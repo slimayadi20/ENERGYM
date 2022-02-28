@@ -58,10 +58,24 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-2 col-form-label">prix abonnement</label>
+                                                <label class="col-2 col-form-label">prix abonnement gold</label>
                                                 <div class="col-10">
-                                                    {{ form_widget(form_salle.prix) }}
-                                                    {{ form_errors(form_salle.prix, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                    {{ form_widget(form_salle.prix1) }}
+                                                    {{ form_errors(form_salle.prix1, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">prix abonnement silver</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.prix2) }}
+                                                    {{ form_errors(form_salle.prix2, {'attr':{'class':'text-danger mb-1 '}})}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">prix abonnement bronze</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(form_salle.prix3) }}
+                                                    {{ form_errors(form_salle.prix3, {'attr':{'class':'text-danger mb-1 '}})}}
                                                 </div>
                                             </div>
                                             <div class="form-group row">

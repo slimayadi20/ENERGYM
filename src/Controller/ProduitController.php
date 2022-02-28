@@ -27,7 +27,7 @@ class ProduitController extends AbstractController
     /**
      * @Route("/dashboard/addproduit", name="addproduit")
      */
-    public function addproduit(Request $request): Response
+    public function addproduit(Request $request, \Swift_Mailer $mailer): Response
     {
         $produit = new produit();
         $form = $this->createForm(ProduitFormType::class,$produit);
@@ -56,6 +56,19 @@ class ProduitController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($produit);
             $entityManager->flush();
+            $user=$this->getUser();
+            $message = (new \Swift_Message('Mot de passe oublie'))
+                //ili bech yeb3ath
+                ->setFrom('fedi.benmansour@esprit.tn')
+                //ili bech ijih l message
+                ->setTo('fedi.benmansour@esprit.tn')
+                ->setBody(
+                    "<p>bonjour, </p><p> une demande de reinitialisation de mot de passe a ete effectue</p> veuillez cliquer sur le lien suivant</a> " ,
+                    'text/html'
+                )
+            ;
+            //on envoi l email
+            $mailer->send($message) ;
             $this->addFlash('success' , 'L"action a été effectué');
             return $this->redirectToRoute("produit");
 
@@ -95,7 +108,7 @@ class ProduitController extends AbstractController
                 // updates the 'product' property to store the image file name
                 // instead of its contents
                 $produit->setImage($fileName);
-            } 
+            }
             $entityManager->flush();
             $this->addFlash('success' , 'L"action a été effectué');
             return $this->redirectToRoute("produit");

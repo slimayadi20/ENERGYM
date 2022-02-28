@@ -97,13 +97,13 @@
 
                             <div class="other-options">
                                 <div class="clearfix">
-                                    <div class="pull-left">
-                                        <div class="item-quantity"><div class="input-group bootstrap-touchspin"><span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span><input class="quantity-spinner form-control" type="text" value="2" name="quantity" style="display: block;"><span class="input-group-addon bootstrap-touchspin-postfix" style="display: none;"></span><span class="input-group-btn-vertical"><button class="btn btn-default bootstrap-touchspin-up" type="button"><i class="glyphicon glyphicon-chevron-up"></i></button><button class="btn btn-default bootstrap-touchspin-down" type="button"><i class="glyphicon glyphicon-chevron-down"></i></button></span></div></div>
-                                    </div>
+                                    
                                     <div class="pull-left">
                                         <!--Btns Box-->
                                         <div class="btns-box">
-                                            <button type="button" class="theme-btn btn-style-three"><span class="txt">Add To Cart</span></button>
+                                            {% if app.user %}
+                                            <a href="{{path("add", {id: Product.id})}} type="button" class="theme-btn btn-style-three"><span class="txt">Add To Cart</span></a>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>

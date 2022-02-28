@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\CategoriesEvent;
 use App\Form\CategoriesEventType;
+use App\Entity\Evenement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +22,8 @@ class CategorieEventController extends AbstractController
         return $this->render("categorie_event/index.html.twig",array("CategoriesEvent"=>$CategoriesEvent));
 
     }
+
+
 
     /**
      * @Route("/dashboard/AjouterCategEvent", name="AjouterCategEvent")
@@ -79,5 +82,30 @@ class CategorieEventController extends AbstractController
             "f" => $form->createView(),
         ]);
     }
+    /**
+     * @Route("/ShowEvents/{id}", name="ShowEvents")
+     */
+    public function ShowEvents(\Symfony\Component\HttpFoundation\Request $req, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $categorie = $em->getRepository(CategoriesEvent::class)->find($id);
+
+        //     var_dump($categorie);die();
+
+
+
+        $Event = $em->getRepository(Evenement::class)->findBy(['NomCategorie'=>$categorie]);//list des prod ta3 categorie ly clikit alih
+
+
+
+
+        return $this->render('evénement/ShowEventsSelonCategorie.html.twig', array('Event'=>$Event
+
+        ));
+    }
+
+
+
+
 
 }

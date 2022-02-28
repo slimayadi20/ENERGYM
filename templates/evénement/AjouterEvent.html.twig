@@ -52,12 +52,19 @@
                                 <label for="name">Nombre de Participants </label>
                                 {{ form_widget(f.NbrParticipantsEvent, {'attr':{'class':'form-control'}})}}
                                 {{ form_errors(f.NbrParticipantsEvent, {'attr':{'class':'text-danger mb-1 '}})}}
-
-
-
-
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Catégories </label>
+                                {{ form_widget(f.NomCategorie, {'attr':{'class':'form-control'}})}}
+                                {{ form_errors(f.NomCategorie, {'attr':{'class':'text-danger mb-1 '}})}}
                             </div>
 
+                            <div class="form-group">
+                                <label for="name">Ajouter une Image </label>
+                                {{ form_widget(f.image, {'attr':{'class':'form-control'}})}}
+
+                            </div>
+                          
 
 
 

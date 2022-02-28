@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+
 class SalleController extends AbstractController
 {
     /**
@@ -17,6 +18,7 @@ class SalleController extends AbstractController
      */
     public function index(): Response
     {
+
         $salle = $this->getDoctrine()->getRepository(salle::class)->findAll();
         return $this->render('salle/index.html.twig', [
             'controller_name' => 'SalleController',
@@ -24,14 +26,30 @@ class SalleController extends AbstractController
         ]);
     }
     /**
-     * @Route("/dashboard/salleFront", name="salleFront")
+     * @Route("/salleFront", name="salleFront")
      */
     public function salleFront(): Response
     {
+
+        $salle = $this->getDoctrine()->getRepository(salle::class)->findAll();
         return $this->render('salle/afficherFront.html.twig', [
             'controller_name' => 'SalleController',
+            "salle" => $salle,
         ]);
     }
+    /**
+     * @Route("/detailFront/{id}", name="detailFront")
+     */
+    public function detailFront(int $id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $salle = $entityManager->getRepository(salle::class)->find($id);
+        return $this->render('salle/detailFront.html.twig', [
+            'controller_name' => 'SalleController',
+            "salle" => $salle,
+        ]);
+    }
+
     /**
      * @Route("/dashboard/addSalle", name="addSalle")
      */
@@ -85,6 +103,24 @@ class SalleController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form->get('image')->getData();
+            // this condition is needed because the 'image' field is not required
+
+            if ($imageFile) {
+                // generate new name to the file image with the function generateUniqueFileName
+                $fileName = $this->generateUniqueFileName().'.'.$imageFile->guessExtension();
+
+                // moves the file to the directory where products are stored
+                $imageFile->move(
+                    $this->getParameter('imagesSalle_directory'),
+                    $fileName
+                );
+
+                // updates the 'product' property to store the image file name
+                // instead of its contents
+                $salle->setImage($fileName);
+            }
             $entityManager->flush();
             $this->addFlash('success' , 'L"action a été effectué');
             return $this->redirectToRoute("salle");
@@ -109,7 +145,40 @@ class SalleController extends AbstractController
 
         return $this->redirectToRoute("salle");
     }
-    // fonction qui generer un identifiant unique pour chaque image
+    /**
+     * @Route("/dashboard/detail_salle/{id}", name="detailsalle")
+     */
+    public function detailSalle(Request $req, $id) {
+        $em= $this->getDoctrine()->getManager();
+        $salle = $em->getRepository(Salle::class)->find($id);
+        return $this->render('salle/DetailSalle.html.twig',array(
+            'nom'=>$salle->getNom(),
+            'adresse'=>$salle->getAdresse(),
+            'tel'=>$salle->getTel(),
+            'mail'=>$salle->getMail(),
+            'description'=>$salle->getDescription(),
+            'prix1'=>$salle->getPrix1(),
+            'prix2'=>$salle->getPrix2(),
+            'prix3'=>$salle->getPrix3(),
+            'heureo'=>$salle->getHeureo(),
+            'heuref'=>$salle->getHeuref(),
+            'image'=>$salle->getImage()
+        ));
+    }
+    /**
+     * @Route("/SallecoursFront/{id}", name="SallecoursFront")
+     */
+    public function SallecoursFront($id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $salle = $entityManager->getRepository(Salle::class)->find($id);
+
+
+        return $this->render('cours/afficherFront.html.twig', [
+            "salle" => $salle,
+        ]);
+    }
+// fonction qui generer un identifiant unique pour chaque image
     /**
      * @return string
      */
@@ -122,6 +191,4 @@ class SalleController extends AbstractController
     // fonction qui generer un identifiant unique pour chaque image
 
 
-
 }
-

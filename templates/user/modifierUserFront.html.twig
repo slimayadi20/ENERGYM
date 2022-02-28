@@ -1,0 +1,121 @@
+{% extends "base-front.html.twig" %}
+
+{% block title %}
+    Edit profile!
+{% endblock %}
+
+{% block body %}
+    {{ include('front_office/navbar.html.twig') }}
+<section class="page-title" style="background-image:url(https://via.placeholder.com/1920x600)">
+    <div class="auto-container">
+        <div class="clearfix">
+            <div class="pull-left">
+                <h2>Login / Register</h2>
+                <div class="text">Fitness is not a destination it is a way of life.</div>
+            </div>
+            <div class="pull-right">
+                <ul class="page-breadcrumb">
+                    <li><a href="index.html">home</a></li>
+                    <li>Login / Register</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+    <div class="content-page">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card-box">
+                            <div class="sec-title">
+                                <h2>Update your profile</h2>
+                                <div class="separate"></div>
+                            </div>                            <div class="row">
+                                <div class="col-12">
+                                    <div class="p-20">
+                                        {{
+                                        form_start(f,
+                                            {
+                                                'attr'
+                                                :
+                                                {
+                                                    'novalidate'
+                                                    :
+                                                    'novalidate'
+                                                }})
+                                        }}
+
+                                        <form class="form-horizontal" role="form">
+
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label">Nom</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(f.nom, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(f.nom, { 'attr': {'class': 'form-control'} }) }}
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label" for="example-email">Prenom</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(f.prenom, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(f.prenom, { 'attr': {'class': 'form-control'} }) }}
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label" for="example-email">Email</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(f.email, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(f.email, { 'attr': {'class': 'form-control'} }) }}
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group row" >
+                                                <label class="col-2 col-form-label" for="example-email">password</label>
+                                                <div class="col-10 " >
+                                                    {{ form_widget(f.password,{ 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(f.password, { 'attr': {'class': 'form-control'}   }) }}
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label" for="example-email">Confirm Password</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(f.confirmPass , { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(f.confirmPass , { 'attr': {'class': 'form-control'} }) }}
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-2 col-form-label" for="example-email">imageFile</label>
+                                                <div class="col-10">
+                                                    {{ form_widget(f.imageFile, { 'attr': {'class': 'form-control'} }) }}
+                                                    {{ form_errors(f.imageFile, { 'attr': {'class': 'form-control'} }) }}
+
+                                                </div>
+                                            </div>
+                                            <a class="btn btn-primary" href="{{ path('user') }}">Retour</a>
+                                            {{ form_widget(f.Submit,{'attr':{'class':'btn btn-success'}}) }}
+
+                                            {{ form_end(f) }}
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--Login Form-->
+
+</div>
+
+    {{ include('front_office/footer.html.twig') }}
+{% endblock %}

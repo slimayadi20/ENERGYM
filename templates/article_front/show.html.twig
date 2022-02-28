@@ -1,0 +1,216 @@
+{% extends "base-front.html.twig" %}
+
+{% block title %}
+    Article!
+{% endblock %}
+
+{% block body %}
+    {{ include('front_office/navbar.html.twig') }}
+
+    <section class="page-title" style="background-image:url(https://via.placeholder.com/1920x600)">
+        <div class="auto-container">
+            <div class="clearfix">
+                <div class="pull-left">
+
+                </div>
+                <div class="pull-right">
+                    <ul class="page-breadcrumb">
+                        <li><a  href="{{ path('front_office') }}">home</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="sidebar-page-container style-two">
+        <div class="auto-container">
+            <div class="row clearfix">
+
+                <!--Sidebar Side-->
+                <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+                    <aside class="sidebar sticky-top">
+
+                        <!-- Search -->
+
+
+                        <!-- Categories Widget -->
+                        <div class="sidebar-widget categories-widget">
+                            <div class="sidebar-title">
+                                <h4>Categories</h4>
+                            </div>
+                            <div class="widget-content">
+                                <ul class="blog-cat">
+                                    <li><a href="#">FITNESS <span>( 24 )</span></a></li>
+                                    <li><a href="#">HEALTH  <span>( 03 )</span></a></li>
+                                    <li><a href="#">LIFESTYLE <span>( 01 )</span></a></li>
+                                    <li><a href="#">NUTRITION <span>( 02 )</span></a></li>
+                                    <li><a href="#">SPORT SCIENCE <span>( 10 )</span></a></li>
+                                    <li><a href="#">TRAINING PROGRAM <span>( 02 )</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Categories Widget -->
+                        <div class="sidebar-widget popular-posts">
+                            <div class="sidebar-title">
+                                <h4>Recent Post</h4>
+                            </div>
+
+                            <div class="widget-content">
+                                {% for article in articles|slice(articles|length-3,articles|length)|reverse %}
+
+                                <article class="post">
+                                    <div class="post-inner">
+                                        <figure class="post-thumb"><img src="{{ asset('uploads/posts/' ~ article.image) }}" alt="image du post">
+                                            <a href="{{ path('article_client_show', {'id': article.id}) }}" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
+                                        <div class="text"><a href="{{ path('article_client_show', {'id': article.id}) }}">{{ article.titre }}</a></div>
+                                        <div class="post-info">{{ article.dateCreation }}</div>
+                                    </div>
+                                </article>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+
+                        <!-- Search -->
+                        <div class="sidebar-widget newsletter-box">
+                            <div class="sidebar-title">
+                                <h4>GET NEWSLETTER</h4>
+                            </div>
+                            <form method="post" action="contact.html">
+                                <div class="form-group">
+                                    <input type="search" name="search-field" value="" placeholder="Entery Email" required>
+                                    <button type="submit"><span class="icon flaticon-paper-plane-1"></span></button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Popular Posts -->
+                        <div class="sidebar-widget popular-tags">
+                            <div class="sidebar-title">
+                                <h4>TAGS</h4>
+                            </div>
+                            <div class="widget-content">
+                                <a href="#">Fitness</a>
+                                <a href="#">Health</a>
+                                <a href="#">Lifestyle</a>
+                                <a href="#">Nutrition</a>
+                                <a href="#">Sport</a>
+                                <a href="#">Science</a>
+                                <a href="#">Training</a>
+                                <a href="#">Program</a>
+                            </div>
+                        </div>
+
+                        <!-- Instagram Widget -->
+                        <div class="sidebar-widget instagram-widget">
+                            <div class="sidebar-title">
+                                <h4>Instagram</h4>
+                            </div>
+                            <div class="widget-content">
+                                <div class="clearfix">
+                                    <figure class="post-thumb"><img src="https://via.placeholder.com/110x110" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
+                                    <figure class="post-thumb"><img src="https://via.placeholder.com/110x110" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
+                                    <figure class="post-thumb"><img src="https://via.placeholder.com/110x110" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
+                                    <figure class="post-thumb"><img src="https://via.placeholder.com/110x110" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
+                                    <figure class="post-thumb"><img src="https://via.placeholder.com/110x110" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
+                                    <figure class="post-thumb"><img src="https://via.placeholder.com/110x110" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
+                                </div>
+                            </div>
+                        </div>
+
+                    </aside>
+                </div>
+
+                <!--Content Side-->
+                <div class="content-side col-lg-8 col-md-12 col-sm-12">
+                    <!-- Blog Single -->
+                    <div class="blog-single">
+                        <div class="inner-box">
+                            <div class="image">
+                                <img src="{{ asset('uploads/posts/' ~ article.image) }}" alt="image du post">
+                            </div>
+                            <div class="lower-content">
+                                <ul class="post-meta">
+                                    <li><span class="icon flaticon-folder"></span> GYM</li>
+                                    <li><span class="icon flaticon-calendar-1"></span> {{ article.dateCreation }}</li>
+                                </ul>
+                                <h3>{{ article.titre }}</h3>
+                                <p>{{ article.description }}</p>
+
+                                <!-- Post Share Options-->
+                                <div class="post-share-options">
+                                    <div class="post-share-inner clearfix">
+                                        <div class="pull-left tags"><span>Post Tags: </span><a href="#">Fit,</a> <a href="#">gym, </a><a href="#">fitness,</a> <a href="#">Cardio</a></div>
+                                        <ul class="social-box pull-right">
+                                            <span class="flaticon-share-1"></span>
+                                            <li class="facebook"><a href="#"><span class="fa fa-facebook-f"></span></a></li>
+                                            <li class="twitter"><a href="#"><span class="fa fa-twitter"></span></a></li>
+                                            <li class="twitter"><a href="#"><span class="fa fa-google"></span></a></li>
+                                            <li class="linkedin"><a href="#"><span class="fa fa-whatsapp"></span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Author Box -->
+
+                                <!-- Comments Area -->
+                                <div class="comments-area">
+                                    <div class="group-title">
+                                        <h4>{{ comments|length }} Comments</h4>
+                                    </div>
+{% for comment in comments %}
+                                    <div class="comment-box">
+                                        <div class="comment">
+                                            <div class="author-thumb">
+                                                <img src="https://via.placeholder.com/120x120" alt="">
+                                            </div>
+                                            <div class="comment-info clearfix"><strong>Paul Jones </strong><div class="comment-time">{{ comment.dateCreation }}</div></div>
+                                            <div class="text">{{ comment.contenu }}</div>
+                                        </div>
+                                    </div>
+{% endfor %}
+
+                                </div>
+
+                                <!-- Comments Form -->
+                                <div class="comments-form">
+                                    <div class="group-title">
+                                        <h4>Leave Reply</h4>
+                                    </div>
+
+                                    <!-- Default Form -->
+                                    <div class="default-form style-two">
+
+                                        <!-- Default Form -->
+                                        <form method="post" action="" id="contact.html">
+                                            <div class="row clearfix">
+
+                                                <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                                                    <textarea name="message" placeholder="Your Comments"></textarea>
+                                                </div>
+
+                                                <div class="form-group clearfix col-lg-12 col-md-12 col-sm-12">
+                                                    <div class="btn-three-outer"><button class="theme-btn btn-style-three" type="submit" name="submit-form"><span class="txt">Sand Now</span></button></div>
+                                                </div>
+
+                                            </div>
+                                        </form>
+
+                                        <!--End Default Form -->
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    {{ include('front_office/footer.html.twig') }}
+{% endblock %}
