@@ -78,6 +78,24 @@ class ProduitController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form->get('image')->getData();
+            // this condition is needed because the 'image' field is not required
+
+            if ($imageFile) {
+                // generate new name to the file image with the function generateUniqueFileName
+                $fileName = $this->generateUniqueFileName().'.'.$imageFile->guessExtension();
+
+                // moves the file to the directory where products are stored
+                $imageFile->move(
+                    $this->getParameter('imagesProduct_directory'),
+                    $fileName
+                );
+
+                // updates the 'product' property to store the image file name
+                // instead of its contents
+                $produit->setImage($fileName);
+            } 
             $entityManager->flush();
             $this->addFlash('success' , 'L"action a été effectué');
             return $this->redirectToRoute("produit");
