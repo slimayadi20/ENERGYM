@@ -40,7 +40,6 @@ class CommentaireController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($commentaire);
             $entityManager->flush();
-
             return $this->redirectToRoute('commentaire_index', [], Response::HTTP_SEE_OTHER);
         }
 

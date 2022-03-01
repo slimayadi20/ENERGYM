@@ -3,6 +3,9 @@
 <head>
     <meta charset="utf-8">
     <title>Gym HTML-5 Template | Homepage</title>
+
+{% block head %}
+    {% endblock %}
     <!-- Stylesheets -->
     <link href="{{ asset('front-office/css/bootstrap.css') }}" rel="stylesheet">
 
@@ -546,7 +549,8 @@
 
 <!--Google Map APi Key-->
 <script src="{{ asset('front-office/js/js.js') }}"></script>
-<script src="{{ asset('js/map-script.js') }}"></script>
+{% block javascripts %}
+{% endblock %}
 <!--End Google Map APi-->
 
 </body>

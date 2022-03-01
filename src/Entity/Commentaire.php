@@ -18,7 +18,8 @@ class Commentaire
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var \DateTime
+     * @ORM\Column(type="date")
      */
     private $dateCreation;
 
@@ -59,17 +60,21 @@ class Commentaire
     {
         return $this->id;
     }
-
-    public function getDateCreation(): ?string
+    /**
+     * @return \DateTime
+     */
+    public function getDateCreation(): ?\DateTime
     {
         return $this->dateCreation;
     }
 
-    public function setDateCreation(string $dateCreation): self
+    /**
+     * @param \DateTime $dateCreation
+     */
+    public function setDateCreation(\DateTime $dateCreation): void
     {
         $this->dateCreation = $dateCreation;
 
-        return $this;
     }
 
     public function getContenu(): ?string
