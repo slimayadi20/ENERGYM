@@ -33,6 +33,7 @@ class ReclamationController extends AbstractController
     public function reclamation(Request $request): Response
     {
         $user= $this->getUser() ;
+        $uid = $user->getId();
 
         $reclamation = new Reclamation();
         $form = $this->createForm(ReclamationFormType::class, $reclamation);

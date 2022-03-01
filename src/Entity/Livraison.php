@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\LivraisonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -18,6 +19,7 @@ class Livraison
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
@@ -25,6 +27,7 @@ class Livraison
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Type("alpha")
+     * @Groups("post:read")
      * @Assert\Length(
      *      min = 2,
      *      max = 10,
@@ -36,22 +39,22 @@ class Livraison
 
     /**
      * @ORM\Column(type="date")
+     * @Groups("post:read")
      * @Assert\GreaterThanOrEqual("today")
      */
     private $dateLivraison;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $etat;
 
     /**
      * @ORM\OneToOne(targetEntity=Commande::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
-<<<<<<< HEAD
      * @Assert\NotBlank()
-=======
->>>>>>> f5c42423b0204de8b626e48965f92eb1d5eff3a3
+     * @Groups("post:read")
      */
     private $idCommande;
 

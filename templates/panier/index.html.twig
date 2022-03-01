@@ -26,6 +26,10 @@
 <section class="cart-section">
     <div class="auto-container">
 
+
+
+
+
         <!--Cart Outer-->
         <div class="cart-outer">
             <div class="table-outer">
@@ -42,6 +46,11 @@
 
                     <tbody>
                     {% for element in dataPanier %}
+                        {% for message in app.flashes('error') %}
+                            <div class="alert alert-danger">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
                     <tr>
                         <td class="prod-column">
                             <div class="column-box">
@@ -60,9 +69,12 @@
                         </td>
                         <td class="sub-total">{{ element.quantite * element.produit.prix }} TND</td>
 
+
                     </tr>
 
 
+            </div>
+        </div>
                     {% else %}
                         <tr>
                             <td colspan="5" class="text-center">Votre panier est vide</td>
@@ -72,31 +84,48 @@
                     {% endfor %}
 
                     </tbody>
+
                 </table>
             </div>
 
             <div class="coupon-outer clearfix">
                 <div class="pull-left">
                     <div class="apply-coupon clearfix">
+                        <form method="post">
                         <div class="form-group clearfix">
                             <input type="text" name="coupon-code" value="" placeholder="Coupon Code">
                         </div>
                         <div class="form-group clearfix">
-                            <button type="button" class="theme-btn coupon-btn btn-style-three"><span class="txt">Apply Coupon</span></button>
+                            <button  type="submit" class="theme-btn coupon-btn btn-style-three"><span class="txt">Apply Coupon</span></button>
                         </div>
+                        </form>
                     </div>
                 </div>
 
 
             </div>
-            {% for element in dataPanier %}
-            <div class="pull-right">
-                <a href="{{path("delete", {id: monPanier.id})}}" type="button" class="theme-btn btn-style-three"><span class="txt">Effacer Mon Panier</span></a>
-            </div>
-            {% endfor %}
-            <div class="text-left"><button type="submit" class="theme-btn checkout-btn">Proceed to Checkout</button></div>
+    {%  if   dataPanier %}
+        <div class="pull-right">
+            <a href="{{path("delete", {id: monPanier.id})}}" type="button" class="theme-btn btn-style-three"><span class="txt">Vider mon Panier</span></a>
         </div>
+    {% endif %}
 
+            <!--Cart Total Box-->
+            <div class="cart-total-box">
+                <h4>Total Panier</h4>
+                <!--Totals Table-->
+                <ul class="totals-table">
+                    <li class="clearfix"><span class="col col-title">Prix Avant Réduction</span><span class="col">{{ totalOld }} TND</span></li>
+                    <li class="clearfix"><span class="col col-title">Réduction</span><span class="col">{{ reduction * totalOld /100 }} TND</span></li>
+                    <li class="total clearfix"><span class="col col-title">Total </span><span class="col">{{ totalNew }} TND</span></li>
+                </ul>
+
+        </div>
+    {%  if   dataPanier %}
+    <form action="/checkout" method="POST">
+        <div class="text-left"><button  type="submit" class="theme-btn checkout-btn">Proceed to Checkout</button></div>
+    </form>
+    {% endif %}
     </div>
 </section>
     {{ include('front_office/footer.html.twig') }}

@@ -24,6 +24,15 @@ class ProduitRepository extends ServiceEntityRepository
             ->getQuery();
 
     }
+    public function findProduitAchete($user)
+    {
+        return $this->createQueryBuilder('v')
+            ->Where(':id MEMBER OF v.user')
+            ->setParameter('id',$user);
+
+
+
+    }
     // /**
     //  * @return Produit[] Returns an array of Produit objects
     //  */

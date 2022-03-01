@@ -55,6 +55,11 @@ class Reclamation
      * @ORM\Column(type="string", length=255)
      */
     private $statut;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $produit;
     public function getStatut(): ?string
     {
         return $this->statut;
@@ -122,5 +127,17 @@ class Reclamation
     public function __toString()
     {
         return (string) $this->NomUser;
+    }
+
+    public function getProduit(): ?string
+    {
+        return $this->produit;
+    }
+
+    public function setProduit(string $produit): self
+    {
+        $this->produit = $produit;
+
+        return $this;
     }
 }

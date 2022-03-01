@@ -19,6 +19,15 @@ class LivraisonRepository extends ServiceEntityRepository
         parent::__construct($registry, Livraison::class);
     }
 
+    public function findCommande($cid)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.idCommande = :val')
+            ->setParameter('val', $cid)
+            ->getQuery()
+            ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY)
+            ;
+    }
     // /**
     //  * @return Livraison[] Returns an array of Livraison objects
     //  */

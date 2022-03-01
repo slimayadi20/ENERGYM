@@ -20,7 +20,7 @@ class ShopController extends AbstractController
         $Product =  $paginator->paginate(
             $repository->findallwithpagination(),
             $request->query->getInt('page' , 1), // nombre de page
-            3 //nombre limite
+            1 //nombre limite
         );
         $entityManager = $this->getDoctrine()->getManager();
         $Categories = $entityManager->getRepository(Categories::class)->findAll();
