@@ -184,6 +184,19 @@ class SalleController extends AbstractController
             "salle" => $salle,
         ]);
     }
+    /**
+     * @Route("/pdf2/{id}", name="pdf2")
+     */
+    public function pdf2($id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $salle = $entityManager->getRepository(Salle::class)->find($id);
+
+
+        return $this->render('cours/pdf.html.twig', [
+            "salle" => $salle,
+        ]);
+    }
 // fonction qui generer un identifiant unique pour chaque image
     /**
      * @return string

@@ -22,8 +22,90 @@
                 </button>
 
                 <button type="button" class="btn btn-sm btn-twitter waves-effect waves-light">
-                    <i class="fa fa-twitter"></i>
-                </button>
+                    <iframe src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2F127.0.0.1%3A8000%2Farticle%2Fclient%2Fdisplay%2F{{ article.id }}&layout=button_count&size=small&width=91&height=20&appId" width="91" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+            </div>
+        </div>
+
+        <!-- Author Box -->
+
+        <!-- Comments Area -->
+        <div class="comments-area">
+            <div class="group-title">
+                <h4>{{ comments|length }} Comments</h4>
+            </div>
+            {% for comment in comments %}
+                <div class="comment-box">
+                    <div class="comment">
+                        <div class="author-thumb">
+                            <img src="https://via.placeholder.com/120x120" alt="">
+                        </div>
+                        <div class="comment-info clearfix"><strong>Paul Jones </strong><div class="comment-time">{{ comment.dateCreation ? comment.dateCreation|date('Y-m-d') : '' }}</div></div>
+                        <div class="text">{{ comment.contenu }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <!-- Comments Form -->
+        <div class="comments-form">
+            <div class="group-title">
+                <h4>Leave Reply</h4>
+            </div>
+
+            <!-- Default Form -->
+            <div class="default-form style-two">
+
+                <!-- Default Form -->
+
+
+                {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+                <div class="row clearfix">
+
+                    <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                        {{ form_row(form.contenu,{'attr': {'class': 'form-control'}} ) }}
+                    </div>
+
+                    <div class="form-group clearfix col-lg-12 col-md-12 col-sm-12">
+                        <div class="btn-three-outer"><button class="theme-btn btn-style-three" type="submit" name="submit-form"><span class="txt">Send Now</span></button></div>
+                    </div>
+
+                </div>
+                {{ form_end(form) }}
+
+
+                <!--End Default Form -->
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+    </div>
+    </div>
+
+
+    </div>
+    </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+            fjs.parentNode.insertBefore(js, fjs);
+            console.log(js);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+{% endblock %}
+
+</button>
 
                 <button type="button" class="btn btn-sm btn-linkedin waves-effect waves-light">
                     <i class="fa fa-linkedin"></i>

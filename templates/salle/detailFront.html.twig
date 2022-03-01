@@ -6,6 +6,8 @@
 
 {% block body %}
     {{ include('front_office/navbar.html.twig') }}
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v13.0" nonce="t03m64X9"></script>
     <section class="page-title" style="background-image:url(https://via.placeholder.com/1920x600)">
         <div class="auto-container">
             <div class="clearfix">
@@ -41,6 +43,8 @@
                                     <ul>
                                         <li><span class="icon fa fa-phone"></span>+216{{ salle.tel }}</a></li>
                                         <li><span class="icon fa fa-envelope"></span>{{salle.mail}}</a></li>
+                                        <br>
+
                                     </ul>
                                 </div>
                             </div>
@@ -49,6 +53,14 @@
                         <ul class="service-list">
                             <li  ><a href="{{ path('SallecoursFront',{'id':salle.id}) }}">Planning {{ salle.nom }}</a></li>
                         </ul>
+                        <br>
+                        <div class="brochure-box">
+                            <div class="inner">
+                                <span class="icon flaticon-pdf"></span>
+                                <div class="text">Planning en PDF</div>
+                            </div>
+                            <a href="{{ path('ImprimerPDF',{'id':salle.id})}}" class="overlay-link"></a>
+                        </div>
                     </div>
                 </aside>
             </div>
@@ -64,6 +76,16 @@
                             <h3>{{ salle.nom}}</h3>
                             <p>{{ salle.description}}</p>
 
+                            <div class="button-list m-t-20">
+
+
+                                <a class="fb-like" data-href="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2F127.0.0.1%3A8000%2/detailFront/{{ salle.id }}&layout=button_count&size=small&width=91&height=20&appId" data-width="" data-layout="standard" data-action="recommend" data-size="small" data-share="true"></a>
+
+
+
+
+                            </div>
+                            <br>
                             <h3>Nos horaires</h3>
                             <div class="row clearfix">
 
@@ -179,6 +201,8 @@
         </div>
 
     </div>
+
+
 </div>
 
 <!-- Subscribe Section -->

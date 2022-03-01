@@ -113,7 +113,7 @@ class Salle
     private $cours;
 
     /**
-     * @ORM\OneToMany(targetEntity=SalleLike::class, mappedBy="salle")
+     * @ORM\OneToMany(targetEntity=SalleLike::class, mappedBy="salle", orphanRemoval=true)
      */
     private $likes;
 

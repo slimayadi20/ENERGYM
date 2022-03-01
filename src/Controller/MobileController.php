@@ -57,8 +57,8 @@ class MobileController extends AbstractController
         $salle->setPrix1($prix1) ;
         $salle->setPrix2($prix2) ;
         $salle->setPrix3($prix3) ;
-        $salle->setHeureo($heureo) ;
-        $salle->setHeuref($heuref) ;
+        $salle->setHeureo(new \DateTime()) ;
+        $salle->setHeuref(new \DateTime()) ;
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($salle);

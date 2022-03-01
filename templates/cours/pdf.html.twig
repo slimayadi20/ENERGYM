@@ -1,134 +1,134 @@
+{% extends "base-front.html.twig" %}
+
 {% block body %}
-<h2>Le planning des cours</h2>
+
+    <h2>Le planning de {{ salle.nom }}</h2>
 
 
 
 
 
+    <div class="inner-container">
+        <div class="table-outer">
+            <div class="table-inner" >
+                <!-- Table Title Box -->
 
-</div>
-
-<div class="inner-container">
-    <div class="table-outer">
-        <div class="table-inner" >
-            <!-- Table Title Box -->
-
-            <!-- Timetable Tabs-->
-            <div class="timetable-tabs tabs-box">
+                <!-- Timetable Tabs-->
+                <div class="timetable-tabs tabs-box">
 
 
 
-                <!--Tabs Container-->
-                <div class="tabs-content">
+                    <!--Tabs Container-->
+                    <div class="tabs-content">
 
-                    <!--Tab / Active Tab-->
-                    <div class="tab active-tab" id="prod-cardio">
-                        <div class="content">
-                            <div class="clearfix">
-                                <table id="datatable" class="table " style="border: none">
-                                    <th>  <div class="day">Lundi</div></th>
-                                    <td style="border: none">
-
-                                        {% for cour in salle.Cours %}
-                                            {% if cour.jour == "lundi" %}
-                                                <div class="time-box">
-                                                    <div class="box-inner">
-                                                        <div class="time"><a href="{{ path('detailcoursFront',{'id':cour.id}) }}">{{ cour.nom }}</a> <span>{{ cour.nomCoach }} <br> {{ cour.heureD |date('H:i')}}  -  {{ cour.heureF|date('H:i') }}</span></div>
-                                                    </div>
-                                                </div>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </td>
-
-                                    <tr style="border: none">
-                                        <th> <div class="day">Mardi</div></th>
+                        <!--Tab / Active Tab-->
+                        <div class="tab active-tab" id="prod-cardio">
+                            <div class="content">
+                                <div class="clearfix">
+                                    <table id="datatable" class="table " style="border: none">
+                                        <th>  <div class="day">Lundi</div></th>
                                         <td style="border: none">
 
                                             {% for cour in salle.Cours %}
-                                                {% if cour.jour == "mardi" %}
-                                                    <div class="time-box ">
-                                                        <div class="box-inner">
-                                                            <div class="time "style="margin-bottom: 15px"><a href="{{ path('detailcoursFront',{'id':cour.id}) }}">{{ cour.nom }}</a> <span>{{ cour.nomCoach }} <br> {{ cour.heureD |date('H:i')}}  -  {{ cour.heureF|date('H:i') }}</span></div>
-                                                        </div>
-                                                    </div>
-                                                {% endif %}
-                                            {% endfor %}</td>
-                                        </td>
-                                    </tr>
-                                    <tr style="border: none">
-                                        <th> <div class="day">Mercredi</div></th>
-                                        <td style="border: none">
-                                            {% for cour in salle.Cours %}
-                                                {% if cour.jour == "mercredi" %}
+                                                {% if cour.jour == "lundi" %}
                                                     <div class="time-box">
-
-                                                        <div class="box-inner">
-                                                            <div class="time"><a href="{{ path('detailcoursFront',{'id':cour.id}) }}">{{ cour.nom }}</a> <span>{{ cour.nomCoach }} <br> {{ cour.heureD |date('H:i')}}  -  {{ cour.heureF|date('H:i') }}</span></div>
-                                                        </div>
-
-                                                    </div>
-                                                {% endif %}
-                                            {% endfor %}</td>
-                                        </td>
-                                    </tr>
-                                    <tr style="border: none">
-                                        <th> <div class="day">Jeudi</div></th>
-                                        <td style="border: none">
-                                            {% for cour in salle.Cours %}
-                                                {% if cour.jour == "jeudi" %}
-                                                    <div class="time-box">
-
-
                                                         <div class="box-inner">
                                                             <div class="time"><a href="{{ path('detailcoursFront',{'id':cour.id}) }}">{{ cour.nom }}</a> <span>{{ cour.nomCoach }} <br> {{ cour.heureD |date('H:i')}}  -  {{ cour.heureF|date('H:i') }}</span></div>
                                                         </div>
                                                     </div>
                                                 {% endif %}
-                                            {% endfor %}</td>
+                                            {% endfor %}
                                         </td>
-                                    </tr>
-                                    <tr style="border: none">
-                                        <th>  Vendredi</div></div></th>
-                        <td style="border: none">
-                            {% for cour in salle.Cours %}
-                                {% if cour.jour == "vendredi" %}
-                                    <div class="time-box">
 
-                                        <div class="box-inner">
-                                            <div class="time"><a href="{{ path('detailcoursFront',{'id':cour.id}) }}">{{ cour.nom }}</a><span>{{ cour.nomCoach }} <br> {{ cour.heureD |date('H:i')}}  -  {{ cour.heureF|date('H:i') }}</span></div>
-                                        </div>
-                                    </div>
-                                {% endif %}
-                            {% endfor %}</td>
-                        </td>
-                        </tr>
-                        <tr style="border: none">
-                            <th> <div class="day">Samedi</div></th>
+                                        <tr style="border: none">
+                                            <th> <div class="day">Mardi</div></th>
+                                            <td style="border: none">
+
+                                                {% for cour in salle.Cours %}
+                                                    {% if cour.jour == "mardi" %}
+                                                        <div class="time-box ">
+                                                            <div class="box-inner">
+                                                                <div class="time "style="margin-bottom: 15px"><a href="{{ path('detailcoursFront',{'id':cour.id}) }}">{{ cour.nom }}</a> <span>{{ cour.nomCoach }} <br> {{ cour.heureD |date('H:i')}}  -  {{ cour.heureF|date('H:i') }}</span></div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}</td>
+                                            </td>
+                                        </tr>
+                                        <tr style="border: none">
+                                            <th> <div class="day">Mercredi</div></th>
+                                            <td style="border: none">
+                                                {% for cour in salle.Cours %}
+                                                    {% if cour.jour == "mercredi" %}
+                                                        <div class="time-box">
+
+                                                            <div class="box-inner">
+                                                                <div class="time"><a href="{{ path('detailcoursFront',{'id':cour.id}) }}">{{ cour.nom }}</a> <span>{{ cour.nomCoach }} <br> {{ cour.heureD |date('H:i')}}  -  {{ cour.heureF|date('H:i') }}</span></div>
+                                                            </div>
+
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}</td>
+                                            </td>
+                                        </tr>
+                                        <tr style="border: none">
+                                            <th> <div class="day">Jeudi</div></th>
+                                            <td style="border: none">
+                                                {% for cour in salle.Cours %}
+                                                    {% if cour.jour == "jeudi" %}
+                                                        <div class="time-box">
+
+
+                                                            <div class="box-inner">
+                                                                <div class="time"><a href="{{ path('detailcoursFront',{'id':cour.id}) }}">{{ cour.nom }}</a> <span>{{ cour.nomCoach }} <br> {{ cour.heureD |date('H:i')}}  -  {{ cour.heureF|date('H:i') }}</span></div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}</td>
+                                            </td>
+                                        </tr>
+                                        <tr style="border: none">
+                                            <th>  Vendredi</div></div></th>
                             <td style="border: none">
                                 {% for cour in salle.Cours %}
-                                    {% if cour.jour == "samedi" %}
+                                    {% if cour.jour == "vendredi" %}
                                         <div class="time-box">
 
                                             <div class="box-inner">
-                                                <div class="time"><a href="{{ path('detailcoursFront',{'id':cour.id}) }}">{{ cour.nom }}</a> <span>{{ cour.nomCoach }} <br> {{ cour.heureD |date('H:i')}}  -  {{ cour.heureF|date('H:i') }}</span></div>
+                                                <div class="time"><a href="{{ path('detailcoursFront',{'id':cour.id}) }}">{{ cour.nom }}</a><span>{{ cour.nomCoach }} <br> {{ cour.heureD |date('H:i')}}  -  {{ cour.heureF|date('H:i') }}</span></div>
                                             </div>
                                         </div>
                                     {% endif %}
                                 {% endfor %}</td>
                             </td>
-                        </tr>
+                            </tr>
+                            <tr style="border: none">
+                                <th> <div class="day">Samedi</div></th>
+                                <td style="border: none">
+                                    {% for cour in salle.Cours %}
+                                        {% if cour.jour == "samedi" %}
+                                            <div class="time-box">
 
-                        </tbody>
+                                                <div class="box-inner">
+                                                    <div class="time"><a href="{{ path('detailcoursFront',{'id':cour.id}) }}">{{ cour.nom }}</a> <span>{{ cour.nomCoach }} <br> {{ cour.heureD |date('H:i')}}  -  {{ cour.heureF|date('H:i') }}</span></div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}</td>
+                                </td>
+                            </tr>
+
+                            </tbody>
 
 
-                        </table>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
-</div>
 
-</div>
+    </div>
 {% endblock %}
