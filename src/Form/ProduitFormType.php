@@ -15,7 +15,6 @@ use App\Repository\CategoriesRepository;
 class ProduitFormType extends AbstractType
 {
     private $security;
-
     public function __construct(Security $security)
     {
         $this->security = $security;

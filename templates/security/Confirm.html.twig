@@ -13,6 +13,34 @@
         </div>
         <div class="panel-body text-center">
             <img src="{{ asset('Dashboard/images/mail_confirm.png')}}" alt="img" class="thumb-lg m-t-20 center-block" />
+            {{
+            form_start(form,
+                {
+                    'attr'
+                    :
+                    {
+                        'novalidate'
+                        :
+                        'novalidate'
+                    }})
+            }}
+            <div class="form-group ">
+                <div class="col-xs-12">
+                    {{ form_widget(form.email, { 'attr': {'class': 'form-control','placeholder': 'Ecrire votre email..'} }) }}
+                    {{ form_errors(form.email, { 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+            </div>
+            <div class="form-group ">
+                <div class="col-xs-12">
+                    {{ form_widget(form.VerificationCode, { 'attr': {'class': 'form-control','placeholder': 'Ecrire votre VerificationCode..'} }) }}
+                    {{ form_errors(form.VerificationCode, { 'attr': {'class': 'form-control'} }) }}
+
+                </div>
+            </div>
+            {{ form_widget(form.Submit,{'attr':{'class':'btn btn-custom btn-bordred btn-block waves-effect waves-light'}}) }}
+            {{ form_end(form) }}
+
             <p class="text-muted font-13 m-t-20"> A email will be send to <b>youremail</b>. Please check for an email from company and wait for our approval. </p>
         </div>
     </div>

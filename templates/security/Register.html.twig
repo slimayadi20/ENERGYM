@@ -71,10 +71,10 @@
                             {{ form_errors(form_user.confirmPass, { 'attr': {'class': 'form-control'} }) }}
                         </div>
                     </div>
-                <div class="form-group">
-                        <div class="col-xs-12">
-                            {{ form_widget(form_user.imageFile, { 'attr': {'class': 'form-control','placeholder': 'inserez votre image..'} }) }}
-                            {{ form_errors(form_user.imageFile, { 'attr': {'class': 'form-control'} }) }}
+                <div  style="display: none;">
+                        <div  style="display: none;">
+                            {{ form_widget(form_user.imageFile, { 'attr': {'class': 'hidden-row'} }) }}
+                            {{ form_errors(form_user.imageFile, { 'attr': {'class': 'hidden-row'} }) }}
                         </div>
                     </div>
                 <div class="form-group">

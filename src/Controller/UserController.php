@@ -185,6 +185,7 @@ class UserController extends AbstractController
                 // instead of its contents
                 $user->setImagefile($fileName);
             }
+
             $passwordcrypt = $encoder->encodePassword($user,$user->getPassword());
             $user->setPassword($passwordcrypt);
             $entityManager->flush();

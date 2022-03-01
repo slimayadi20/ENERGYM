@@ -85,7 +85,7 @@ class User implements UserInterface
      */
     private $email;
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $imageFile ;
 
@@ -133,9 +133,14 @@ class User implements UserInterface
 
     /**
      * @var string
-     * @ORM\Column(name="phone", type="string", length=255, nullable=false)
+     * @ORM\Column(name="phone", type="string", length=255, nullable=true)
      */
     protected $phoneNumber;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $VerificationCode;
 
     public function getPhoneNumber() {
         return $this->phoneNumber;
@@ -426,6 +431,18 @@ class User implements UserInterface
                 $categorieProduit->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getVerificationCode(): ?int
+    {
+        return $this->VerificationCode;
+    }
+
+    public function setVerificationCode(?int $VerificationCode): self
+    {
+        $this->VerificationCode = $VerificationCode;
 
         return $this;
     }
