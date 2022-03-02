@@ -35,13 +35,6 @@
 
 
 
-                            {# {% if u.date = format_datetime %}
-                                <button class="btn btn-success rounded-circle-5">hd: 400</button>
-                                <button class="btn btn-danger rounded-circle">hf: 400</button>
-
-
-                                {% endif %}#}
-
 
                             <td>
                                 <a type="button" href="{{ path('modifySalle', {'id': u.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
@@ -52,7 +45,9 @@
                                     <input type="hidden" name="_token" value="{{u.id }}">
                                     <button type="submit" value="supprimer" class="btn btn-danger btn-icon  rounded-pill"><i class="  ti-trash"></i></button>
                                 </form>
+
                             </td>
+
                             </tbody>
 
                             {% endfor %}

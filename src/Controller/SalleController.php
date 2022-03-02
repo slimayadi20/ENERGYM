@@ -26,9 +26,25 @@ class SalleController extends AbstractController
     {
 
         $salle = $this->getDoctrine()->getRepository(salle::class)->findAll();
+
         return $this->render('salle/index.html.twig', [
             'controller_name' => 'SalleController',
             "salle" => $salle,
+
+        ]);
+    }
+    /**
+     * @Route("/map", name="map")
+     */
+    public function mewmap(): Response
+    {
+
+        $salle = $this->getDoctrine()->getRepository(salle::class)->findAll();
+
+        return $this->render('salle/newMap.html.twig', [
+            'controller_name' => 'SalleController',
+            "salle" => $salle,
+
         ]);
     }
     /**
@@ -36,7 +52,6 @@ class SalleController extends AbstractController
      */
     public function salleFront(): Response
     {
-
         $salle = $this->getDoctrine()->getRepository(salle::class)->findAll();
         return $this->render('salle/afficherFront.html.twig', [
             'controller_name' => 'SalleController',

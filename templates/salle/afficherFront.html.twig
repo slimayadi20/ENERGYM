@@ -44,7 +44,7 @@
 
                         <a class="read-more" href="{{ path('detailFront', {'id': u.id}) }}">Plus de detail</a>
 
-                        <a onclick="loadDoc() " href="{{path('Salle_like', {'id':u.id})}}" class="btn btn-link js-like-link">
+                        <a onclick="loadDoc()" href="{{path('Salle_like', {'id':u.id})}}" class="btn btn-link js-like-link">
                             {% if app.user and u.isLikedByUser(app.user) %}
                                 <i class="fa-solid fa-heart"></i>
                             {% else %}
@@ -54,14 +54,172 @@
                         </a>
                     </div>
                 </div>
+
+
             </div>
+
+
+
             {% endfor %}
 
+            <section class="team-section">
+                <div class="side-text">Trainer</div>
+                <div class="auto-container">
+                    <!-- Sec Title -->
+                    <div class="sec-title light centered">
+                        <div class="title">Team Staff</div>
+                        <h2>Team of Expert <br> Coaches</h2>
+                    </div>
+                    <div class="row clearfix">
+
+                        <!-- Team Block -->
+                        <div class="team-block col-lg-4 col-md-6 col-sm-12">
+                            <div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
+                                <div class="image">
+                                    <a href="#"><img src="https://via.placeholder.com/330x470" alt="" /></a>
+                                </div>
+                                <div class="content">
+                                    <div class="title">Crossfit Coach</div>
+                                    <a href="team.html" class="name">MATIE JUNIOR</a>
+                                </div>
+                                <div class="shared-boxed">
+                                    <div class="shared-inner">
+                                        <span class="share-now fa fa-share-alt"></span>
+                                        <a href="#"><span class="fa fa-facebook"></span></a>
+                                        <a href="#"><span class="fa fa-twitter"></span></a>
+                                        <a href="#"><span class="fa fa-dribbble"></span></a>
+                                        <a href="#"><span class="fa fa-behance"></span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Team Block -->
+                        <div class="team-block col-lg-4 col-md-6 col-sm-12">
+                            <div class="inner-box wow fadeInUp" data-wow-delay="0ms" data-wow-duration="1500ms">
+                                <div class="image">
+                                    <a href="#"><img src="https://via.placeholder.com/330x470" alt="" /></a>
+                                </div>
+                                <div class="content">
+                                    <div class="title">Bodybuilding Coach</div>
+                                    <a href="team.html" class="name">Steve Cross</a>
+                                </div>
+                                <div class="shared-boxed">
+                                    <div class="shared-inner">
+                                        <span class="share-now fa fa-share-alt"></span>
+                                        <a href="#"><span class="fa fa-facebook"></span></a>
+                                        <a href="#"><span class="fa fa-twitter"></span></a>
+                                        <a href="#"><span class="fa fa-dribbble"></span></a>
+                                        <a href="#"><span class="fa fa-behance"></span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Team Block -->
+                        <div class="team-block col-lg-4 col-md-6 col-sm-12">
+                            <div class="inner-box wow fadeInRight" data-wow-delay="0ms" data-wow-duration="1500ms">
+                                <div class="image">
+                                    <a href="#"><img src="https://via.placeholder.com/330x470" alt="" /></a>
+                                </div>
+                                <div class="content">
+                                    <div class="title">Cardio & Conditioning</div>
+                                    <a href="team.html" class="name">MAdona FRON</a>
+                                </div>
+                                <div class="shared-boxed">
+                                    <div class="shared-inner">
+                                        <span class="share-now fa fa-share-alt"></span>
+                                        <a href="#"><span class="fa fa-facebook"></span></a>
+                                        <a href="#"><span class="fa fa-twitter"></span></a>
+                                        <a href="#"><span class="fa fa-dribbble"></span></a>
+                                        <a href="#"><span class="fa fa-behance"></span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
         </div>
+
+
+<br>
+
+        <style>
+            /* Always set the map height explicitly to define the size of the div
+           * element that contains the map. */
+            #map {
+                height: 60%;
+                width : 100% ;
+            }
+
+
+
+        </style>
+        <script>
+
+            function initMap() {
+                const myLatLng = { lat: 48.657407, lng: 2.651801 };
+                const map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 3,
+                    center: myLatLng,
+                });
+
+                //var dest_from_controller =  list_dest|json_encode()
+                console.log() ;
+
+
+
+                var locations = [
+                    ['tunisia', 33.8439408, 9.400138],
+
+
+                ];
+
+                console.log(locations.length);
+
+
+                var marker, i;
+
+                for (i = 0; i < locations.length; i++) {
+                    marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                        map: map ,
+                        title: "Hello World!",
+                    });
+                    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                        return function() {
+                            infowindow.setContent(locations[i][0]);
+                            infowindow.open(map, marker);
+                        }
+                    })(marker, i));
+                }
+
+                /*new google.maps.Marker({
+                    position: myLatLng,
+                    map,
+                    title: "Hello World!",
+                });*/
+            }
+        </script>
+
+
+
+
+
+
+
+
+            <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy-3c-b-RYk0dabw2v-u5n21yr3jyncz8&callback=initMap&v=weekly" async></script>
+            <div id="map"></div>
+
     </div>
+    <div id="map"></div>
 
 
-</section>
+
 
     {{ include('front_office/footer.html.twig') }}
 

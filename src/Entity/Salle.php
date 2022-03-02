@@ -332,7 +332,7 @@ class Salle
      * @param User $user
      * @return boolean
      */
-    public function isLikedByUser(user $user) : bool
+    public function isLikedByUser(User $user) : bool
     {
         foreach($this->likes as $like){
             if ($like->getUser() === $user) return true;
