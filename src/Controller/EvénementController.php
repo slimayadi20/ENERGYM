@@ -4,14 +4,25 @@ namespace App\Controller;
 
 use App\Entity\CategoriesEvent;
 use App\Entity\Evenement;
+use App\Entity\User;
+use App\Repository\EvenementRepository;
 use App\Form\CategoriesEventType;
 use App\Form\EvenementType;
 use App\Entity\Participation;
+use App\Repository\ParticipationRepository;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
+use Endroid\QrCode\Label\Alignment\LabelAlignmentCenter;
+use Endroid\QrCode\Label\Font\NotoSans;
+use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
+use Endroid\QrCode\Writer\PngWriter;
 use http\Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\QrCode;
 
 class EvénementController extends AbstractController
 {
@@ -31,7 +42,10 @@ class EvénementController extends AbstractController
     {
         $CategoriesEvent = $this->getDoctrine()->getManager()->getRepository(CategoriesEvent::class)->findAll();
         $Evenement = $this->getDoctrine()->getManager()->getRepository(Evenement::class)->findAll();
-        return $this->render("evénement/AfficherEventFront.html.twig",array("Evenement"=>$Evenement,"CategoriesEvent"=>$CategoriesEvent));
+        $Post =  $this->getDoctrine()->getManager()->getRepository(Evenement::class)->findRecent();
+        return $this->render("evénement/AfficherEventFront.html.twig",array("Evenement"=>$Evenement,"CategoriesEvent"=>$CategoriesEvent, "recent"=>$Post));
+
+
     }
     /**
      * @Route("/EvenementDetailFront", name="EvenementDetailFront")
@@ -148,47 +162,13 @@ class EvénementController extends AbstractController
             'DateEvent'=>$prod->getDateEvent(),
             'NbrParticipantsEvent'=>$prod->getNbrParticipantsEvent(),
             'image'=>$prod->getImage(),
+            'Etat'=>$prod->getEtat(),
+
 
         ));
 
 
     }
-    /**
-     * @Route("/ParticiperEvent/{id}", name="ParticiperEvent")
-     */
-    public function ParticiperEvent(Request $req, $id) {
-        $user= $this->getUser() ;
-        $iduser= $user->getId() ;
-        $em= $this->getDoctrine()->getManager();
-        $Event = $em->getRepository(Evenement::class)->find($id);
-
-        //TEST PARTICIPATION:
-        $currentEvt =$em->getRepository(Participation::class)->findBy(["idEvent"=>$id]);
-
-
-        if(  !$currentEvt )
-        {
-            $Participation= new Participation();
-            $em= $this->getDoctrine()->getManager();
-            $Event = $em->getRepository(evenement::class)->find($id);
-            $Participation->setIdUser($user);
-            $Participation->setIdEvent($Event);
-            $em->persist($Participation);
-            $em->flush();
-            return $this->render('evénement/AfficherEventDetailFront.html.twig',array(
-                'id'=>$Event->getId(),
-                'NomEvent'=>$Event->getNomEvent(),
-                'DescriptionEvent'=>$Event->getDescriptionEvent(),
-                'LieuEvent'=>$Event->getLieuEvent(),
-                'DateEvent'=>$Event->getDateEvent(),
-                'NbrParticipantsEvent'=>$Event->getNbrParticipantsEvent(),
-                'image'=>$Event->getImage(),
-
-            ));
-        }
-
-        return $this->redirectToRoute('ParticipationEffectue');
-            }
 
 
 
@@ -215,7 +195,154 @@ class EvénementController extends AbstractController
         return $this->render('evénement/ParticipationEffectue.html.twig', [
         ]);
     }
+    /**
+     * @Route("/RecentsPost", name="RecentsPost")
+     */
+    public function RecentsPost(): Response
+    {
+        $em= $this->getDoctrine()->getManager();
+        $Post = $em->getRepository(Evenement::class)->findRecent();
+        return $this->render('evénement/AfficherEventFront.html.twig', [
+            "recent"=>$Post
+        ]);
+    }
+    public function QR( $id,EvenementRepository $repository){
+        $event=$repository->find($id);// nom event , lieu , date , nom user
+        $user=$this->getUser()->getNom();
+        $name=$event->getNomEvent();
+        $lieu=$event->getLieuEvent();
+        $date=$event->getDateEvent();
 
+        $result = Builder::create()
+            ->writer(new PngWriter())
+            ->writerOptions([])
+            ->data('Client: '.$user.' nom evenement:'.$name)
+            ->encoding(new Encoding('UTF-8'))
+            ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
+            ->size(300)
+            ->margin(10)
+            ->roundBlockSizeMode(new RoundBlockSizeModeMargin())
+            ->labelText("scan me ")
+            ->labelFont(new NotoSans(20))
+            ->labelAlignment(new LabelAlignmentCenter())
+            ->build();
+        header('Content-Type: '.$result->getMimeType());
+        $result->saveToFile('QRcode/'.'client'.$user.'nomEvent'.$name.'.png');
+    }
+    public function email($nameUser,$nameEvent,$email, \Swift_Mailer $mailer)
+    {
+
+        $message = (new \Swift_Message('confirmation de reservation pour evenement '))
+            ->setFrom('slim.ayadi@esprit.tn')
+            ->setTo($email);
+        $img = $message->embed(\Swift_Image::fromPath('QRcode/client'.$nameUser.'nomEvent'.$nameEvent.'.png'));
+
+        $message
+            ->setBody(
+                $this->renderView(
+                // templates/emails/registration.html.twig
+                    'emails/registration.html.twig',
+                    ['name' => $nameUser,
+                        'img'  =>$img,
+                        'nomEvent'=> $nameEvent,
+                    ]
+                ),
+                'text/html'
+            )
+        ;
+
+        $mailer->send($message);
+
+    }
+    /**
+     * @Route("/ParticiperEvent/{id}", name="ParticiperEvent")
+     */
+    public function ParticiperEvent(EvenementRepository $repository,Request $req, $id,\Swift_Mailer $mailer) {
+
+        $user= $this->getUser() ;
+        $iduser= $user->getId() ;
+        $email= $user->getEmail() ;
+        $name= $user->getNom() ;
+        $em= $this->getDoctrine()->getManager();
+        $Event = $em->getRepository(Evenement::class)->find($id);
+        $nameEvent=$Event->getNomEvent();
+
+        //TEST PARTICIPATION:
+        $currentEvt =$em->getRepository(Participation::class)->findBy(["idEvent"=>$id]);
+        if ($Event->getNbrParticipantsEvent()==1){
+            $Event->setEtat("Complet");
+        }
+        if (  !$currentEvt)
+        {
+            $Participation= new Participation();
+            $em= $this->getDoctrine()->getManager();
+            $Event = $em->getRepository(Evenement::class)->find($id);
+            $nbr=$Event->getNbrParticipantsEvent();
+            $Event->setNbrParticipantsEvent($nbr-1);
+            $Participation->setIdUser($user);
+            $Participation->setIdEvent($Event);
+            $this->QR($id,$repository);
+            $this->email($name,$nameEvent,$email,$mailer);
+
+            $em->persist($Participation);
+            $em->flush();
+
+            return $this->render('evénement/AfficherEventDetailFront.html.twig',array(
+                'id'=>$Event->getId(),
+                'NomEvent'=>$Event->getNomEvent(),
+                'DescriptionEvent'=>$Event->getDescriptionEvent(),
+                'LieuEvent'=>$Event->getLieuEvent(),
+                'DateEvent'=>$Event->getDateEvent(),
+                'NbrParticipantsEvent'=>$Event->getNbrParticipantsEvent(),
+                'image'=>$Event->getImage(),
+                'Etat'=>$Event->getEtat(),
+
+            ));
+        }
+
+        $this->addFlash('error' , 'Vous avez deja participe');
+
+        return $this->render('evénement/AfficherEventDetailFront.html.twig',array(
+            'id'=>$Event->getId(),
+            'NomEvent'=>$Event->getNomEvent(),
+            'DescriptionEvent'=>$Event->getDescriptionEvent(),
+            'LieuEvent'=>$Event->getLieuEvent(),
+            'DateEvent'=>$Event->getDateEvent(),
+            'NbrParticipantsEvent'=>$Event->getNbrParticipantsEvent(),
+            'image'=>$Event->getImage(),
+            'Etat'=>$Event->getEtat(),
+
+
+        ));
+
+    }
+
+//SEARCH
+
+
+    /**
+     * @Route("/ajax_search/", name="ajax_search")
+     */
+    public function chercherProduit(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $requestString = $request->get('q');
+        $evenementss =  $em->getRepository(Evenement::class)->rechercheAvance($requestString);
+        if(!$evenementss) {
+            $result['evenementss']['error'] = "Product non trouvé 🙁 ";
+        } else {
+            $result['evenementss'] = $this->getRealEntities($evenementss);
+        }
+        return new Response(json_encode($result));
+    }
+    public function getRealEntities($evenementss){
+
+        foreach ($evenementss as $evenementss){
+            $realEntities[$evenementss->getId()] = [$evenementss->getImage(),$evenementss->getNomEvent()];
+
+        }
+        return $realEntities;
+    }
 
 
 }

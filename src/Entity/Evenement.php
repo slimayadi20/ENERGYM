@@ -4,6 +4,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups ;
 
 use App\Repository\EvenementRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,6 +18,7 @@ class Evenement
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
@@ -28,12 +30,15 @@ class Evenement
      *
      *     )
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
+
      */
     private $NomEvent;
 
 
     /**
      * @ORM\Column(type="date")
+     * @Groups("post:read")
      * @Assert\GreaterThanOrEqual("today", message="La date  est incorrecte .")
      */
     private $DateEvent;
@@ -46,12 +51,14 @@ class Evenement
      *      minMessage = "Description très courte ! ",
      *      maxMessage = "doit etre <=100" )
      * @ORM\Column(type="string", length=1000)
+     * @Groups("post:read")
      */
     private $DescriptionEvent;
 
     /**
      * @Assert\NotBlank(message="Le lieu ne doit pas etre vide")
      * @ORM\Column(type="string", length=1000)
+     * @Groups("post:read")
      */
     private $LieuEvent;
 
@@ -65,12 +72,14 @@ class Evenement
      *      notInRangeMessage = "Nombre très petit",
      *     )
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $NbrParticipantsEvent;
 
     /**
      * @ORM\ManyToOne(targetEntity=CategoriesEvent::class, inversedBy="evenementss")
      * @ORM\JoinColumn(nullable=false)
+     *
      */
     private $NomCategorie;
 
@@ -81,8 +90,14 @@ class Evenement
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $image;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $Etat;
 
     public function __construct()
     {
@@ -210,6 +225,18 @@ class Evenement
     public function setImage(string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->Etat;
+    }
+
+    public function setEtat(?string $Etat): self
+    {
+        $this->Etat = $Etat;
 
         return $this;
     }

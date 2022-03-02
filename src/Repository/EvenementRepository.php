@@ -18,7 +18,29 @@ class EvenementRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Evenement::class);
     }
+    public function findRecent()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT e FROM App:Evenement e ORDER BY e.DateEvent DESC'
+            )
+            ->setMaxResults(3)
+            ->getResult();
 
+    }
+
+
+    public function rechercheAvance($str) {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT P
+                FROM App\Entity\Evenement P
+                WHERE P.NomEvent LIKE :str'
+            )
+            ->setParameter('str', '%'.$str.'%')
+            ->getResult();
+
+    }
     // /**
     //  * @return Evenement[] Returns an array of Evenement objects
     //  */

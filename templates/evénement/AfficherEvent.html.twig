@@ -9,13 +9,22 @@
         <!-- Start content -->
         <div class="content">
             <div class="container-fluid">
-                <div class="row">
 
 
-                </div>
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
 
-                <div class="row" style="display: flex;align-items: center;justify-content: center">
-                    <div class="col-lg-6">
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                <div class="row" >
+                    <div class="col-12">
                         <div class="card-box">
                             <div class="dropdown pull-right">
                                 <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
@@ -41,6 +50,7 @@
                                     <th>Nom</th>
                                     <th>Date </th>
                                     <th>Lieu</th>
+                                    <th>Etat</th>
                                     <th>Image</th>
                                     <th>Modifier</th>
                                     <th>Supprimer</th>
@@ -48,7 +58,6 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-
                                 {% for e in Evenement %}
                                     <tr>
 
@@ -56,7 +65,15 @@
                                         <td>{{ e.NomEvent }}</td>
                                         <td>{{ e.DateEvent |date('Y-m-d') }}</td>
                                         <td>{{ e.LieuEvent }}</td>
-                                        <td> <img class="card-img-top img-fluid" src="{{ asset('uploads/Event_image/' )~e.image  }}" alt="Card image cap" > </td>
+
+                                        <td>
+                                            {% if e.Etat=="Complet" %}
+                                            <span class="badge badge-danger badge-pill">Complet</span>
+                                            {% else %}
+                                                <span class="badge badge-primary badge-pill">Incomplet</span>
+                                            {% endif %}
+                                                </td>
+                                        <td  width="50"> <img class="card-img-top img-fluid" src="{{ asset('uploads/Event_image/' )~e.image  }}"   > </td>
                                         <td><a href="{{ path('ModifierEvent',{'id':e.id}) }}"><i class="fa fa-pencil" style="color:#00aff0;font-size:20px"></i> </a> </td>
                                         <td><a href="{{ path('SupprimerEvent',{'id':e.id}) }}"><i class="fa fa-trash" style="color:#ff5b5b;font-size:20px"></i> </a> </td>
                                         <td><a href="{{ path('detail',{'id':e.id}) }}"><i class="fa fa-list" style="color:#0eac5c;font-size:20px"></i> </a> </td>
