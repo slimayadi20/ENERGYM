@@ -375,65 +375,9 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Produit>
-     */
-    public function getProducts(): Collection
-    {
-        return $this->Products;
-    }
 
-    public function addProduct(Produit $product): self
-    {
-        if (!$this->Products->contains($product)) {
-            $this->Products[] = $product;
-            $product->setUser($this);
-        }
 
-        return $this;
-    }
 
-    public function removeProduct(Produit $product): self
-    {
-        if ($this->Products->removeElement($product)) {
-            // set the owning side to null (unless already changed)
-            if ($product->getUser() === $this) {
-                $product->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Categories>
-     */
-    public function getCategorieProduit(): Collection
-    {
-        return $this->CategorieProduit;
-    }
-
-    public function addCategorieProduit(Categories $categorieProduit): self
-    {
-        if (!$this->CategorieProduit->contains($categorieProduit)) {
-            $this->CategorieProduit[] = $categorieProduit;
-            $categorieProduit->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCategorieProduit(Categories $categorieProduit): self
-    {
-        if ($this->CategorieProduit->removeElement($categorieProduit)) {
-            // set the owning side to null (unless already changed)
-            if ($categorieProduit->getUser() === $this) {
-                $categorieProduit->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getVerificationCode(): ?int
     {

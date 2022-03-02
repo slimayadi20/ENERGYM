@@ -79,7 +79,7 @@ class SecurityController extends AbstractController
             $user->setPassword($passwordcrypt);
             $entityManager->persist($user);
             $entityManager->flush();
-            return $this->render("security/Confirm.html.twig");
+            return $this->render("security/Email.html.twig");
         }
         return $this->render("security/Register.html.twig", [
             "form_title" => "Ajouter un gerant",

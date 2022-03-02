@@ -107,7 +107,6 @@ class Salle
     private $users;
 
 
-
     public function __construct()
     {
         $this->cours = new ArrayCollection();

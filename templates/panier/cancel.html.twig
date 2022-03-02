@@ -1,0 +1,16 @@
+{% extends "base-front.html.twig" %}
+
+{% block title %}
+    Erreur paiement
+{% endblock %}
+
+{% block body %}
+    {{ include('front_office/navbar.html.twig') }}
+<h1>Thanks for attempted your order!</h1>
+<p>
+    We appreciate your business!
+    Payment failed :(
+    <a href="mailto:orders@example.com">failures@example.com</a>.
+</p>
+    {{ include('front_office/footer.html.twig') }}
+{% endblock %}

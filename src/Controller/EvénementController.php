@@ -152,7 +152,22 @@ class EvénementController extends AbstractController
     public function detailEventFront(Request $req, $id) {
         $em= $this->getDoctrine()->getManager();
         $prod = $em->getRepository(Evenement::class)->find($id);
+        $location = $prod->getLieuEvent();
 
+        $queryString = http_build_query([
+            'access_key' => 'a0a2aeb37edb10c8f79d48aa432efe7a',
+            'query' => $location,
+        ]);
+
+        $ch = curl_init(sprintf('%s?%s', 'http://api.weatherstack.com/current', $queryString));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $json = curl_exec($ch);
+        curl_close($ch);
+
+        $api_result = json_decode($json, true);
+        //print_r( $api_result);
+        $temp= "Current temperature in $location is {$api_result['current']['temperature']}℃";
 
         return $this->render('evénement/AfficherEventDetailFront.html.twig',array(
             'id'=>$prod->getId(),
@@ -163,6 +178,7 @@ class EvénementController extends AbstractController
             'NbrParticipantsEvent'=>$prod->getNbrParticipantsEvent(),
             'image'=>$prod->getImage(),
             'Etat'=>$prod->getEtat(),
+            'temp'=>$temp,
 
 
         ));

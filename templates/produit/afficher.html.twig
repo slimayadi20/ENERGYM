@@ -46,7 +46,7 @@
 
 
                             <td>
-                                <a type="button" href="{{ path('modifyproduit', {'id': p.id, 'idU' : p.user.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
+                                <a type="button" href="{{ path('modifyproduit', {'id': p.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
                             </td>
                             <td>
                                 <form method="post" action="{{ path('deleteproduit', {'id': p.id}) }}"  onsubmit="return confirm('Voulez vous supprimer ce produit ?')">

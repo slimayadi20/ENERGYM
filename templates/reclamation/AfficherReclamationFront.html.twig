@@ -10,13 +10,13 @@
     <div class="auto-container">
         <div class="clearfix">
             <div class="pull-left">
-                <h2>Frequently Ask Quetion</h2>
-                <div class="text">Fitness is not a destination it is a way of life.</div>
+                <h2>Postez vos Reclamation ! </h2>
+                <div class="text"></div>
             </div>
             <div class="pull-right">
                 <ul class="page-breadcrumb">
-                    <li><a href="index.html">home</a></li>
-                    <li>Faq's</li>
+                    <li><a href="{{ path ('front_office') }}">home</a></li>
+                    <li>Reclamation</li>
                 </ul>
             </div>
         </div>
@@ -51,6 +51,10 @@
                                     'novalidate'
                                 }})
                         }}
+                        <div class="form-group">
+                            {{ form_widget(form_reclamation.produit, { 'attr': {'class': 'form-control','placeholder': 'Ajouter un produit acheté'} }) }}
+                            {{ form_errors(form_reclamation.produit, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
                             <div class="form-group">
                                 {{ form_widget(form_reclamation.titre, { 'attr': {'class': 'form-control','placeholder': 'Ecrire un titre..'} }) }}
                                 {{ form_errors(form_reclamation.titre, { 'attr': {'class': 'form-control'} }) }}

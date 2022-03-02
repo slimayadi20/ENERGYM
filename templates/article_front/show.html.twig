@@ -1,21 +1,22 @@
-{% extends "base-front.html.twig" %}
+{% extends 'base-front.html.twig' %}
+{% block head %}
+    <meta property="og:type"          content="website" />
 
-{% block title %}
-    Article!
 {% endblock %}
 
 {% block body %}
     {{ include('front_office/navbar.html.twig') }}
-
     <section class="page-title" style="background-image:url(https://via.placeholder.com/1920x600)">
         <div class="auto-container">
             <div class="clearfix">
                 <div class="pull-left">
-
+                    <h2>Blog detaillé</h2>
+                    <div class="text">Fitness is not a destination it is a way of life.</div>
                 </div>
                 <div class="pull-right">
                     <ul class="page-breadcrumb">
-                        <li><a  href="{{ path('front_office') }}">home</a></li>
+                        <li><a href={{ path('front_office') }}>home</a></li>
+                        <li>Blog</li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +31,14 @@
                     <aside class="sidebar sticky-top">
 
                         <!-- Search -->
-
+                        <div class="sidebar-widget search-box">
+                            <form method="post" action="contact.html">
+                                <div class="form-group">
+                                    <input type="search" name="search-field" value="" placeholder="Search....." required>
+                                    <button type="submit"><span class="icon fa fa-search"></span></button>
+                                </div>
+                            </form>
+                        </div>
 
                         <!-- Categories Widget -->
                         <div class="sidebar-widget categories-widget">
@@ -140,14 +148,8 @@
                                 <!-- Post Share Options-->
                                 <div class="post-share-options">
                                     <div class="post-share-inner clearfix">
-                                        <div class="pull-left tags"><span>Post Tags: </span><a href="#">Fit,</a> <a href="#">gym, </a><a href="#">fitness,</a> <a href="#">Cardio</a></div>
-                                        <ul class="social-box pull-right">
-                                            <span class="flaticon-share-1"></span>
-                                            <li class="facebook"><a href="#"><span class="fa fa-facebook-f"></span></a></li>
-                                            <li class="twitter"><a href="#"><span class="fa fa-twitter"></span></a></li>
-                                            <li class="twitter"><a href="#"><span class="fa fa-google"></span></a></li>
-                                            <li class="linkedin"><a href="#"><span class="fa fa-whatsapp"></span></a></li>
-                                        </ul>
+                                        <!-- Load Facebook SDK for JavaScript -->
+                                        <iframe src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2F127.0.0.1%3A8000%2Farticle%2Fclient%2Fdisplay%2F{{ article.id }}&layout=button_count&size=small&width=91&height=20&appId" width="91" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
                                     </div>
                                 </div>
 
@@ -164,7 +166,7 @@
                                             <div class="author-thumb">
                                                 <img src="https://via.placeholder.com/120x120" alt="">
                                             </div>
-                                            <div class="comment-info clearfix"><strong>Paul Jones </strong><div class="comment-time">{{ comment.dateCreation }}</div></div>
+                                            <div class="comment-info clearfix"><strong>Slim Ayadi </strong><div class="comment-time">{{ comment.dateCreation ? comment.dateCreation|date('Y-m-d') : '' }}</div></div>
                                             <div class="text">{{ comment.contenu }}</div>
                                         </div>
                                     </div>
@@ -182,19 +184,22 @@
                                     <div class="default-form style-two">
 
                                         <!-- Default Form -->
-                                        <form method="post" action="" id="contact.html">
+
+
+                                        {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
                                             <div class="row clearfix">
 
                                                 <div class="form-group col-lg-12 col-md-12 col-sm-12">
-                                                    <textarea name="message" placeholder="Your Comments"></textarea>
+                                                    {{ form_row(form.contenu,{'attr': {'class': 'form-control'}} ) }}
                                                 </div>
 
                                                 <div class="form-group clearfix col-lg-12 col-md-12 col-sm-12">
-                                                    <div class="btn-three-outer"><button class="theme-btn btn-style-three" type="submit" name="submit-form"><span class="txt">Sand Now</span></button></div>
+                                                    <div class="btn-three-outer"><button class="theme-btn btn-style-three" type="submit" name="submit-form"><span class="txt">Send Now</span></button></div>
                                                 </div>
 
                                             </div>
-                                        </form>
+                                            {{ form_end(form) }}
+
 
                                         <!--End Default Form -->
                                     </div>
@@ -212,5 +217,21 @@
         </div>
     </div>
 
-    {{ include('front_office/footer.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+            fjs.parentNode.insertBefore(js, fjs);
+            console.log(js);
+
+        }(document, 'script', 'facebook-jssdk'));
+
+
+
+    </script>
+
 {% endblock %}

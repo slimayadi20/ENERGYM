@@ -1,0 +1,52 @@
+
+
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-box table-responsive">
+                        <h4 class="m-t-0 header-title">Gestion des Promos </h4>
+                        <div>
+                            <a  style=" position:absolute;right:10%;top:3% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addPromo') }}"> <i class="fa fa-plus dark"></i> </a>
+                        </div>
+                        <table id="datatable" class="table table-bordered">
+                            <thead>
+                            <th>Code Promo</th>
+                            <th>Réduction</th>
+                            <th>edit</th>
+                            <th>delete</th>
+                            </thead>
+                            <tbody>
+                            {% for p in promos %}
+
+                            <td>{{ p.code }}</td>
+                            <td>{{ p.reduction }} %</td>
+                            <td>
+                                <a type="button" href="{{ path('modifyPromo', {'id': p.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
+                            </td>
+                            <td>
+                                <form method="post" action="{{ path('deletePromo', {'id': p.id}) }}"  onsubmit="return confirm('Voulez vous supprimer cette Promotion ?')">
+                                    <input type="hidden" name="_method" value="SUP">
+                                    <input type="hidden" name="_token" value="{{p.id }}">
+                                    <button type="submit" value="supprimer" class="btn btn-danger btn-icon  rounded-pill"><i class="  ti-trash"></i></button>
+                                </form>
+                            </td>
+                            </tbody>
+
+                            {% endfor %}
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

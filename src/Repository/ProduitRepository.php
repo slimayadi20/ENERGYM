@@ -28,8 +28,16 @@ class ProduitRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('v')
             ->Where(' v.user in (:id) ')
-            ->setParameter('id',$utilisateurid)
+            ->setParameter('id', $utilisateurid)
             ->getQuery();
+    }
+    public function findProduitAchete($user)
+    {
+        return $this->createQueryBuilder('v')
+            ->Where(':id MEMBER OF v.user')
+            ->setParameter('id',$user);
+
+
 
     }
     // /**

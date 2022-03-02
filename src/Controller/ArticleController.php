@@ -6,6 +6,8 @@ use App\Entity\Article;
 use App\Entity\Commentaire;
 
 use App\Form\ArticleType;
+use App\Form\CommentaireType;
+
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,7 +30,6 @@ class ArticleController extends AbstractController
         return $this->render('article/index.html.twig', [
             'articles' => $articleRepository->findAll(),
         ]);
-
     }
 
     /**
@@ -44,10 +45,22 @@ class ArticleController extends AbstractController
 
 
     /**
-     * @Route("/client/display/{id}", name="article_client_show", methods={"GET"})
+     * @Route("/client/display/{id}", name="article_client_show", methods={"GET","POST"})
      */
-    public function showFront(Article $article): Response
+    public function showFront(Article $article,Request $request): Response
     {
+        $comment1 = new Commentaire();
+        $comment1->setArticle($article);
+        $comment1->setDateCreation(new \DateTime('now'));
+        $form = $this->createForm(CommentaireType::class,$comment1 );
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment1);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('article_client_show',['id'=>$article->getId()], Response::HTTP_SEE_OTHER);
+        }
         $comments = $this->getDoctrine()->getRepository(Commentaire::class)->findByArticle($article->getId());
         $articles = $this->getDoctrine()->getRepository(Article::class)->findAll();
 
@@ -55,6 +68,7 @@ class ArticleController extends AbstractController
             'article' => $article,
             'comments' => $comments,
             'articles' => $articles,
+            'form' => $form->createView()
 
         ]);
     }
@@ -175,5 +189,20 @@ class ArticleController extends AbstractController
         }
 
         return $this->redirectToRoute('article_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+
+
+    /**
+     * @Route("/afficherArticle/searchajax ", name="ajaxsearcharticle")
+     */
+    public function searchArticle(Request $request,ArticleRepository $ar)
+    {
+        $requestString = $request->get('searchValue');
+        $articles = $ar->articleSearch($requestString);
+        return $this->render('article/articleajax.html.twig', [
+            "articles" => $articles
+        ]);
     }
 }

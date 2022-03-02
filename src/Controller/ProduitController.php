@@ -25,18 +25,7 @@ class ProduitController extends AbstractController
     {
         $utilisateur = $this->getUser();
         $utilisateurid = $utilisateur->getId();
-        if(in_array('ROLE_GERANT', $utilisateur->getRoles())){
-            $produit =  $paginator->paginate(
-                $repository->findGerantProduitwithpagination($utilisateurid),
-                $request->query->getInt('page' , 1), // nombre de page
-                3 //nombre limite
-            );
-            return $this->render('produit/index.html.twig', [
-                'controller_name' => 'ProduitController',
-                "produit"=>$produit,
-            ]);
-        }
-        else if(in_array('ROLE_ADMIN', $utilisateur->getRoles())){
+
             $produit =  $paginator->paginate(
                 $repository->findallwithpagination(),
                 $request->query->getInt('page' , 1), // nombre de page
@@ -46,8 +35,7 @@ class ProduitController extends AbstractController
                 'controller_name' => 'ProduitController',
                 "produit"=>$produit,
             ]);
-        }
-        return $this->redirectToRoute('dashboard');
+
 
     }
     /**
@@ -61,7 +49,6 @@ class ProduitController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
-            $produit->setUser($utilisateur);
 
             /** @var UploadedFile $imageFile */
             $imageFile = $form->get('image')->getData();
@@ -95,25 +82,15 @@ class ProduitController extends AbstractController
         ]);
     }
     /**
-     * @Route("/dashboard/modifyproduit/{id}/{idU}/", name="modifyproduit")
-     * @ParamConverter("Produit", options={"mapping": {"id" : "id"}})
-     * @ParamConverter("UserA", options={"mapping": {"idU"   : "id"}})
-     * @Template()
+     * @Route("/dashboard/modifyproduit/{id}", name="modifyproduit")
+
      */
-    public function modifyproduit(Produit $prod,User $UserA,Request $request,  Session $session): Response
+    public function modifyproduit(Produit $prod,Request $request,  Session $session): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $id = $prod->getId();
-        $idUser = $UserA->getId();
         $user = $this->getUser();
 
-        if($user->getId() != $idUser )
-        {
-            $this->addFlash('error' , 'You cant edit anotherone');
-            $session->set("message", "Vous ne pouvez pas modifier cette salle");
-            return $this->redirectToRoute('produit');
-
-        }
         $entityManager = $this->getDoctrine()->getManager();
 
         $produit = $entityManager->getRepository(produit::class)->find($id);

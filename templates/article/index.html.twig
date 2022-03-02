@@ -19,6 +19,8 @@
             <div>
                 <a  style=" position:absolute;right:10%;top:3% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('article_new') }}"> <i class="fa fa-plus dark"></i> </a>
             </div>
+            <input type="text" id="search" class="form-control" placeholder="Search">
+
             <table id="datatable" class="table table-bordered">
         <thead>
             <tr>
@@ -28,7 +30,7 @@
                 <th>actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="all">
         {% for article in articles %}
             <tr>
                 <td>{{ article.titre }}</td>
@@ -55,6 +57,41 @@
 </div>
 
     <a href="{{ path('article_new') }}">Create new</a>
+{% endblock %}
+
+
+{% block javascripts %}
+
+
+
+    <script>
+        $( document ).ready(function() {
+            var currentRequest = null;
+            $("#search").keyup(function(e){
+                var value = $(this).val();
+                if(value =='')
+                {
+                    currentRequest.abort()
+                }
+                else if(currentRequest != null) {
+                    currentRequest.abort();
+                }
+                currentRequest = $.ajax({
+                    url : "{{ path('ajaxsearcharticle') }}",
+                    type : 'GET',
+                    data: {
+                        'searchValue' : value
+                    },
+                    success : function(retour)
+                    {
+                        $('#all').html(retour);
+                    },
+                });
+                return false;
+            });
+        });
+    </script>
+
 {% endblock %}
 
 
