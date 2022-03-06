@@ -2,28 +2,51 @@
 
 namespace App\Controller;
 use App\Entity\Salle;
+use App\Entity\User;
 use App\Form\SalleFormType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
-
+use App\Repository\SalleRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class SalleController extends AbstractController
 {
     /**
      * @Route("/dashboard/salle", name="salle")
      */
-    public function index(): Response
+    public function index( Session $session, PaginatorInterface $paginator,SalleRepository $repository , Request $request): Response
     {
-
-        $salle = $this->getDoctrine()->getRepository(salle::class)->findAll();
+        $utilisateur = $this->getUser();
+        $utilisateurid = $utilisateur->getId();
+         if(in_array('ROLE_GERANT', $utilisateur->getRoles())){
+        $salle =  $paginator->paginate(
+            $repository->findGerantSallewithpagination($utilisateurid),
+            $request->query->getInt('page' , 1), // nombre de page
+            3//nombre limite
+        );
         return $this->render('salle/index.html.twig', [
-            'controller_name' => 'SalleController',
             "salle" => $salle,
         ]);
+    }
+    else if(in_array('ROLE_ADMIN', $utilisateur->getRoles())){
+        $salle =  $paginator->paginate(
+            $repository->findallwithpagination(),
+            $request->query->getInt('page' , 1), // nombre de page
+            3 //nombre limite
+        );
+        return $this->render('salle/index.html.twig', [
+            "salle" => $salle,
+        ]);
+    }
+        return $this->redirectToRoute('dashboard');
+
     }
     /**
      * @Route("/salleFront", name="salleFront")
@@ -55,6 +78,7 @@ class SalleController extends AbstractController
      */
     public function addSalle(Request $request): Response
     {
+        $utilisateur = $this->getUser();
         $salle= new salle();
         $form = $this->createForm(SalleFormType::class,$salle);
         $form->handleRequest($request);
@@ -77,6 +101,7 @@ class SalleController extends AbstractController
                 // updates the 'product' property to store the image file name
                 // instead of its contents
                 $salle->setImage($fileName);
+                $salle->addUser($utilisateur);
             }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($salle);
@@ -91,16 +116,34 @@ class SalleController extends AbstractController
         ]);
     }
     /**
-     * @Route("/dashboard/modifySalle/{id}", name="modifySalle")
+     * @Route("/dashboard/modifySalle/{id}/{idU}/", name="modifySalle")
+     * @ParamConverter("Salle", options={"mapping": {"id" : "id"}})
+     * @ParamConverter("UserA", options={"mapping": {"idU"   : "id"}})
+     * @Template()
      */
-    public function modifySalle(Request $request, int $id): Response
+    public function modifySalle(Salle $salle,User $UserA,Request $request,  Session $session): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
+        $id = $salle->getId();
+        $idUser = $UserA->getId();
+        $user = $this->getUser();
 
+        if($user->getId() != $idUser )
+        {
+            $this->addFlash('error' , 'You cant edit anotherone');
+            $session->set("message", "Vous ne pouvez pas modifier cette salle");
+            return $this->redirectToRoute('salle');
+
+        }
         $salle = $entityManager->getRepository(salle::class)->find($id);
         $form = $this->createForm(SalleFormType::class, $salle);
         $form->handleRequest($request);
-
+       /* print_r("***********************");
+        print_r($id);
+        print_r("***********************");
+        print_r($idUser);
+        print_r("***********************");
+        print_r($user->getId());*/
         if($form->isSubmitted() && $form->isValid())
         {
             /** @var UploadedFile $imageFile */
@@ -130,6 +173,7 @@ class SalleController extends AbstractController
             "form_title" => "Modifier une salle",
             "form_salle" => $form->createView(),
         ]);
+
     }
     /**
      * @Route("/dashboard/deleteSalle/{id}", name="deleteSalle")

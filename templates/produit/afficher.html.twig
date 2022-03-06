@@ -9,12 +9,17 @@
                     {{ message }}
                 </div>
             {% endfor %}
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
             <div class="row">
                 <div class="col-12">
                     <div class="card-box table-responsive">
                         <h4 class="m-t-0 header-title">Gestion de Produit </h4>
                         <div>
-                            <a  style=" position:absolute;right:10%;top:3% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addproduit') }}"> <i class="fa fa-plus dark"></i> </a>
+                            <a  style=" position:absolute;right:10%;top:1% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addproduit') }}"> <i class="fa fa-plus dark"></i> </a>
                         </div>
                         <table id="datatable" class="table table-bordered">
                             <thead>
@@ -36,12 +41,16 @@
                             <td>{{ p.quantite }}</td>
                             <td><img src="{{ asset('uploads/produit/'~ p.image)  }}" alt="" width="50">
                             </td>
-                            <td>{{p.categories}}</td>
+                            <td>
+                                {% for c in p.Categories %}
+                                {{c.nom}}
+                                {% endfor %}
+                            </td>
 
 
 
                             <td>
-                                <a type="button" href="{{ path('modifyproduit', {'id': p.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
+                                <a type="button" href="{{ path('modifyproduit', {'id': p.id, 'idU' : p.user.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
                             </td>
                             <td>
                                 <form method="post" action="{{ path('deleteproduit', {'id': p.id}) }}"  onsubmit="return confirm('Voulez vous supprimer ce produit ?')">
@@ -55,7 +64,20 @@
                             {% endfor %}
 
                         </table>
-
+                        <div class="row">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="datatable-buttons_info" role="status" aria-live="polite">
+                                    Showing 1 to {{ produit|length }} entries
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-7" >
+                                <div class="dataTables_paginate paging_simple_numbers" id="datatable-buttons_paginate">
+                                    <div class="navigation" style="float:right;">
+                                        {{ knp_pagination_render(produit) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -9,7 +9,7 @@
 <div class="clearfix"></div>
 <div class="wrapper-page">
     <div class="text-center">
-        <a href="index.html" class="logo"><span>Admin<span>to</span></span></a>
+        <a href="index.html" class="logo"><span>ENER<span>GYM</span></span></a>
         <h5 class="text-muted m-t-0 font-600">Responsive Admin Dashboard</h5>
     </div>
     <div class="m-t-40 card-box">
@@ -52,6 +52,13 @@
 
                     </div>
                 </div>
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        {{ form_widget(form_user.phoneNumber, { 'attr': {'class': 'form-control','placeholder': 'Ecrire votre Number..'} }) }}
+                        {{ form_errors(form_user.phoneNumber, { 'attr': {'class': 'form-control'} }) }}
+
+                    </div>
+                </div>
                 <div class="form-group">
                     <div class="col-xs-12">
                         {{ form_widget(form_user.password, { 'attr': {'class': 'form-control','placeholder': 'Ecrire votre password..'} }) }}
@@ -70,6 +77,13 @@
                             {{ form_errors(form_user.imageFile, { 'attr': {'class': 'form-control'} }) }}
                         </div>
                     </div>
+                <div class="form-group">
+                        <div class="col-xs-12">
+                            {{ form_widget(form_user.captchaCode) }}
+
+                        </div>
+                    </div>
+
 
                 <div class="form-group">
                     <div class="col-xs-12">

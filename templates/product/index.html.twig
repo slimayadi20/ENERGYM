@@ -67,19 +67,66 @@
                             <div class="details-header">
                                 <h2>{{ Product.nom}}</h2>
                                 <div class="rating">
-                                    <span class="fa fa-star fa-2x"  data-index="0"></span>
-                                     <span class="fa fa-star fa-2x " data-index="1">
-                                    </span> <span class="fa fa-star fa-2x" data-index="2">
-                                    </span> <span class="fa fa-star fa-2x" data-index="3"></span>
-                                    <span class="fa fa-star fa-2x" data-index="4"></span></div>
-                                <script
-                                        src="https://code.jquery.com/jquery-3.6.0.min.js"
-                                        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-                                        crossorigin="anonymous">
-                                </script>
+                                    <i class="fa fa-star fa-2x"  data-index="0"></i>
+                                     <i class="fa fa-star fa-2x " data-index="1">
+                                    </i> <i class="fa fa-star fa-2x" data-index="2">
+                                    </i> <i class="fa fa-star fa-2x" data-index="3"></i>
+                                    <i class="fa fa-star fa-2x" data-index="4"></i></div>
+                                <script src="http://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
                                 <script>
-                                    function  resetStarColors() {
-                                        $('.fa-star').css('color' , 'bisque');
+                                    var ratedIndex = -1, uID = 0;
+
+                                    $(document).ready(function () {
+                                        resetStarColors();
+
+                                        if (localStorage.getItem('ratedIndex') != null) {
+                                            setStars(parseInt(localStorage.getItem('ratedIndex')));
+                                            uID = localStorage.getItem('uID');
+                                        }
+
+                                        $('.fa-star').on('click', function () {
+                                            ratedIndex = parseInt($(this).data('index'));
+                                            localStorage.setItem('ratedIndex', ratedIndex);
+                                            saveToTheDB();
+                                        });
+
+                                        $('.fa-star').mouseover(function () {
+                                            resetStarColors();
+                                            var currentIndex = parseInt($(this).data('index'));
+                                            setStars(currentIndex);
+                                        });
+
+                                        $('.fa-star').mouseleave(function () {
+                                            resetStarColors();
+
+                                            if (ratedIndex != -1)
+                                                setStars(ratedIndex);
+                                        });
+                                    });
+
+                                    function saveToTheDB() {
+                                        $.ajax({
+                                            url: "index.html.twig",
+                                            method: "POST",
+                                            dataType: 'json',
+                                            data: {
+                                                save: 1,
+                                                uID: uID,
+                                                ratedIndex: ratedIndex
+                                            }, success: function (r) {
+                                                uID = r.id;
+                                                localStorage.setItem('uID', uID);
+                                            }
+                                        });
+                                    }
+
+                                    function setStars(max) {
+                                        for (var i=0; i <= max; i++)
+                                            $('.fa-star:eq('+i+')').css('color', 'red');
+                                    }
+
+                                    function resetStarColors() {
+                                        $('.fa-star').css('color', 'grey');
                                     }
                                 </script>
 
@@ -112,7 +159,9 @@
 
                             <ul class="shop-list">
                                 <li><strong>Quantité en stock</strong><span class="theme_color">.</span>{{ Product.quantite }}</li>
-                                <li><strong>Category</strong><span class="theme_color">.</span>{{ Product.categories }}</li>
+                                {% for c in Product.Categories %}
+                                <li><strong>Category</strong><span class="theme_color">.</span>{{ c.nom }}</li>
+                                {% endfor %}
                                 <li><strong>share</strong><span class="theme_color">.</span></li>
                                 <li><a href="#">Add to Wishlist .</a></li>
                             </ul>

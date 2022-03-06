@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ReclamationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups ;
 
 /**
  * @ORM\Entity(repositoryClass=ReclamationRepository::class)
@@ -15,6 +16,7 @@ class Reclamation
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
@@ -27,6 +29,7 @@ class Reclamation
      *     minMessage="The name must be at least 3 characters long",
      *     maxMessage="The name cannot be longer than 50 characters"
      * )
+     * @Groups("post:read")
      */
     private $titre;
 
@@ -44,6 +47,7 @@ class Reclamation
      *     minMessage="The name must be at least 3 characters long",
      *     maxMessage="The name cannot be longer than 50 characters"
      * )
+     * @Groups("post:read")
      */
     private $contenu;
 

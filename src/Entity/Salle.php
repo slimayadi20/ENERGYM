@@ -101,11 +101,17 @@ class Salle
      */
     private $cours;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="IdSalle")
+     */
+    private $users;
+
 
 
     public function __construct()
     {
         $this->cours = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
 
@@ -281,4 +287,33 @@ class Salle
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addIdSalle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeIdSalle($this);
+        }
+
+        return $this;
+    }
+
 }
+

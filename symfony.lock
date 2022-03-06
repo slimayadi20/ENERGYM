@@ -1,4 +1,13 @@
 {
+    "captcha-com/captcha": {
+        "version": "4.2.5"
+    },
+    "captcha-com/symfony-captcha-bundle": {
+        "version": "4.2.12"
+    },
+    "cmen/google-charts-bundle": {
+        "version": "5.0.0"
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.4"
     },
@@ -421,9 +430,6 @@
             "./tests/bootstrap.php"
         ]
     },
-    "symfony/polyfill-intl-grapheme": {
-        "version": "v1.24.0"
-    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.23.0"
     },
@@ -506,9 +512,6 @@
     },
     "symfony/stopwatch": {
         "version": "v4.4.27"
-    },
-    "symfony/string": {
-        "version": "v6.0.3"
     },
     "symfony/swiftmailer-bundle": {
         "version": "3.5",

@@ -37,20 +37,11 @@
                                 <div class="results-column col-md-6 col-sm-6 col-xs-12">
                                     <h6>Showing Items 1–9 of 36 results</h6>
                                 </div>
-                                <div class="select-column pull-right col-md-6 col-sm-6 col-xs-12">
-                                    <div class="form-group">
-                                        <select name="sort-by">
-                                            <option>Default Sorting</option>
-                                            <option>By Order</option>
-                                            <option>By Price</option>
-                                        </select>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
 
                         <div class="our-shops">
-
                             <div class="row clearfix">
                                 {% for p in listProduit %}
                                 <!-- Shop Item -->
@@ -117,33 +108,42 @@
                     <aside class="sidebar sticky-top">
 
                         <!-- Search -->
+                        {{ form_start(form) }}
                         <div class="sidebar-widget search-box">
-                            <form method="post" action="contact.html">
+
                                 <div class="form-group">
-                                    <input type="search" name="search-field" value="" placeholder="Search....." required="">
+                                    {{ form_row(form.q) }}
                                     <button type="submit"><span class="icon fa fa-search"></span></button>
                                 </div>
-                            </form>
-                        </div>
 
-                        <!-- Categories Widget -->
+                        </div>
 
                         <div class="sidebar-widget categories-widget">
                             <div class="sidebar-title">
                                 <h4>Categories</h4>
                             </div>
-                            {% for c in listCategories  %}
 
-                            <div class="widget-content">
+                                <div class="widget-content">
 
-                                <ul class="blog-cat">
+                                    <ul class="blog-cat">
+                                        {{ form_row(form.categories) }}
 
-                                    <li><a href="#">{{c.nom}} <span>()</span></a></li>
+                                    </ul>
+                                </div>
 
-                                </ul>
-                            </div>
-                            {% endfor %}
                         </div>
+
+
+                        {{ form_row(form.min) }}
+                        {{ form_row(form.max) }}
+                        <button type="submit" class="btn btn-danger">Filtrer</button>
+                        {{ form_end(form) }}
+
+
+
+                        <!-- Categories Widget -->
+
+
 
 
 

@@ -9,13 +9,21 @@
                     {{ message }}
                 </div>
             {% endfor %}
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
             <div class="row">
                 <div class="col-12">
                     <div class="card-box table-responsive">
                         <h4 class="m-t-0 header-title">Gestion Des salles </h4>
+
                         <div>
-                            <a  style=" position:absolute;right:10%;top:3% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addSalle') }}"> <i class="fa fa-plus dark"></i> </a>
+
+                            <a  style=" position:absolute;right:10%;top:1% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addSalle') }}"> <i class="fa fa-plus dark"></i> </a>
                         </div>
+
                         <table id="datatable" class="table table-bordered">
                             <thead>
                             <th>Nom</th>
@@ -34,7 +42,6 @@
                             <td><a href="{{ path('detailsalle',{'id':u.id}) }}"><i class="fa fa-list" style="color:#0eac5c;font-size:20px"></i> </a> </td>
 
 
-
                             {# {% if u.date = format_datetime %}
                                 <button class="btn btn-success rounded-circle-5">hd: 400</button>
                                 <button class="btn btn-danger rounded-circle">hf: 400</button>
@@ -44,7 +51,10 @@
 
 
                             <td>
-                                <a type="button" href="{{ path('modifySalle', {'id': u.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
+                                {% for s in u.users %}
+                                  {#   <a>{{ s.id }}</a>#}
+                                <a type="button" href="{{ path('modifySalle', {'id': u.id, 'idU' : s.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
+                            {% endfor %}
                             </td>
                             <td>
                                 <form method="post" action="{{ path('deleteSalle', {'id': u.id}) }}"  onsubmit="return confirm('Voulez vous supprimer cette salle ?')">
@@ -58,6 +68,13 @@
                             {% endfor %}
 
                         </table>
+                        <div class="col-sm-12 col-md-7" >
+                            <div class="dataTables_paginate paging_simple_numbers" id="datatable-buttons_paginate">
+                                <div class="navigation" style="float:right;">
+                                    {{ knp_pagination_render(salle) }}
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>

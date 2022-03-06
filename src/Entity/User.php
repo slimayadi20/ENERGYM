@@ -10,6 +10,7 @@ use phpDocumentor\Reflection\Types\True_;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -103,9 +104,61 @@ class User implements UserInterface
      */
     private $paniers;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Salle::class, inversedBy="users")
+     */
+    private $IdSalle;
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $activation_token;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $reset_token;
+
+
+    protected $captchaCode;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $Products;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Categories::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $CategorieProduit;
+
+    /**
+     * @var string
+     * @ORM\Column(name="phone", type="string", length=255, nullable=false)
+     */
+    protected $phoneNumber;
+
+    public function getPhoneNumber() {
+        return $this->phoneNumber;
+    }
+    public function setPhoneNumber($phoneNumber) {
+        $this->phoneNumber = $phoneNumber;
+        return $this;
+    }
+    public function getCaptchaCode()
+    {
+        return $this->captchaCode;
+    }
+
+    public function setCaptchaCode($captchaCode)
+    {
+        $this->captchaCode = $captchaCode;
+    }
     public function __construct()
     {
         $this->paniers = new ArrayCollection();
+        $this->IdSalle = new ArrayCollection();
+        $this->Products = new ArrayCollection();
+        $this->CategorieProduit = new ArrayCollection();
     }
 
     public function getId()
@@ -269,4 +322,113 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Salle>
+     */
+    public function getIdSalle(): Collection
+    {
+        return $this->IdSalle;
+    }
+
+    public function addIdSalle(Salle $idSalle): self
+    {
+        if (!$this->IdSalle->contains($idSalle)) {
+            $this->IdSalle[] = $idSalle;
+        }
+
+        return $this;
+    }
+
+    public function removeIdSalle(Salle $idSalle): self
+    {
+        $this->IdSalle->removeElement($idSalle);
+
+        return $this;
+    }
+    public function getActivationToken(): ?string
+    {
+        return $this->activation_token;
+    }
+
+    public function setActivationToken(?string $activation_token): self
+    {
+        $this->activation_token = $activation_token;
+
+        return $this;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->reset_token;
+    }
+
+    public function setResetToken(?string $reset_token): self
+    {
+        $this->reset_token = $reset_token;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Produit>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->Products;
+    }
+
+    public function addProduct(Produit $product): self
+    {
+        if (!$this->Products->contains($product)) {
+            $this->Products[] = $product;
+            $product->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Produit $product): self
+    {
+        if ($this->Products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getUser() === $this) {
+                $product->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Categories>
+     */
+    public function getCategorieProduit(): Collection
+    {
+        return $this->CategorieProduit;
+    }
+
+    public function addCategorieProduit(Categories $categorieProduit): self
+    {
+        if (!$this->CategorieProduit->contains($categorieProduit)) {
+            $this->CategorieProduit[] = $categorieProduit;
+            $categorieProduit->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategorieProduit(Categories $categorieProduit): self
+    {
+        if ($this->CategorieProduit->removeElement($categorieProduit)) {
+            // set the owning side to null (unless already changed)
+            if ($categorieProduit->getUser() === $this) {
+                $categorieProduit->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

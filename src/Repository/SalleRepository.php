@@ -18,7 +18,18 @@ class SalleRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Salle::class);
     }
+    public function findallwithpagination()
+    {
+        return $this->createQueryBuilder('v')
+            ->getQuery();
 
+    }
+    public function findGerantSallewithpagination($utilisateurid)
+    {
+        return $this->createQueryBuilder('v')
+            ->Where(':id MEMBER OF v.users')
+            ->setParameter('id',$utilisateurid);
+    }
     // /**
     //  * @return Salle[] Returns an array of Salle objects
     //  */

@@ -44,10 +44,22 @@ class Categories
      */
     private $nomProduit;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="CategorieProduit")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Produit::class, mappedBy="categories")
+     */
+    private $produits;
+
     public function __construct()
     {
-        $this->produits = new ArrayCollection();
+
         $this->nomProduit = new ArrayCollection();
+        $this->produits = new ArrayCollection();
     }
     public function getNom(): ?string
     {
@@ -61,35 +73,9 @@ class Categories
         return $this;
     }
 
-    /**
-     * @return Collection|Produit[]
-     */
-    public function getProduits(): Collection
-    {
-        return $this->produits;
-    }
 
-    public function addProduit(Produit $produit): self
-    {
-        if (!$this->produits->contains($produit)) {
-            $this->produits[] = $produit;
-            $produit->setCategories($this);
-        }
 
-        return $this;
-    }
 
-    public function removeProduit(Produit $produit): self
-    {
-        if ($this->produits->removeElement($produit)) {
-            // set the owning side to null (unless already changed)
-            if ($produit->getCategories() === $this) {
-                $produit->setCategories(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Produit[]
@@ -123,5 +109,44 @@ class Categories
     public function __toString()
     {
         return (string) $this->getNom();
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Produit>
+     */
+    public function getProduits(): Collection
+    {
+        return $this->produits;
+    }
+
+    public function addProduit(Produit $produit): self
+    {
+        if (!$this->produits->contains($produit)) {
+            $this->produits[] = $produit;
+            $produit->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduit(Produit $produit): self
+    {
+        if ($this->produits->removeElement($produit)) {
+            $produit->removeCategory($this);
+        }
+
+        return $this;
     }
 }
