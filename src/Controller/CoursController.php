@@ -12,6 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 class CoursController extends AbstractController
 {
     /**
@@ -205,7 +208,63 @@ class CoursController extends AbstractController
     }
 
 
+    /**
+     * @Route("/ImprimerEXCEL/{id}", name="ImprimerEXCEL")
+     */
+    public function ImprimerEXCEL(int $id)
+    {
+$spreadsheet = new Spreadsheet();
 
+    /* @var $sheet \PhpOffice\PhpSpreadsheet\Writer\Xlsx\Worksheet */
+
+        $em= $this->getDoctrine()->getManager();
+        $cours = $em->getRepository(Cours::class)->createQueryBuilder('s')
+            ->Where(':id MEMBER OF s.salleassocie')
+            ->setParameter('id',$id);
+
+$sheet = $spreadsheet->getActiveSheet();
+
+$sheet->setCellValue('A1', ' Formule');
+$sheet->setCellValue('A2', 'P/T² ');
+$sheet->setCellValue('A3', 'm.h-²');
+$sheet->setCellValue('B1', ' P');
+$sheet->setCellValue('B2', 'Masse');
+$sheet->setCellValue('C1', 'T');
+$sheet->setCellValue('C2', 'Stature');
+$sheet->setCellValue('C2', 'Stature');
+        $sheet->setCellValue('A1', ' Formule');
+        $sheet->setCellValue('A2', 'P/T² ');
+        $sheet->setCellValue('A3', 'm.h-²');
+        $sheet->setCellValue('B1', ' P');
+        $sheet->setCellValue('B2', 'Masse');
+        $sheet->setCellValue('C1', 'T');
+        $sheet->setCellValue('C2', 'Stature');
+        $sheet->setCellValue('C2', 'Stature');
+        $sheet->setCellValue('A1', ' Formule');
+        $sheet->setCellValue('A2', 'P/T² ');
+        $sheet->setCellValue('A3', 'm.h-²');
+        $sheet->setCellValue('B1', ' P');
+        $sheet->setCellValue('B2', 'Masse');
+        $sheet->setCellValue('C1', 'T');
+        $sheet->setCellValue('C2', 'Stature');
+        $sheet->setCellValue('C2', 'Stature');
+$sheet->setTitle("Informations IMC");
+
+    // Create your Office 2007 Excel (XLSX Format)
+$writer = new Xlsx($spreadsheet);
+
+    // Create a Temporary file in the system
+$fileName = 'Informations IMC.xlsx';
+$temp_file = tempnam(sys_get_temp_dir(), $fileName);
+
+    // Create the excel file in the tmp directory of the system
+$writer->save($temp_file);
+
+    // Return the excel file as an attachment
+return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+}
 
 
 }
+
+

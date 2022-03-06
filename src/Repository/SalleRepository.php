@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Salle;
+use App\Entity\SalleLike;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

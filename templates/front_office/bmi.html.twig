@@ -1,5 +1,11 @@
+{% extends "base-front.html.twig" %}
+
+{% block title %}
+    energym!
+{% endblock %}
 
 {% block body %}
+    {{ include('front_office/navbar.html.twig') }}
 <section class="main-slider">
 
     <div class="rev_slider_wrapper fullwidthbanner-container" id="rev_slider_one_wrapper" data-source="gallery" style="overflow: visible; height: 850px;">
@@ -20,7 +26,6 @@
                     <div class="tp-parallax-wrap" style="position: absolute; display: block; visibility: visible; left: 685px; top: 384px; z-index: 5;"><div class="tp-loop-wrap" style="position:absolute;display:block;;"><div class="tp-mask-wrap" style="position: absolute; display: block; overflow: hidden; transform: matrix(1, 0, 0, 1, 0, 0);"><div class="tp-caption" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingtop="[0,0,0,0]" data-responsive_offset="on" data-type="text" data-height="none" data-width="['660','1000','750','550']" data-whitespace="normal" data-hoffset="['15','15','15','15']" data-voffset="['10','10','-40','-60']" data-x="['right','left','left','left']" data-y="['middle','middle','middle','middle']" data-textalign="['top','top','top','top']" data-frames="[{&quot;from&quot;:&quot;y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:0px;s:inherit;e:inherit;&quot;,&quot;speed&quot;:1500,&quot;to&quot;:&quot;o:1;&quot;,&quot;delay&quot;:1000,&quot;ease&quot;:&quot;Power3.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1000,&quot;to&quot;:&quot;auto:auto;&quot;,&quot;mask&quot;:&quot;x:0;y:0;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power3.easeInOut&quot;}]" id="layer-852740862" style="visibility: inherit; transition: none 0s ease 0s; line-height: 23px; border-width: 0px; margin: 0px; padding: 0px; letter-spacing: 0px; font-weight: 400; font-size: 14px; white-space: normal; min-height: 0px; min-width: 660px; max-height: none; max-width: 660px; opacity: 1; transform-origin: 50% 50% 0px; transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);">
                                     <h1>Fitness Club</h1>
                                 </div></div></div></div>
-                    <link href="css/bootstrap.css" rel="stylesheet">
 
                     <div class="tp-parallax-wrap" style="position: absolute; display: block; visibility: visible; left: 685px; top: 493px; z-index: 5;"><div class="tp-loop-wrap" style="position:absolute;display:block;;"><div class="tp-mask-wrap" style="position: absolute; display: block; overflow: hidden; transform: matrix(1, 0, 0, 1, 0, 0);"><div class="tp-caption" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingtop="[0,0,0,0]" data-responsive_offset="on" data-type="text" data-height="none" data-width="['660','1000','750','550']" data-whitespace="normal" data-hoffset="['15','15','15','15']" data-voffset="['95','95','55','20']" data-x="['right','left','left','left']" data-y="['middle','middle','middle','middle']" data-textalign="['top','top','top','top']" data-frames="[{&quot;from&quot;:&quot;y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:0px;s:inherit;e:inherit;&quot;,&quot;speed&quot;:1500,&quot;to&quot;:&quot;o:1;&quot;,&quot;delay&quot;:1000,&quot;ease&quot;:&quot;Power3.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1000,&quot;to&quot;:&quot;auto:auto;&quot;,&quot;mask&quot;:&quot;x:0;y:0;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power3.easeInOut&quot;}]" id="layer-406073108" style="visibility: inherit; transition: none 0s ease 0s; line-height: 23px; border-width: 0px; margin: 0px; padding: 0px; letter-spacing: 0px; font-weight: 400; font-size: 14px; white-space: normal; min-height: 0px; min-width: 660px; max-height: none; max-width: 660px; opacity: 1; transform-origin: 50% 50% 0px; transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);">
                                     <div class="text">wake up. it’s time to change</div>
@@ -88,7 +93,7 @@
                     <div class="sec-title">
                         <div class="title">INDICE DE MASSE CORPORELLE</div>
                         <h2>QUEL EST TON
-                             <br>IMC</h2>
+                            <br>IMC</h2>
                     </div>
 
                     <!-- Default Form -->
@@ -118,7 +123,12 @@
                                     </select>
                                 </div>
 
-
+                                {% if response %}
+                                    {{ response['bmi']['value'] }}
+                                    {{ response['bmi']['status'] }}
+                                    {{ response['bmi']['risk'] }}
+                                    {{ response['weight']['kg'] }}
+                                {% endif %}
                                 <div class="form-group col-lg-12 col-md-12 col-sm-12">
                                     <div class="btn-two-outer"><button class="theme-btn btn-style-two" type="submit" name="submit-form"><span class="txt">Calculer</span></button></div>
                                 </div>
@@ -138,7 +148,6 @@
 
                     <div class="table-outer">
                         <div class="table-boxed">
-                            {% if response|length==1 %}
                             <div class="table-content">
                                 <!-- Title -->
                                 <div class="title clearfix">
@@ -153,37 +162,88 @@
                                     <li class="clearfix"><span>30.0 et plus</span>Obèse</li>
                                 </ul>
                             </div>
-                            {% endif %}
-                        </div>
-
-                        {% if response|length>2 %}
-                        <div class="info-list">
-
-                            <div class="table-name"><span>IMC</span> - {{ response['bmi']['value'] }}</div>
                         </div>
                         <div class="info-list">
 
-                            <div class="table-name"><span>poids ideal</span> - {{ response['ideal_weight'] }}</div>
+                            <div class="table-name"><span>IMC</span> - Indice de masse corporelle</div>
                         </div>
-                        <div class="info-list">
-
-                            <div class="table-name"><span>Risque</span> - {{ response['bmi']['risk'] }}</div>
-                        </div>
-                            <div class="info-list">
-
-                                <div class="table-name"><span>statut</span> -   {{ response['bmi']['status'] }}</div>
-                            </div>
-                        {% endif %}
-
                     </div>
 
                 </div>
-
             </div>
 
         </div>
-
     </div>
-
 </section>
+<div class="sec-title">
+    <div class="title">Some FAQ’s</div>
+    <h2>FREQUENTLY ASKED <br> QUESTIONS</h2>
+</div>
+
+<!-- Accordian Box -->
+<ul class="accordion-box">
+
+    <!--Block-->
+    <li class="accordion block">
+        <div class="acc-btn"><div class="icon-outer"><span class="icon icon-plus fa fa-plus"></span> <span class="icon icon-minus fa fa-minus"></span></div>How to raise over all fitness level?</div>
+        <div class="acc-content">
+            <div class="content">
+                <div class="text">Now were up in the big leagues getting’ our turn at bat. And when the odds are against him and their dangers work to do. Duis aute irure dolor.</div>
+            </div>
+        </div>
+    </li>
+
+    <!--Block-->
+    <li class="accordion block">
+        <div class="acc-btn"><div class="icon-outer"><span class="icon icon-plus fa fa-plus"></span> <span class="icon icon-minus fa fa-minus"></span></div>How can we get natural way to health?</div>
+        <div class="acc-content">
+            <div class="content">
+                <div class="text">Now were up in the big leagues getting’ our turn at bat. And when the odds are against him and their dangers work to do. Duis aute irure dolor.</div>
+            </div>
+        </div>
+    </li>
+
+    <!--Block-->
+    <li class="accordion block active-block">
+        <div class="acc-btn active"><div class="icon-outer"><span class="icon icon-plus fa fa-plus"></span> <span class="icon icon-minus fa fa-minus"></span></div>What if i am do for body strength?</div>
+        <div class="acc-content current">
+            <div class="content">
+                <div class="text">Now were up in the big leagues getting’ our turn at bat. And when the odds are against him and their dangers work to do. Duis aute irure dolor.</div>
+            </div>
+        </div>
+    </li>
+
+    <!--Block-->
+    <li class="accordion block">
+        <div class="acc-btn"><div class="icon-outer"><span class="icon icon-plus fa fa-plus"></span> <span class="icon icon-minus fa fa-minus"></span></div>Can I get a special trainer for bodybuilding?</div>
+        <div class="acc-content">
+            <div class="content">
+                <div class="text">Now were up in the big leagues getting’ our turn at bat. And when the odds are against him and their dangers work to do. Duis aute irure dolor.</div>
+            </div>
+        </div>
+    </li>
+
+    <!--Block-->
+    <li class="accordion block">
+        <div class="acc-btn"><div class="icon-outer"><span class="icon icon-plus fa fa-plus"></span> <span class="icon icon-minus fa fa-minus"></span></div>When an i charged for the service?</div>
+        <div class="acc-content">
+            <div class="content">
+                <div class="text">Now were up in the big leagues getting’ our turn at bat. And when the odds are against him and their dangers work to do. Duis aute irure dolor.</div>
+            </div>
+        </div>
+    </li>
+
+</ul>
+
+</div>
+</div>
+
+</div>
+</div>
+</section>
+    {{ include('front_office/footer.html.twig') }}
+
+
+
 {% endblock %}
+

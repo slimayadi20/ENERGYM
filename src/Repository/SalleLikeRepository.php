@@ -19,31 +19,19 @@ class SalleLikeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, SalleLike::class);
     }
-    public function getCountForSalle(Salle $salle)
+    public function TriLikeSalleDesc()
     {
-        return $this->createQueryBuilder('l')
-            ->select('COUNT(l) AS likes')
-            ->andWhere('l.salle = :salle')
-            ->setParameter('salle', $salle)
+       return $this->createQueryBuilder('a')
+            ->select('COUNT(u) AS HIDDEN nbrLikes', 'a')
+            ->leftJoin('a.user', 'u')
+            ->orderBy('nbrLikes', 'DESC')
+            ->groupBy('a')
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getResult();
     }
-    // /**
-    //  * @return SalleLike[] Returns an array of SalleLike objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+
+
+
 
     /*
     public function findOneBySomeField($value): ?SalleLike

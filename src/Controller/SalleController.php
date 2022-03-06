@@ -31,6 +31,7 @@ class SalleController extends AbstractController
             'controller_name' => 'SalleController',
             "salle" => $salle,
 
+
         ]);
     }
     /**
@@ -53,9 +54,11 @@ class SalleController extends AbstractController
     public function salleFront(): Response
     {
         $salle = $this->getDoctrine()->getRepository(salle::class)->findAll();
+
         return $this->render('salle/afficherFront.html.twig', [
             'controller_name' => 'SalleController',
             "salle" => $salle,
+
         ]);
     }
     /**
