@@ -36,15 +36,31 @@ class CommentaireRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Commentaire
+
+    public function mostCommentedArticle()
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $conn = $this->getEntityManager()->getConnection();
+
+        $rawSql = "SELECT
+         *
+    FROM article as a
+    INNER JOIN (
+                  SELECT
+                         article_id,
+                         count(*) AS postcount
+                  FROM commentaire
+                  GROUP BY article_id
+               ) as c
+           on a.id = c.article_id
+
+    Order by c.postcount desc
+    LIMIT 3";
+
+        $stmt = $conn->prepare($rawSql);
+        $resultSet = $stmt->executeQuery();
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
     }
-    */
+
 }

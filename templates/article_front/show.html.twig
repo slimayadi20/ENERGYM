@@ -1,6 +1,7 @@
 {% extends 'base-front.html.twig' %}
 {% block head %}
     <meta property="og:type"          content="website" />
+       <link href="{{ asset('front-office/css/emoji_keyboard.css ') }}" rel="stylesheet">
 
 {% endblock %}
 
@@ -24,37 +25,43 @@
                         </div>
 
                         <!-- Categories Widget -->
-                        <div class="sidebar-widget categories-widget">
+                        <div class="sidebar-widget popular-posts">
                             <div class="sidebar-title">
-                                <h4>Categories</h4>
+                                <h4>Recent Posts</h4>
                             </div>
+
                             <div class="widget-content">
-                                <ul class="blog-cat">
-                                    <li><a href="#">FITNESS <span>( 24 )</span></a></li>
-                                    <li><a href="#">HEALTH  <span>( 03 )</span></a></li>
-                                    <li><a href="#">LIFESTYLE <span>( 01 )</span></a></li>
-                                    <li><a href="#">NUTRITION <span>( 02 )</span></a></li>
-                                    <li><a href="#">SPORT SCIENCE <span>( 10 )</span></a></li>
-                                    <li><a href="#">TRAINING PROGRAM <span>( 02 )</span></a></li>
-                                </ul>
+                                {% for article in articles|slice(articles|length-3,articles|length)|reverse %}
+
+                                    <article class="post">
+                                        <div class="post-inner">
+                                            <figure class="post-thumb"><img src="{{ asset('uploads/posts/' ~ article.image) }}" alt="image du post">
+                                                <a href="{{ path('article_client_show', {'id': article.id}) }}" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
+                                            <div class="text"><a href="{{ path('article_client_show', {'id': article.id}) }}">{{ article.titre }}</a></div>
+                                            <div class="post-info">{{ article.dateCreation }}</div>
+                                        </div>
+                                    </article>
+                                {% endfor %}
+
                             </div>
                         </div>
 
                         <!-- Categories Widget -->
                         <div class="sidebar-widget popular-posts">
                             <div class="sidebar-title">
-                                <h4>Recent Post</h4>
+                                <h4>Most commented Posts</h4>
                             </div>
 
                             <div class="widget-content">
-                                {% for article in articles|slice(articles|length-3,articles|length)|reverse %}
+                                {% for article in mostCommentedArticles %}
 
                                 <article class="post">
                                     <div class="post-inner">
                                         <figure class="post-thumb"><img src="{{ asset('uploads/posts/' ~ article.image) }}" alt="image du post">
+                                            ({{ article.postcount }}) comments
                                             <a href="{{ path('article_client_show', {'id': article.id}) }}" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
                                         <div class="text"><a href="{{ path('article_client_show', {'id': article.id}) }}">{{ article.titre }}</a></div>
-                                        <div class="post-info">{{ article.dateCreation }}</div>
+                                        <div class="post-info">{{ article.date_creation }}</div>
                                     </div>
                                 </article>
                                 {% endfor %}
@@ -143,14 +150,16 @@
                                     <div class="group-title">
                                         <h4>{{ comments|length }} Comments</h4>
                                     </div>
+
+
 {% for comment in comments %}
                                     <div class="comment-box">
                                         <div class="comment">
                                             <div class="author-thumb">
-                                                <img src="https://via.placeholder.com/120x120" alt="">
+                                                <img src="{{ asset('uploads/user/' ~ comment.user.imageFile) }}" alt="">
                                             </div>
-                                            <div class="comment-info clearfix"><strong>Paul Jones </strong><div class="comment-time">{{ comment.dateCreation ? comment.dateCreation|date('Y-m-d') : '' }}</div></div>
-                                            <div class="text">{{ comment.contenu }}</div>
+                                            <div class="comment-info clearfix"><strong>{{ comment.user.nom}} </strong><div class="comment-time">{{ comment.dateCreation ? comment.dateCreation|date('Y-m-d') : '' }}</div></div>
+                                            <div class="text" >{{ comment.contenu }}</div>
                                         </div>
                                     </div>
 {% endfor %}
@@ -203,6 +212,10 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script src="{{ asset('front-office/js/fuse.js') }}"></script>
+
+    <script src="{{ asset('front-office/js/emoji_keyboard.js') }}"></script>
+
     <script>(function(d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;

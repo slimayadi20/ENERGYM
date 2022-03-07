@@ -31,7 +31,7 @@ class Article
     private $dateCreation;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string")
      * @Assert\NotBlank(message =" la description est obligatoire")
      */
     private $description;
