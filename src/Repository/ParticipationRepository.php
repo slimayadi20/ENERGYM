@@ -18,7 +18,31 @@ class ParticipationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Participation::class);
     }
+    public function findbyEvent($i)
+    {
 
+        return $this->createQueryBuilder('v')
+            ->where(' i = 2  ')
+            ->setParameter('i',$i)
+            ->getQuery();
+    }
+    public function findUserinEvent($iduser,$id)
+    {
+        return $this->createQueryBuilder('v')
+            ->leftJoin('v.idUser','j')
+            ->where(' j.id =:i ')
+            ->setParameter('i',$iduser)
+            ->leftJoin('v.idEvent','e')
+            ->andWhere('e.id = :id') // : lezemetha les9a el parameter
+            ->setParameter('id',$id)
+            ->getQuery()
+             ->execute();
+
+           // ->andWhere(' :id MEMBER OF v.idEvent ')
+           // ->innerJoin('v.idEvent','e')
+
+
+    }
     // /**
     //  * @return Participation[] Returns an array of Participation objects
     //  */

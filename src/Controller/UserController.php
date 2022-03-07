@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use App\Form\UserFormType;
 use App\Form\ResetPassType;
 use Knp\Component\Pager\PaginatorInterface;
+use necrox87\NudityDetector\NudityDetector;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -114,9 +115,15 @@ class UserController extends AbstractController
             /** @var UploadedFile $imageFile */
             $imageFile = $form->get('imageFile')->getData();
             // this condition is needed because the 'image' field is not required
+            $NudityChecker = new NudityDetector($imageFile);
+            if($NudityChecker->isPorn()) {
+                $this->addFlash('success' , 'elle comprend du ...');
+            }
 
-            if ($imageFile) {
+
+            else if ($imageFile) {
                 // generate new name to the file image with the function generateUniqueFileName
+
                 $fileName = $this->generateUniqueFileName().'.'.$imageFile->guessExtension();
 
                 // moves the file to the directory where products are stored
@@ -357,20 +364,31 @@ class UserController extends AbstractController
             //on genere lurl du mot de passe
             $url= $this->generateURL('app_reset_password',['token'=>$token],
                 UrlGeneratorInterface::ABSOLUTE_URL) ;
-
-            //on envoie le message
-            $message = (new \Swift_Message('Mot de passe oublie'))
+            $message = (new \Swift_Message('Recuperation Mot de passe '))
                 //ili bech yeb3ath
                 ->setFrom('slim.ayadi@esprit.tn')
                 //ili bech ijih l message
-                ->setTo($user->getEmail())
-                ->setBody(
-                    "<p>bonjour, </p><p> une demande de reinitialisation de mot de passe a ete effectue</p> <a href='$url '> veuillez cliquer sur le lien suivant</a> " ,
-                    'text/html'
-                )
+                ->setTo('slim.ayadi@esprit.tn') ;
+
+            $img9 = $message->embed(\Swift_Image::fromPath('email/image-9.png'));
+            $img8 = $message->embed(\Swift_Image::fromPath('email/image-8.jpeg'));
+
+            $message->setBody(
+                $this->renderView(
+                // templates/emails/registration.html.twig
+                    'emails/resetEmail.html.twig',
+                    [
+                        'url'=>$url,
+                        'img9'=>$img9,
+                        'img8'=>$img8,
+                    ]
+                ),
+                'text/html'
+            )
             ;
             //on envoi l email
             $mailer->send($message) ;
+
             $this->addFlash('success','un email de reinitialisation de mot de passe vous a ete envoye') ;
             return $this->redirectToRoute('app_login') ;
         }

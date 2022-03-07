@@ -15,6 +15,9 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Repository\SalleRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use App\Entity\SalleLike;
+use App\Repository\SalleLikeRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SalleController extends AbstractController
 {
@@ -25,28 +28,86 @@ class SalleController extends AbstractController
     {
         $utilisateur = $this->getUser();
         $utilisateurid = $utilisateur->getId();
-         if(in_array('ROLE_GERANT', $utilisateur->getRoles())){
-        $salle =  $paginator->paginate(
-            $repository->findGerantSallewithpagination($utilisateurid),
-            $request->query->getInt('page' , 1), // nombre de page
-            3//nombre limite
-        );
-        return $this->render('salle/index.html.twig', [
-            "salle" => $salle,
-        ]);
-    }
-    else if(in_array('ROLE_ADMIN', $utilisateur->getRoles())){
-        $salle =  $paginator->paginate(
-            $repository->findallwithpagination(),
-            $request->query->getInt('page' , 1), // nombre de page
-            3 //nombre limite
-        );
-        return $this->render('salle/index.html.twig', [
-            "salle" => $salle,
-        ]);
-    }
+        if(in_array('ROLE_GERANT', $utilisateur->getRoles())){
+            $salle =  $paginator->paginate(
+                $repository->findGerantSallewithpagination($utilisateurid),
+                $request->query->getInt('page' , 1), // nombre de page
+                3//nombre limite
+            );
+            return $this->render('salle/index.html.twig', [
+                "salle" => $salle,
+            ]);
+        }
+        else if(in_array('ROLE_ADMIN', $utilisateur->getRoles())){
+            $salle =  $paginator->paginate(
+                $repository->findallwithpagination(),
+                $request->query->getInt('page' , 1), // nombre de page
+                3 //nombre limite
+            );
+            return $this->render('salle/index.html.twig', [
+                "salle" => $salle,
+            ]);
+        }
         return $this->redirectToRoute('dashboard');
 
+    }
+    /**
+     * @Route("/map", name="map")
+     */
+    public function mewmap(): Response
+    {
+
+        $salle = $this->getDoctrine()->getRepository(salle::class)->findAll();
+
+        return $this->render('salle/newMap.html.twig', [
+            'controller_name' => 'SalleController',
+            "salle" => $salle,
+
+        ]);
+    }
+    /**
+     * @Route("/pdf2/{id}", name="pdf2")
+     */
+    public function pdf2($id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $salle = $entityManager->getRepository(Salle::class)->find($id);
+
+
+        return $this->render('cours/pdf.html.twig', [
+            "salle" => $salle,
+        ]);
+    }
+    /**
+     * @route ("/salleFront/{id}/like",name="Salle_like")
+     * @param SalleLikeRepository $likeRepo
+     */
+    public function like(Salle $salle,SalleLikeRepository $likeRepo,SalleRepository $repo): Response
+    {
+        $user = $this->getUser();
+        if (!$user)
+            return $this->redirectToRoute("salleFront");
+        if ($salle->isLikedByUser($user)) {
+            $like = $likeRepo->findOneBy([
+                'salle' => $salle,
+                'user' => $user]);
+            $entityManager = $this->getDoctrine()->getManager();
+            $salle->setLikeCount($salle->getLikeCount()-1) ;
+            $entityManager->remove($like);
+            $entityManager->flush();
+
+            return $this->redirectToRoute("salleFront");
+
+        }
+        $like = new SalleLike();
+        $like->setSalle($salle)
+            ->setUser($user);
+        $salle->setLikeCount($salle->getLikeCount()+1) ;
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($like);
+        $entityManager->flush();
+        $response = new JsonResponse();
+        return $this->redirectToRoute("salleFront");
     }
     /**
      * @Route("/salleFront", name="salleFront")
@@ -55,6 +116,18 @@ class SalleController extends AbstractController
     {
 
         $salle = $this->getDoctrine()->getRepository(salle::class)->findAll();
+        return $this->render('salle/afficherFront.html.twig', [
+            'controller_name' => 'SalleController',
+            "salle" => $salle,
+        ]);
+    }
+    /**
+     * @Route("/salleTries", name="salleTries")
+     */
+    public function salleTries(): Response
+    {
+
+        $salle = $this->getDoctrine()->getRepository(salle::class)->tripluslike();
         return $this->render('salle/afficherFront.html.twig', [
             'controller_name' => 'SalleController',
             "salle" => $salle,
@@ -138,12 +211,12 @@ class SalleController extends AbstractController
         $salle = $entityManager->getRepository(salle::class)->find($id);
         $form = $this->createForm(SalleFormType::class, $salle);
         $form->handleRequest($request);
-       /* print_r("***********************");
-        print_r($id);
-        print_r("***********************");
-        print_r($idUser);
-        print_r("***********************");
-        print_r($user->getId());*/
+        /* print_r("***********************");
+         print_r($id);
+         print_r("***********************");
+         print_r($idUser);
+         print_r("***********************");
+         print_r($user->getId());*/
         if($form->isSubmitted() && $form->isValid())
         {
             /** @var UploadedFile $imageFile */

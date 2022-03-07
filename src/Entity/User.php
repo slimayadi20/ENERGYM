@@ -100,11 +100,6 @@ class User implements UserInterface
     private $panier;
 
     /**
-     * @ORM\OneToMany(targetEntity=Panier::class, mappedBy="user")
-     */
-    private $paniers;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Salle::class, inversedBy="users")
      */
     private $IdSalle;
@@ -164,7 +159,15 @@ class User implements UserInterface
         $this->IdSalle = new ArrayCollection();
         $this->Products = new ArrayCollection();
         $this->CategorieProduit = new ArrayCollection();
+        $this->reclamations = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
+     /**
+     * @ORM\OneToMany(targetEntity=SalleLike::class, mappedBy="user")
+     */
+    private $likes;
+
+
 
     public function getId()
     {
@@ -344,6 +347,36 @@ class User implements UserInterface
 
         return $this;
     }
+    /**
+     * @return Collection<int, SalleLike>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(SalleLike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(SalleLike $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getUser() === $this) {
+                $like->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 
     public function removeIdSalle(Salle $idSalle): self
     {
@@ -362,7 +395,6 @@ class User implements UserInterface
 
         return $this;
     }
-
     public function getResetToken(): ?string
     {
         return $this->reset_token;
@@ -392,4 +424,7 @@ class User implements UserInterface
     }
 
 
+
+
 }
+

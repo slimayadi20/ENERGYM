@@ -22,12 +22,23 @@ class EvenementRepository extends ServiceEntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT e FROM App:Evenement e ORDER BY e.DateEvent DESC'
+                'SELECT e FROM App:Evenement e ORDER BY e.DateEvent ASC'
             )
             ->setMaxResults(3)
             ->getResult();
 
     }
+    public function findRecentEvents()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT e FROM App:Evenement e ORDER BY e.id DESC'
+            )
+            ->setMaxResults(3)
+            ->getResult();
+
+    }
+
 
 
     public function rechercheAvance($str) {

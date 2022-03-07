@@ -52,9 +52,9 @@
 
                             <td>
                                 {% for s in u.users %}
-                                  {#   <a>{{ s.id }}</a>#}
-                                <a type="button" href="{{ path('modifySalle', {'id': u.id, 'idU' : s.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
-                            {% endfor %}
+                                    {#   <a>{{ s.id }}</a>#}
+                                    <a type="button" href="{{ path('modifySalle', {'id': u.id, 'idU' : s.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
+                                {% endfor %}
                             </td>
                             <td>
                                 <form method="post" action="{{ path('deleteSalle', {'id': u.id}) }}"  onsubmit="return confirm('Voulez vous supprimer cette salle ?')">

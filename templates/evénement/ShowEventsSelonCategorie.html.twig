@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    {{ include('front_office/navbar.html.twig') }}
+    {{ render(path('temp', {max: 3})) }}
     <section class="page-title" style="background-image:url(https://via.placeholder.com/1920x600)">
         <div class="auto-container">
             <div class="clearfix">
@@ -115,30 +115,46 @@
                         <!-- Categories Widget -->
                         <div class="sidebar-widget popular-posts">
                             <div class="sidebar-title">
-                                <h4>Recent Post</h4>
+                                <h4>Coming soon</h4>
                             </div>
                             <div class="widget-content">
-                                <article class="post">
-                                    <div class="post-inner">
-                                        <figure class="post-thumb"><img src="https://via.placeholder.com/100x100" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                        <div class="text"><a href="blog-single.html">Meal prep for a full week easy</a></div>
-                                        <div class="post-info">19.9.2019</div>
+                                {% for r in recent %}
+
+                                    <div class="widget-content">
+                                        <article class="post">
+                                            <div class="post-inner">
+                                                <figure class="post-thumb"><img src="{{ asset('uploads/Event_image/' )~r.image  }}" alt=""><a href="{{ path('detailFrontEvent',{'id':r.id}) }}" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
+                                                <div class="text"><a href="{{ path('detailFrontEvent',{'id':r.id}) }}">{{ r.NomEvent }}</a></div>
+                                                <div class="post-info">{{ r.DateEvent | date('Y-m-d')}}</div>
+
+                                            </div>
+
+                                        </article>
+
                                     </div>
-                                </article>
-                                <article class="post">
-                                    <div class="post-inner">
-                                        <figure class="post-thumb"><img src="https://via.placeholder.com/100x100" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                        <div class="text"><a href="blog-single.html">Off Season is finnish now what?</a></div>
-                                        <div class="post-info">19.9.2019</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+  <div class="sidebar-widget popular-posts">
+                            <div class="sidebar-title">
+                                <h4>Recent Event</h4>
+                            </div>
+                            <div class="widget-content">
+                                {% for r in recentEvent %}
+
+                                    <div class="widget-content">
+                                        <article class="post">
+                                            <div class="post-inner">
+                                                <figure class="post-thumb"><img src="{{ asset('uploads/Event_image/' )~r.image  }}" alt=""><a href="{{ path('detailFrontEvent',{'id':r.id}) }}" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
+                                                <div class="text"><a href="{{ path('detailFrontEvent',{'id':r.id}) }}">{{ r.NomEvent }}</a></div>
+                                                <div class="post-info">{{ r.DateEvent | date('Y-m-d')}}</div>
+
+                                            </div>
+
+                                        </article>
+
                                     </div>
-                                </article>
-                                <article class="post">
-                                    <div class="post-inner">
-                                        <figure class="post-thumb"><img src="https://via.placeholder.com/100x100" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                        <div class="text"><a href="blog-single.html">Fitness helps you think & Feel Better.</a></div>
-                                        <div class="post-info">19.9.2019</div>
-                                    </div>
-                                </article>
+                                {% endfor %}
                             </div>
                         </div>
 

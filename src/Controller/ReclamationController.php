@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Reclamation;
 use App\Form\ReclamationFormType;
+use App\Form\ReplyType;
+use App\Entity\Reply;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
-
+use App\Entity\Promo ;
 class ReclamationController extends AbstractController
 {
     /**
@@ -153,13 +155,65 @@ class ReclamationController extends AbstractController
         ]);
     }
     /**
-     * @Route("/dashboard/reply", name="reply")
+     * @Route("/dashboard/reply/{id}", name="reply")
      */
-    public function reply(Request $request): Response
+    public function reply(Request $request,$id, \Swift_Mailer $mailer): Response
     {
+        $entityManager = $this->getDoctrine()->getManager();
+        $Reply = new Reply();
 
+        $reclamation = $entityManager->getRepository(Reclamation::class)->find($id);
+        $nomProduit=$reclamation->getProduit() ;
+        $emailsender=$reclamation->getNomUser()->getEmail() ;
+        $emailme=$this->getUser()->getEmail() ;
+        $form = $this->createForm(ReplyType::class, $Reply);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $reclamation->setStatut('Repondu');
+            $Reply->setEmailReceiver($emailsender);
+            $Reply->setEmailSender($emailme);
+            $data = $form->getData();
+            $content = $data->getContenu() ;
+
+            $entityManager->persist($Reply);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'L"action a été effectué');
+            $message = (new \Swift_Message('Reclamation du produit '.$nomProduit))
+                //ili bech yeb3ath
+                ->setFrom($emailme)
+                //ili bech ijih l message
+                ->setTo($emailsender) ;
+
+            $img4 = $message->embed(\Swift_Image::fromPath('email/image-4.png'));
+            $img5 = $message->embed(\Swift_Image::fromPath('email/image-5.png'));
+            $img6 = $message->embed(\Swift_Image::fromPath('email/image-6.png'));
+            $img8 = $message->embed(\Swift_Image::fromPath('email/image-8.jpeg'));
+
+            $message->setBody(
+                            $this->renderView(
+                            // templates/emails/registration.html.twig
+                                'emails/ReclamationEmail.html.twig',
+                                [
+                                    'contenu'=>$content,
+                                    'img4'=>$img4,
+                                    'img5'=>$img5,
+                                    'img6'=>$img6,
+                                    'img8'=>$img8,
+                                ]
+                            ),
+                            'text/html'
+                        )
+        ;
+            //on envoi l email
+            $mailer->send($message) ;
+            return $this->redirectToRoute("reclamation");
+
+        }
         return $this->render("reclamation/reply.html.twig", [
             "form_title" => "Ajouter une reclamation",
+            "form_reclamation" => $form->createView(),
 
         ]);
     }

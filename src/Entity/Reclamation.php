@@ -26,8 +26,8 @@ class Reclamation
      * @Assert\Length(
      *     min=3,
      *     max=50,
-     *     minMessage="The name must be at least 3 characters long",
-     *     maxMessage="The name cannot be longer than 50 characters"
+     *     minMessage="The title must be at least 3 characters long",
+     *     maxMessage="The title cannot be longer than 50 characters"
      * )
      * @Groups("post:read")
      */
@@ -40,12 +40,12 @@ class Reclamation
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Get creative and think of a title!")
+     * @Assert\NotBlank(message="Get creative and think of a content!")
      * @Assert\Length(
      *     min=3,
      *     max=1000,
-     *     minMessage="The name must be at least 3 characters long",
-     *     maxMessage="The name cannot be longer than 50 characters"
+     *     minMessage="The content must be at least 3 characters long",
+     *     maxMessage="The content cannot be longer than 150 characters"
      * )
      * @Groups("post:read")
      */

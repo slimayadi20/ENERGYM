@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    {{ include('front_office/navbar.html.twig') }}
+    {{ render(path('temp', {max: 3})) }}
 <section class="page-title" style="background-image:url(https://via.placeholder.com/1920x600)">
     <div class="auto-container">
         <div class="clearfix">
@@ -23,33 +23,151 @@
     </div>
 </section>
 <section class="classess-page-section">
-    <div class="auto-container">
-        <div class="row clearfix">
-            {% for u in salle %}
-            <!-- Classess Block -->
-            <div class="classess-block col-lg-4 col-md-6 col-sm-12">
-                <div class="inner-box">
-                    <div class="image">
-                        <a href="{{ path('detailFront', {'id': u.id}) }}"><img src="{{ asset('uploads/salle/'~u.image)}}"  }} alt=""></a>
-
+    <div id="liveData"
+         class="auto-container">
+        <div class="shop-section">
+            <div class="items-sorting">
+                <div class="row clearfix">
+                    <div class="results-column col-md-6 col-sm-6 col-xs-12">
+                        <h6>Showing Items 1 to {{ salle|length }} Salle</h6>
                     </div>
-                    <div class="lower-content">
 
-                        <h4><a href="{{ path('detailFront', {'id': u.id}) }}">{{ u.nom }}</a></h4>
-                        <br>
-                        <a class="read-more" href="{{ path('detailFront', {'id': u.id}) }}">Plus de detail</a>
+                    <div class="select-column pull-right col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <select name="sort-by" onchange="javascript:handleSelect(this)">
+                                <option  value="{{ path('salleFront') }}">Sorting by default</option>
+                                <option  value="{{ path('salleTries') }}">Sorting by Salle liked</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
+            </div>
+        <div class="row clearfix">
+            {% for u in salle %}
+                <!-- Classess Block -->
+                <div class="classess-block col-lg-4 col-md-6 col-sm-12">
+                    <div class="inner-box">
+                        <div class="image">
+                            <a href="{{ path('detailFront', {'id': u.id}) }}"><img src="{{ asset('uploads/salle/'~u.image)}}"  }} alt=""></a>
+
+                        </div>
+
+                        <div class="lower-content">
+
+                            <h4><a href="{{ path('detailFront', {'id': u.id}) }}">{{ u.nom }}</a></h4>
+
+                            <br>
+
+
+                            <a class="read-more" href="{{ path('detailFront', {'id': u.id}) }}">Plus de detail</a>
+
+                            <a onclick="loadDoc()" href="{{path('Salle_like', {'id':u.id})}}" class="btn btn-link js-like-link">
+                                {% if app.user and u.isLikedByUser(app.user) %}
+                                    <i class="fa-solid fa-heart"></i>
+                                {% else %}
+                                    <i class="fa-regular fa-heart"></i>
+                                {% endif %}
+                                <span class= "js-likes" >{{ u.likes | length }} </span>
+                            </a>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
             {% endfor %}
 
 
-
-
-
         </div>
+
+
+        <br>
+
+        <style>
+            /* Always set the map height explicitly to define the size of the div
+           * element that contains the map. */
+            #map {
+                height: 60%;
+                width : 100% ;
+            }
+
+
+
+        </style>
+
+        <script>
+
+
+            function initMap() {
+                const myLatLng = { lat: 34.741
+                    , lng: 	10.7648 };
+                const map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 3,
+                    center: myLatLng,
+                });
+                //var dest_from_controller =  list_dest|json_encode()
+                console.log() ;
+
+
+
+                var locations = [
+                    ['tunisia', 34.741,10.7648],
+                    ['tunisia', 35.406961,10.670540],
+
+
+                ];
+
+                console.log(locations.length);
+
+
+                var marker, i;
+
+                for (i = 0; i < locations.length; i++) {
+                    marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                        map: map ,
+                        title: "Hello World!",
+                    });
+                    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                        return function() {
+                            infowindow.setContent(locations[i][0]);
+                            infowindow.open(map, marker);
+                        }
+                    })(marker, i));
+                }
+
+                /*new google.maps.Marker({
+                    position: myLatLng,
+                    map,
+                    title: "Hello World!",
+                });*/
+            }
+        </script>
+
+        <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy-3c-b-RYk0dabw2v-u5n21yr3jyncz8&callback=initMap&v=weekly" async></script>
+        <div id="map"></div>
+
     </div>
+<br>
+<br>
+<br>
+    {{ include('front_office/footer.html.twig') }}
+    <script type="text/javascript">
+        function handleSelect(elm)
+        {
+            window.location = "http://127.0.0.1:8000/salleTries";
+        }
+    </script>
 </section>
 
-    {{ include('front_office/footer.html.twig') }}
-{% endblock %}
+    {% endblock %}
+
+
+
+
+
+

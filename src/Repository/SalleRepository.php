@@ -30,6 +30,13 @@ class SalleRepository extends ServiceEntityRepository
             ->Where(':id MEMBER OF v.users')
             ->setParameter('id',$utilisateurid);
     }
+    public function tripluslike()
+    {
+        return $this->createQueryBuilder('v')
+            ->orderBy('v.LikeCount','DESC')
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Salle[] Returns an array of Salle objects
     //  */

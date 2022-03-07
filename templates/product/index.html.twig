@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    {{ include('front_office/navbar.html.twig') }}
+    {{ render(path('temp', {max: 3})) }}
     <section class="page-title" style="background-image:url(https://via.placeholder.com/1920x600)">
         <div class="auto-container">
             <div class="clearfix">
@@ -39,26 +39,6 @@
                                     <div class="img-holder">
                                         <img width="3838" height="3609" src="{{ asset('uploads/produit/'~ Product.image)  }}" class="" alt="">
                                     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                             </div>
                         </div>
 
@@ -81,7 +61,7 @@
                                         <!--Btns Box-->
                                         <div class="btns-box">
                                             {% if app.user %}
-                                            <a href="{{path("add", {id: Product.id})}} type="button" class="theme-btn btn-style-three"><span class="txt">Add To Cart</span></a>
+                                            <a href="{{path("add", {id: Product.id})}}"  class="theme-btn btn-style-three"><span class="txt">Add To Cart</span></a>
                                             {% endif %}
                                         </div>
                                     </div>
@@ -105,7 +85,113 @@
                 <!--Product Info Tabs-->
 
                 <!--End Product Info Tabs-->
+                <div class="product-info-tabs">
+                    <!--Product Tabs-->
+                    <div class="prod-tabs tabs-box">
 
+                        <!--Tab Btns-->
+                        <ul class="tab-btns tab-buttons clearfix">
+                            <li data-tab="#prod-details" class="tab-btn active-btn">Description</li>
+                            <li data-tab="#prod-info" class="tab-btn">Additional Information</li>
+                            <li data-tab="#prod-reviews" class="tab-btn">Reviews (2)</li>
+                        </ul>
+
+                        <!--Tabs Container-->
+                        <div class="tabs-content">
+
+                            <!--Tab / Active Tab-->
+                            <div class="tab active-tab" id="prod-details" style="display: block;">
+                                <div class="content">
+                                    <p>Lopsidedly wow fastidious before rhinoceros gosh from more unobtrusive since this unlike falsely far mundanely lethargically camel groomed save antelop thus inconspicuously since jay that for ouch far a one dog save gosh more ouch wherever that depending darn much daintily wiped hello jeez thus adversely man of war that unicorn thanks richly mannish less save like and dog from bore extensive. Supreme alas hellish circa.</p>
+                                    <p>Inside this beyond into bit on capable through jeez yet tolerably plain and shark stealthy more breezily because ground passably gecko pending far up erroneor yikes lantern whimsically mowed one come admonishing amidst floated fortuitous crud far the the staunchly.</p>
+                                </div>
+                            </div>
+
+                            <!--Tab / Active Tab-->
+                            <div class="tab" id="prod-info" style="display: none;">
+                                <div class="content">
+                                    <p>Lopsidedly wow fastidious before rhinoceros gosh from more unobtrusive since this unlike falsely far mundanely lethargically camel groomed save antelop thus inconspicuously since jay that for ouch far a one dog save gosh more ouch wherever that depending darn much daintily wiped hello jeez thus adversely man of war that unicorn thanks richly mannish less save like and dog from bore extensive. Supreme alas hellish.</p>
+                                </div>
+                            </div>
+
+                            <!--Tab-->
+                            <div class="tab" id="prod-reviews" style="display: none;">
+                                <!--Reviews Container-->
+                                <div class="reviews-container">
+
+                                    <!--Review-->
+                                    <div class="review-box clearfix">
+                                        <figure class="rev-thumb"><img src="https://via.placeholder.com/270x300" alt=""></figure>
+                                        <div class="rev-content">
+                                            <div class="rev-header clearfix">
+                                                <h4>Michel Britney</h4>
+                                                <div class="rating"><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star-o"></span> <span class="fa fa-star-o"></span></div>
+                                                <div class="time">18 Hours Ago</div>
+                                            </div>
+                                            <div class="rev-text">The mad lightning no one you beat of just one drum they call him Flipper Flipper faster than lightning no one you see is smarter each week my friends you are sure to get a smile from seven stranded cast aways here on Gilligans Isle they call him Flipper Flipper faster.</div>
+                                        </div>
+                                    </div>
+
+                                    <!--Review-->
+                                    <div class="review-box clearfix">
+                                        <figure class="rev-thumb"><img src="https://via.placeholder.com/270x300" alt=""></figure>
+                                        <div class="rev-content">
+                                            <div class="rev-header clearfix">
+                                                <h4>Denny</h4>
+                                                <div class="rating"><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star-o"></span> <span class="fa fa-star-o"></span></div>
+                                                <div class="time">18 Hours Ago</div>
+                                            </div>
+                                            <div class="rev-text">The mad lightning no one you beat of just one drum they call him Flipper Flipper faster than lightning no one you see is smarter each week my friends you are sure to get a smile from seven stranded cast aways here on Gilligans Isle they call him Flipper Flipper faster than lightning no one you see is smarter than he loveable space that needs your face threes company too.</div>
+                                        </div>
+                                    </div>
+
+                                    <!--Add Review-->
+                                    <div class="add-review">
+                                        <h2>Add a Review</h2>
+
+                                        <form method="post" action="shop-single.html">
+                                            <div class="row clearfix">
+                                                <div class="form-group col-md-6 col-sm-12 col-xs-12">
+                                                    <label>Name *</label>
+                                                    <input type="text" name="name" value="" placeholder="" required="">
+                                                </div>
+                                                <div class="form-group col-md-6 col-sm-12 col-xs-12">
+                                                    <label>Email *</label>
+                                                    <input type="email" name="email" value="" placeholder="" required="">
+                                                </div>
+                                                <div class="form-group col-md-6 col-sm-12 col-xs-12">
+                                                    <label>Website *</label>
+                                                    <input type="text" name="website" value="" placeholder="" required="">
+                                                </div>
+                                                <div class="form-group col-md-6 col-sm-12 col-xs-12">
+                                                    <label>Rating </label>
+                                                    <div class="rating">
+                                                        <a href="#" class="rate-box" title="1 Out of 5"><span class="fa fa-star"></span></a>
+                                                        <a href="#" class="rate-box" title="2 Out of 5"><span class="fa fa-star"></span> <span class="fa fa-star"></span></a>
+                                                        <a href="#" class="rate-box" title="3 Out of 5"><span class="fa fa-star"></span> <span class="fa fa-star"> </span> <span class="fa fa-star"></span></a>
+                                                        <a href="#" class="rate-box" title="4 Out of 5"><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></a>
+                                                        <a href="#" class="rate-box" title="5 Out of 5"><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></a>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                    <label>Your Review</label>
+                                                    <textarea name="review-message"></textarea>
+                                                </div>
+                                                <div class="form-group text-right col-md-12 col-sm-12 col-xs-12">
+                                                    <button type="button" class="theme-btn btn-style-three"><span class="txt">Add Review</span></button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--End Tab-->
+
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
         </div>

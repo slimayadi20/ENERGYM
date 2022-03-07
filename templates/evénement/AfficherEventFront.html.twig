@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block body %}
-    {{ include('front_office/navbar.html.twig') }}
+    {{ render(path('temp', {max: 3})) }}
+
     <section class="page-title" style="background-image:url(https://via.placeholder.com/1920x600)">
         <div class="auto-container">
             <div class="clearfix">
@@ -32,17 +33,17 @@
                 <div class="content-side col-lg-8 col-md-12 col-sm-12">
                     <!-- Blog Classic -->
                     <div class="blog-classic">
-
-                        <!-- News Block Three -->
                         {% for e in Evenement %}
+
+                            {% if  e.NbrParticipantsEvent ==0  %}
+                                <div class="ribbon ribbon-top-left"><span>Complet</span></div>
+                            {% endif %}
+                        <!-- News Block Three -->
                             <div class="news-block-three">
 
                                 <div class="inner-box" >
-
                                     <div class="image"  style="background-color: transparent " >
-                                        {% if  e.NbrParticipantsEvent ==0  %}
-                                        <span class="badge badge-danger pull-right"  >Complet</span>
-                                        {% endif %}
+
                                         <img class="card-img-top img-fluid" src="{{ asset('uploads/Event_image/' )~e.image  }}" alt="Card image cap" >
 
                                     </div>
@@ -54,7 +55,17 @@
                                                 {{ e.NbrParticipantsEvent }}
                                             </li>
                                             {% endif %}
-                                            <li><span class="icon flaticon-calendar-1"></span> {{ e.DateEvent | date('Y-m-d')}}</li>
+                                                <li><span class="icon flaticon-comment-1"></span>  {% set difference = date(e.DateEvent).diff(date( date().timestamp)) %}
+                                                    {% set leftDays = difference.days %}
+                                                    {% if leftDays == 1 %}
+                                                        1 day
+                                                    {% else %}
+                                                        {{ leftDays }} days
+                                                    {% endif %}</li>
+
+
+
+                                            <li><span class="icon flaticon-calendar-1"></span> {{ e.DateEvent | date('Y-m-d')   }}</li>
                                         </ul>
                                         <h3><a href="blog-single.html">{{ e.NomEvent }}</a></h3>
                                         <div class="text">{{ e.DescriptionEvent }}</div>
@@ -136,26 +147,144 @@
                             {% endfor %}
 
                             <!-- Search -->
-                            <div class="sidebar-widget newsletter-box">
-                                <div class="sidebar-title">
-                                    <h4>GET NEWSLETTER</h4>
-                                </div>
-                                <form method="post" action="contact.html">
-                                    <div class="form-group">
-                                        <input type="search" name="search-field" value="" placeholder="Entery Email" required>
-                                        <button type="submit"><span class="icon flaticon-paper-plane-1"></span></button>
-                                    </div>
-                                </form>
-                            </div>
+
 
                             <!-- Popular Posts -->
 
+                </div>
                     </aside>
                 </div>
 
             </div>
         </div>
     </div>
+    <style>
+        .ribbon {
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            position: absolute;
+            z-index: 10;
+
+        }
+        .ribbon::before,
+        .ribbon::after {
+            position: absolute;
+            z-index: -1;
+            content: '';
+            display: block;
+            border: 5px solid #ff0014;
+        }
+        .ribbon span {
+            position: absolute;
+            display: block;
+            width: 225px;
+            padding: 15px 0;
+            background-color: #ff0000;
+            box-shadow: 0 5px 10px rgba(0,0,0,.1);
+            color: #fff;
+            font: 700 18px/1 'Lato', sans-serif;
+            text-shadow: 0 1px 1px rgba(0,0,0,.2);
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        /* top left*/
+        .ribbon-top-left {
+            top: -10px;
+            left: -10px;
+        }
+        .ribbon-top-left::before,
+        .ribbon-top-left::after {
+            border-top-color: transparent;
+            border-left-color: transparent;
+        }
+        .ribbon-top-left::before {
+            top: 0;
+            right: 0;
+        }
+        .ribbon-top-left::after {
+            bottom: 0;
+            left: 0;
+        }
+        .ribbon-top-left span {
+            right: -25px;
+            top: 30px;
+            transform: rotate(-45deg);
+        }
+
+        /* top right*/
+        .ribbon-top-right {
+            top: -10px;
+            right: -10px;
+        }
+        .ribbon-top-right::before,
+        .ribbon-top-right::after {
+            border-top-color: transparent;
+            border-right-color: transparent;
+        }
+        .ribbon-top-right::before {
+            top: 0;
+            left: 0;
+        }
+        .ribbon-top-right::after {
+            bottom: 0;
+            right: 0;
+        }
+        .ribbon-top-right span {
+            left: -25px;
+            top: 30px;
+            transform: rotate(45deg);
+        }
+
+        /* bottom left*/
+        .ribbon-bottom-left {
+            bottom: -10px;
+            left: -10px;
+        }
+        .ribbon-bottom-left::before,
+        .ribbon-bottom-left::after {
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+        }
+        .ribbon-bottom-left::before {
+            bottom: 0;
+            right: 0;
+        }
+        .ribbon-bottom-left::after {
+            top: 0;
+            left: 0;
+        }
+        .ribbon-bottom-left span {
+            right: -25px;
+            bottom: 30px;
+            transform: rotate(225deg);
+        }
+
+        /* bottom right*/
+        .ribbon-bottom-right {
+            bottom: -10px;
+            right: -10px;
+        }
+        .ribbon-bottom-right::before,
+        .ribbon-bottom-right::after {
+            border-bottom-color: transparent;
+            border-right-color: transparent;
+        }
+        .ribbon-bottom-right::before {
+            bottom: 0;
+            left: 0;
+        }
+        .ribbon-bottom-right::after {
+            top: 0;
+            right: 0;
+        }
+        .ribbon-bottom-right span {
+            left: -25px;
+            bottom: 30px;
+            transform: rotate(-225deg);
+        }
+    </style>
 
     <!-- Subscribe Section -->
     {{ include('front_office/footer.html.twig') }}

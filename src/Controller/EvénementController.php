@@ -10,6 +10,7 @@ use App\Form\CategoriesEventType;
 use App\Form\EvenementType;
 use App\Entity\Participation;
 use App\Repository\ParticipationRepository;
+use App\Services\QrcodeService;
 use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 use Endroid\QrCode\Label\Alignment\LabelAlignmentCenter;
@@ -17,6 +18,7 @@ use Endroid\QrCode\Label\Font\NotoSans;
 use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
 use Endroid\QrCode\Writer\PngWriter;
 use http\Message;
+use PhpParser\Node\Stmt\Foreach_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -85,9 +87,37 @@ class EvénementController extends AbstractController
     /**
      * @Route("/dashboard/SupprimerEvent/{id}", name="SupprimerEvent")
      */
-    public function  SupprimerEvent($id) {
+    public function  SupprimerEvent($id,\Swift_Mailer $mailer) {
         $em= $this->getDoctrine()->getManager();
         $i = $em->getRepository(Evenement::class)->find($id);
+        $participant=$em->getRepository(Participation::class)->findBy(array('idEvent' => $id),array('idEvent' => 'ASC'),null ,null) ;
+
+        foreach ($participant as $s) {
+
+            $email=$s->getIdUser()->getEmail();
+            $message = (new \Swift_Message('Evenement annulé :( ' . $i->getNomEvent()))
+                ->setFrom('slim.ayadi@esprit.tn')
+                ->setTo(array($email => 'hello '));
+
+
+            $img1 = $message->embed(\Swift_Image::fromPath('email/image-10.png'));
+
+
+            $message->setBody(
+                $this->renderView(
+                // templates/emails/registration.html.twig
+                    'emails/annulerEvent.html.twig',
+                    [
+                        'img1'=>$img1,
+                    ]
+                ),
+                'text/html'
+            )
+            ;
+            $mailer->send($message);
+            print_r($email);
+
+        }
 
         $em->remove($i);
         $em->flush();
@@ -153,21 +183,23 @@ class EvénementController extends AbstractController
         $em= $this->getDoctrine()->getManager();
         $prod = $em->getRepository(Evenement::class)->find($id);
         $location = $prod->getLieuEvent();
+        $CategoriesEvent = $this->getDoctrine()->getManager()->getRepository(CategoriesEvent::class)->findAll();
+        $Post =  $this->getDoctrine()->getManager()->getRepository(Evenement::class)->findRecent();
+       //  for btn reject
+        $user= $this->getUser() ;
+        $iduser= $user->getId() ;
+        $Event = $em->getRepository(Evenement::class)->find($id);
+        $eventId=$Event->getId();
+        $userr =$em->getRepository(Participation::class)->findUserinEvent($iduser,$eventId);
+        if($userr){
+            $reject="true" ;
+        }
+        else{
+            $reject="false";
+        }
+        // end
 
-        $queryString = http_build_query([
-            'access_key' => 'a0a2aeb37edb10c8f79d48aa432efe7a',
-            'query' => $location,
-        ]);
 
-        $ch = curl_init(sprintf('%s?%s', 'http://api.weatherstack.com/current', $queryString));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $json = curl_exec($ch);
-        curl_close($ch);
-
-        $api_result = json_decode($json, true);
-        //print_r( $api_result);
-        $temp= "Current temperature in $location is {$api_result['current']['temperature']}℃";
 
         return $this->render('evénement/AfficherEventDetailFront.html.twig',array(
             'id'=>$prod->getId(),
@@ -178,7 +210,10 @@ class EvénementController extends AbstractController
             'NbrParticipantsEvent'=>$prod->getNbrParticipantsEvent(),
             'image'=>$prod->getImage(),
             'Etat'=>$prod->getEtat(),
-            'temp'=>$temp,
+            'CategoriesEvent'=>$CategoriesEvent,
+            'recent'=>$Post,
+            'reject'=>$reject,
+
 
 
         ));
@@ -224,7 +259,7 @@ class EvénementController extends AbstractController
     }
     public function QR( $id,EvenementRepository $repository){
         $event=$repository->find($id);// nom event , lieu , date , nom user
-        $user=$this->getUser()->getNom();
+        $user=$this->getUser()->getId();
         $name=$event->getNomEvent();
         $lieu=$event->getLieuEvent();
         $date=$event->getDateEvent();
@@ -232,15 +267,11 @@ class EvénementController extends AbstractController
         $result = Builder::create()
             ->writer(new PngWriter())
             ->writerOptions([])
-            ->data('Client: '.$user.' nom evenement:'.$name)
+            ->data($name.$lieu)
             ->encoding(new Encoding('UTF-8'))
             ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
-            ->size(300)
+            ->size(200)
             ->margin(10)
-            ->roundBlockSizeMode(new RoundBlockSizeModeMargin())
-            ->labelText("scan me ")
-            ->labelFont(new NotoSans(20))
-            ->labelAlignment(new LabelAlignmentCenter())
             ->build();
         header('Content-Type: '.$result->getMimeType());
         $result->saveToFile('QRcode/'.'client'.$user.'nomEvent'.$name.'.png');
@@ -252,6 +283,7 @@ class EvénementController extends AbstractController
             ->setFrom('slim.ayadi@esprit.tn')
             ->setTo($email);
         $img = $message->embed(\Swift_Image::fromPath('QRcode/client'.$nameUser.'nomEvent'.$nameEvent.'.png'));
+        $img8 = $message->embed(\Swift_Image::fromPath('email/image-8.jpeg'));
 
         $message
             ->setBody(
@@ -261,6 +293,7 @@ class EvénementController extends AbstractController
                     ['name' => $nameUser,
                         'img'  =>$img,
                         'nomEvent'=> $nameEvent,
+                        'img8'=>$img8,
                     ]
                 ),
                 'text/html'
@@ -273,22 +306,29 @@ class EvénementController extends AbstractController
     /**
      * @Route("/ParticiperEvent/{id}", name="ParticiperEvent")
      */
-    public function ParticiperEvent(EvenementRepository $repository,Request $req, $id,\Swift_Mailer $mailer) {
+    public function ParticiperEvent( QrcodeService $qrcodeService,EvenementRepository $repository,Request $req, $id,\Swift_Mailer $mailer) {
 
         $user= $this->getUser() ;
         $iduser= $user->getId() ;
+
         $email= $user->getEmail() ;
         $name= $user->getNom() ;
         $em= $this->getDoctrine()->getManager();
         $Event = $em->getRepository(Evenement::class)->find($id);
+        $eventId=$Event->getId();
         $nameEvent=$Event->getNomEvent();
+        $CategoriesEvent = $this->getDoctrine()->getManager()->getRepository(CategoriesEvent::class)->findAll();
+        $Post =  $this->getDoctrine()->getManager()->getRepository(Evenement::class)->findRecent();
 
         //TEST PARTICIPATION:
         $currentEvt =$em->getRepository(Participation::class)->findBy(["idEvent"=>$id]);
+        $userr =$em->getRepository(Participation::class)->findUserinEvent($iduser,$eventId);
+
         if ($Event->getNbrParticipantsEvent()==1){
             $Event->setEtat("Complet");
         }
-        if (  !$currentEvt)
+
+        if (  !$userr)
         {
             $Participation= new Participation();
             $em= $this->getDoctrine()->getManager();
@@ -297,11 +337,14 @@ class EvénementController extends AbstractController
             $Event->setNbrParticipantsEvent($nbr-1);
             $Participation->setIdUser($user);
             $Participation->setIdEvent($Event);
-            $this->QR($id,$repository);
+            $random = random_int(1000, 9000);
+            $Participation->setVerificationCode($random);
+            $qrCode = $qrcodeService->qrcode($name,$nameEvent,$random);
             $this->email($name,$nameEvent,$email,$mailer);
-
             $em->persist($Participation);
             $em->flush();
+            $reject="true" ;
+
 
             return $this->render('evénement/AfficherEventDetailFront.html.twig',array(
                 'id'=>$Event->getId(),
@@ -312,11 +355,14 @@ class EvénementController extends AbstractController
                 'NbrParticipantsEvent'=>$Event->getNbrParticipantsEvent(),
                 'image'=>$Event->getImage(),
                 'Etat'=>$Event->getEtat(),
-
+                'CategoriesEvent'=>$CategoriesEvent,
+                'recent'=>$Post,
+                 'reject'=>$reject,
             ));
         }
 
         $this->addFlash('error' , 'Vous avez deja participe');
+        $reject="true" ;
 
         return $this->render('evénement/AfficherEventDetailFront.html.twig',array(
             'id'=>$Event->getId(),
@@ -327,6 +373,83 @@ class EvénementController extends AbstractController
             'NbrParticipantsEvent'=>$Event->getNbrParticipantsEvent(),
             'image'=>$Event->getImage(),
             'Etat'=>$Event->getEtat(),
+            'CategoriesEvent'=>$CategoriesEvent,
+            'recent'=>$Post,
+            'reject'=>$reject,
+
+
+
+        ));
+
+    }
+    /**
+     * @Route("/AnnulerParticiperEvent/{id}", name="AnnulerParticiperEvent")
+     */
+    public function AnnulerParticiperEvent(EvenementRepository $repository,Request $req, $id,\Swift_Mailer $mailer) {
+
+        $user= $this->getUser() ;
+        $iduser= $user->getId() ;
+        $email= $user->getEmail() ;
+        $name= $user->getNom() ;
+        $em= $this->getDoctrine()->getManager();
+        $Event = $em->getRepository(Evenement::class)->find($id);
+        $eventId=$Event->getId();
+        $nameEvent=$Event->getNomEvent();
+        $CategoriesEvent = $this->getDoctrine()->getManager()->getRepository(CategoriesEvent::class)->findAll();
+        $Post =  $this->getDoctrine()->getManager()->getRepository(Evenement::class)->findRecent();
+
+        //TEST PARTICIPATION:
+        $userr =$em->getRepository(Participation::class)->findUserinEvent($iduser,$eventId);
+        foreach ($userr as $c)
+        {
+        $participation=$em->getRepository(Participation::class)->find($c->getId());
+            if ($userr)
+            {
+                $Event->setNbrParticipantsEvent($Event->getNbrParticipantsEvent()+1) ;
+                $em->remove($participation);
+                $em->flush();
+                if ($Event->getNbrParticipantsEvent()==0){
+                    $Event->setEtat("incomplet");
+                    $Event->setNbrParticipantsEvent($Event->getNbrParticipantsEvent()+1) ;
+                }
+                $reject="true" ;
+
+                return $this->render('evénement/AfficherEventDetailFront.html.twig',array(
+                    'id'=>$Event->getId(),
+                    'NomEvent'=>$Event->getNomEvent(),
+                    'DescriptionEvent'=>$Event->getDescriptionEvent(),
+                    'LieuEvent'=>$Event->getLieuEvent(),
+                    'DateEvent'=>$Event->getDateEvent(),
+                    'NbrParticipantsEvent'=>$Event->getNbrParticipantsEvent(),
+                    'image'=>$Event->getImage(),
+                    'Etat'=>$Event->getEtat(),
+                    'CategoriesEvent'=>$CategoriesEvent,
+                    'recent'=>$Post,
+                    'reject'=>$reject,
+
+
+                ));
+            }
+        }
+
+
+
+
+        $this->addFlash('error' , 'Vous avez deja annulé');
+        $reject="false" ;
+
+        return $this->render('evénement/AfficherEventDetailFront.html.twig',array(
+            'id'=>$Event->getId(),
+            'NomEvent'=>$Event->getNomEvent(),
+            'DescriptionEvent'=>$Event->getDescriptionEvent(),
+            'LieuEvent'=>$Event->getLieuEvent(),
+            'DateEvent'=>$Event->getDateEvent(),
+            'NbrParticipantsEvent'=>$Event->getNbrParticipantsEvent(),
+            'image'=>$Event->getImage(),
+            'Etat'=>$Event->getEtat(),
+            'CategoriesEvent'=>$CategoriesEvent,
+            'recent'=>$Post,
+            'reject'=>$reject,
 
 
         ));

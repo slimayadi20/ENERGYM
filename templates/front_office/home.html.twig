@@ -59,18 +59,224 @@
                 </li>
 
             </ul>
-            <div class="tp-loader off" style="display: none;"><div class="dot1"></div><div class="dot2"></div><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div><div class="tp-bannertimer" style="visibility: visible; width: 12.4%; transform: translate3d(0px, 0px, 0px);"></div><div class="tp-leftarrow tparrows metis" style="top: 100%; transform: matrix(1, 0, 0, 1, -120, -60); left: 100%;"></div><div class="tp-rightarrow tparrows metis" style="top: 100%; transform: matrix(1, 0, 0, 1, -60, -60); left: 100%;"></div></div>
+    </div>
     </div>
 
-    <!-- Social Box -->
-    <div class="social-box">
-        <ul>
-            <li class="share"><span class="icon fa fa-share"></span></li>
-            <li><a href="#" class="fa fa-facebook-f"></a></li>
-            <li><a href="#" class="fa fa-twitter"></a></li>
-            <li><a href="#" class="fa fa-google"></a></li>
-            <li><a href="#" class="fa fa-whatsapp"></a></li>
-        </ul>
+</section>
+<section class="services-section">
+    <div class="side-text">GYM</div>
+    <div class="auto-container">
+        <div class="row clearfix">
+
+            <!-- Service Block -->
+            <div class="service-block col-lg-4 col-md-6 col-sm-12">
+                <div class="inner-box">
+                    <div class="icon-box">
+                        <span class="icon flaticon-tools-and-utensils"></span>
+                    </div>
+                    <h4><a >Progression</a></h4>
+                    <div class="text">The point of using ENERGYM is that it has THE motive to give the better shape in less time.</div>
+                    <span class="big-icon flaticon-tools-and-utensils"></span>
+                </div>
+            </div>
+
+            <!-- Service Block -->
+            <div class="service-block style-two col-lg-4 col-md-6 col-sm-12">
+                <div class="inner-box">
+                    <div class="icon-box">
+                        <span class="icon flaticon-sports"></span>
+                    </div>
+                    <h4><a >Workout</a></h4>
+                    <div class="text">The point of using ENERGYM IS that it organize your schedule</div>
+                    <span class="big-icon flaticon-sports"></span>
+                </div>
+            </div>
+
+            <!-- Service Block -->
+            <div class="service-block style-three col-lg-4 col-md-6 col-sm-12">
+                <div class="inner-box">
+                    <div class="icon-box">
+                        <span class="icon flaticon-plan"></span>
+                    </div>
+                    <h4><a >Nutrition</a></h4>
+                    <div class="text">ENERGYM Provide you with its products and free delivery </div>
+                    <span class="big-icon flaticon-plan"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+{# lenna partie omar  #}
+<section class="calculate-section">
+    <div class="auto-container">
+        <div class="row clearfix">
+
+            <!-- Form Column -->
+            <div class="form-column col-lg-6 col-md-12 col-sm-12">
+                <div class="inner-column">
+                    <!-- Sec Title -->
+                    <div class="sec-title">
+                        <div class="title">INDICE DE MASSE CORPORELLE</div>
+                        <h2>QUEL EST TON
+                            <br>IMC</h2>
+                    </div>
+
+                    <!-- Default Form -->
+                    <div class="default-form">
+
+                        <!-- Default Form -->
+                        <form method="post" >
+                            <div class="row clearfix">
+
+                                <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                    <input type="text" name="h" placeholder="Taille / CM" required>
+                                </div>
+
+                                <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                    <input type="text" name="w" placeholder="Poids / KG" required>
+                                </div>
+
+                                <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                    <input type="text" name="a" placeholder="Age" required>
+                                </div>
+
+                                <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                                    <select  name="s" class="custom-select-box">
+                                        <option>Sexe</option>
+                                        <option value="m">Homme</option>
+                                        <option value="w">Femme</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                                    <div class="btn-two-outer"><button class="theme-btn btn-style-two" type="submit" name="submit-form"><span class="txt">Calculer</span></button></div>
+                                </div>
+
+                            </div>
+                        </form>
+
+                        <!--End Default Form -->
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Info Column -->
+            <div class="info-column col-lg-6 col-md-12 col-sm-12">
+                <div class="inner-column">
+
+                    <div class="table-outer">
+                        <div class="table-boxed">
+                            {% if response|length==1 %}
+                                <div class="table-content">
+                                    <!-- Title -->
+                                    <div class="title clearfix">
+                                        <div class="col">IMC</div>
+                                        <div class="col">ETAT DU POIDS</div>
+                                    </div>
+                                    <br>
+                                    <ul>
+                                        <li class="clearfix"><span>moins que 18.5</span>Maigre</li>
+                                        <li class="clearfix"><span>18.5-24.9</span>Healthy</li>
+                                        <li class="clearfix"><span>25.0-29.9</span>En Surpoids</li>
+                                        <li class="clearfix"><span>30.0 et plus</span>Obèse</li>
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        {% if response|length>2 %}
+                            <div class="info-list">
+
+                                <div class="table-name"><span>IMC</span> - {{ response['bmi']['value'] }}</div>
+                            </div>
+                            <div class="info-list">
+
+                                <div class="table-name"><span>poids ideal</span> - {{ response['ideal_weight'] }}</div>
+                            </div>
+                            <div class="info-list">
+
+                                <div class="table-name"><span>Risque</span> - {{ response['bmi']['risk'] }}</div>
+                            </div>
+                            <div class="info-list">
+
+                                <div class="table-name"><span>statut</span> -   {{ response['bmi']['status'] }}</div>
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
+</section>
+{# lena partie malak  #}
+<section class="news-section">
+    <div class="auto-container">
+        <!-- Sec Title -->
+        <div class="sec-title centered">
+            <div class="title">Our Blog &amp; Artical</div>
+            <h2>Latest News <br> Posts</h2>
+        </div>
+
+        <div class="row clearfix">
+
+            <!-- News Block -->
+            <div class="news-block col-lg-4 col-md-6 col-sm-12">
+                <div class="inner-box wow fadeInLeft animated" data-wow-delay="0ms" data-wow-duration="1500ms" style="visibility: visible; animation-duration: 1500ms; animation-delay: 0ms; animation-name: fadeInLeft;">
+                    <div class="image">
+                        <a href="blog-single.html"><img src="https://via.placeholder.com/360x260" alt=""></a>
+                        <div class="post-date">21<span>JUN</span></div>
+                    </div>
+                    <div class="lower-content">
+                        <h4><a href="blog-single.html">Push Your Fitness Further With Facilities</a></h4>
+                        <div class="text">at vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis accusamus et </div>
+                        <div class="btn-three-outer"><a href="blog-single.html" class="theme-btn btn-style-three"><span class="txt">Read More</span></a></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- News Block -->
+            <div class="news-block col-lg-4 col-md-6 col-sm-12">
+                <div class="inner-box wow fadeInUp animated" data-wow-delay="0ms" data-wow-duration="1500ms" style="visibility: visible; animation-duration: 1500ms; animation-delay: 0ms; animation-name: fadeInUp;">
+                    <div class="image">
+                        <a href="blog-single.html"><img src="https://via.placeholder.com/360x260" alt=""></a>
+                        <div class="post-date">25<span>mar</span></div>
+                    </div>
+                    <div class="lower-content">
+                        <h4><a href="blog-single.html">How to keep your Body HEALTHY IN OVER FESTIVAL</a></h4>
+                        <div class="text">at vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis accusamus et </div>
+                        <div class="btn-three-outer"><a href="blog-single.html" class="theme-btn btn-style-three"><span class="txt">Read More</span></a></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- News Block -->
+            <div class="news-block col-lg-4 col-md-6 col-sm-12">
+                <div class="inner-box wow fadeInRight animated" data-wow-delay="0ms" data-wow-duration="1500ms" style="visibility: visible; animation-duration: 1500ms; animation-delay: 0ms; animation-name: fadeInRight;">
+                    <div class="image">
+                        <a href="blog-single.html"><img src="https://via.placeholder.com/360x260" alt=""></a>
+                        <div class="post-date">18<span>sep</span></div>
+                    </div>
+                    <div class="lower-content">
+                        <h4><a href="blog-single.html">GIVE YOUR FITNESS A BOOST WITH OUR GYM CHALLENGE</a></h4>
+                        <div class="text">at vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis accusamus et </div>
+                        <div class="btn-three-outer"><a href="blog-single.html" class="theme-btn btn-style-three"><span class="txt">Read More</span></a></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </section>

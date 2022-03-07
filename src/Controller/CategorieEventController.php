@@ -89,6 +89,8 @@ class CategorieEventController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $categorie = $em->getRepository(CategoriesEvent::class)->find($id);
+        $Post =  $this->getDoctrine()->getManager()->getRepository(Evenement::class)->findRecent();
+        $recent =  $this->getDoctrine()->getManager()->getRepository(Evenement::class)->findRecentEvents();
 
         //     var_dump($categorie);die();
 
@@ -99,8 +101,8 @@ class CategorieEventController extends AbstractController
 
 
 
-        return $this->render('evénement/ShowEventsSelonCategorie.html.twig', array('Event'=>$Event
-
+        return $this->render('evénement/ShowEventsSelonCategorie.html.twig', array('Event'=>$Event,'recent'=>$Post,
+        'recentEvent'=>$recent,
         ));
     }
 

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    {{ include('front_office/navbar.html.twig') }}
+    {{ render(path('temp', {max: 3})) }}
 <h1>Thanks for attempted your order!</h1>
 <p>
     We appreciate your business!

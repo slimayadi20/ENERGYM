@@ -7,6 +7,7 @@ use App\Entity\Produit;
 use App\Repository\ProduitRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
@@ -24,12 +25,12 @@ class ReclamationFormType extends AbstractType
         $builder
 
             ->add('titre')
-            ->add('contenu')
+            ->add('contenu',TextareaType::class)
             ->add('produit',EntityType::class,
             [
-                'class'=>Produit::class,
+                'class'         => 'App\Entity\Produit',
                 'query_builder'=>function(ProduitRepository $repository) {
-                    $user = $this->security->getUser()->getId();
+                    $user = $this->security->getUser();
                     $prod=$repository->findProduitAchete($user) ;
                     return $prod ;
                 },

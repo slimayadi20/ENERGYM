@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    {{ include('front_office/navbar.html.twig') }}
+    {{ render(path('temp', {max: 3})) }}
 <section class="page-title" style="background-image:url(https://via.placeholder.com/1920x600)">
     <div class="auto-container">
         <div class="clearfix">
@@ -23,72 +23,78 @@
     </div>
 </section>
     <br>
-<div class="lower-section">
-    <div class="auto-container">
-        <div class="row clearfix">
+    <section class="contact-form-section">
+        <div class="auto-container">
 
-            <!-- Form Column -->
-            <div class="form-column col-lg-6 col-md-12 col-sm-12">
-                <div class="inner-column">
-                    <!-- Sec Title -->
-                    <div class="sec-title">
-                        <div class="title">Tell Us Now</div>
-                        <h2>If you have any <br> Question in your mind</h2>
+            <div class="row clearfix">
+
+                <!-- Title Column -->
+                <div class="title-column col-lg-4 col-md-12 col-sm-12">
+                    <div class="inner-column">
+                        <!-- Sec Title -->
+                        <div class="sec-title">
+                            <div class="title">Contact Now</div>
+                            <h2>Ask Us <br> Anything</h2>
+                        </div>
+                        <div class="text">Envoyez-nous toutes vos demandes d'information, propositions et commentaires sur les offres et les services .
+
+                            .</div>
                     </div>
+                </div>
 
-                    <!-- Default Form -->
-                    <div class="default-form style-two">
+                <!-- Form Column -->
+                <div class="form-column col-lg-8 col-md-12 col-sm-12">
+                    <div class="inner-column">
 
                         <!-- Default Form -->
-                        {{
-                        form_start(form_reclamation,
-                            {
-                                'attr'
-                                :
+                        <div class="default-form style-two contact-form">
+                            {{
+                            form_start(form_reclamation,
                                 {
-                                    'novalidate'
+                                    'attr'
                                     :
-                                    'novalidate'
-                                }})
-                        }}
-                        <div class="form-group">
-                            {{ form_widget(form_reclamation.produit, { 'attr': {'class': 'form-control','placeholder': 'Ajouter un produit acheté'} }) }}
-                            {{ form_errors(form_reclamation.produit, { 'attr': {'class': 'form-control'} }) }}
+                                    {
+                                        'novalidate'
+                                        :
+                                        'novalidate'
+                                    }})
+                            }}
+                            <!-- Default Form -->
+                            <form method="post" action="sendemail.php" id="contact-form" novalidate="novalidate">
+                                <div class="row clearfix">
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                        {{ form_widget(form_reclamation.produit, { 'attr': {'class': 'ui-selectmenu-button ui-selectmenu-button-closed ui-corner-all ui-button ui-widget','placeholder': 'Ajouter un produit acheté'} }) }}
+                                        {{ form_errors(form_reclamation.produit, { 'attr': {'class': 'form-control'} }) }}                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                        {{ form_widget(form_reclamation.titre, { 'attr': {'class': 'form-control','placeholder': 'Ecrire un titre..'} }) }}
+                                        {{ form_errors(form_reclamation.titre, { 'attr': {'class': 'form-control'} }) }}
+                                    </div>
+
+
+
+                                    <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                                        {{ form_widget(form_reclamation.contenu, { 'attr': {'class': 'form-control' ,'placeholder': 'Ecrire un Contenu..'} }) }}
+                                        {{ form_errors(form_reclamation.contenu, { 'attr': {'class': 'form-control'} }) }}                                    </div>
+
+                                    <div class="form-group clearfix col-lg-12 col-md-12 col-sm-12">
+                                        <div class="btn-three-outer"><button class="theme-btn btn-style-three" type="submit" name="submit-form"><span class="txt">SEND MESSAGE</span></button></div>
+                                    </div>
+                                    {{ form_end(form_reclamation) }}
+
+                                </div>
+                            </form>
+
+                            <!--End Default Form -->
                         </div>
-                            <div class="form-group">
-                                {{ form_widget(form_reclamation.titre, { 'attr': {'class': 'form-control','placeholder': 'Ecrire un titre..'} }) }}
-                                {{ form_errors(form_reclamation.titre, { 'attr': {'class': 'form-control'} }) }}
 
-                            </div>
-                            <div class="form-group">
-                                {{ form_widget(form_reclamation.contenu, { 'attr': {'class': 'form-control' ,'placeholder': 'Ecrire un Contenu..'} }) }}
-                                {{ form_errors(form_reclamation.contenu, { 'attr': {'class': 'form-control'} }) }}
-                            </div>
-
-                            <div class="form-group">
-                                <div class="btn-three-outer"><button class="theme-btn btn-style-three" type="submit" name="submit-form"><span class="txt">SEND Now</span></button></div>
-                            </div>
-
-                        {{ form_end(form_reclamation) }}
-
-                        <!--End Default Form -->
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Image Column -->
-            <div class="image-column col-lg-6 col-md-12 col-sm-12">
-                <div class="inner-column">
-                    <div class="image">
-                        <img src="https://via.placeholder.com/550x725" alt="">
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
-    </div>
-</div>
+    </section>
     <br>
     {{ include('front_office/footer.html.twig') }}
 {% endblock %}

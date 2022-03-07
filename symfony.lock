@@ -8,6 +8,9 @@
     "captcha-com/symfony-captcha-bundle": {
         "version": "4.2.12"
     },
+    "cboden/ratchet": {
+        "version": "v0.4.4"
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.4"
     },
@@ -94,6 +97,9 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
+    "dompdf/dompdf": {
+        "version": "v1.2.0"
+    },
     "egulias/email-validator": {
         "version": "3.1.1"
     },
@@ -105,6 +111,9 @@
     },
     "endroid/qr-code-bundle": {
         "version": "4.0.7"
+    },
+    "evenement/evenement": {
+        "version": "v3.0.1"
     },
     "firebase/php-jwt": {
         "version": "v5.5.1"
@@ -163,6 +172,9 @@
     "myclabs/deep-copy": {
         "version": "1.10.2"
     },
+    "necrox87/yii2-nudity-detector": {
+        "version": "dev-master"
+    },
     "nikic/php-parser": {
         "version": "v4.12.0"
     },
@@ -174,6 +186,12 @@
     },
     "phar-io/version": {
         "version": "3.1.0"
+    },
+    "phenx/php-font-lib": {
+        "version": "0.5.4"
+    },
+    "phenx/php-svg-lib": {
+        "version": "0.4.0"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -243,6 +261,33 @@
     "ralouphie/getallheaders": {
         "version": "3.0.3"
     },
+    "ratchet/rfc6455": {
+        "version": "v0.3.1"
+    },
+    "react/cache": {
+        "version": "v1.1.1"
+    },
+    "react/dns": {
+        "version": "v1.9.0"
+    },
+    "react/event-loop": {
+        "version": "v1.2.0"
+    },
+    "react/promise": {
+        "version": "v2.9.0"
+    },
+    "react/promise-timer": {
+        "version": "v1.8.0"
+    },
+    "react/socket": {
+        "version": "v1.11.0"
+    },
+    "react/stream": {
+        "version": "v1.2.0"
+    },
+    "sabberworm/php-css-parser": {
+        "version": "8.4.0"
+    },
     "sebastian/cli-parser": {
         "version": "1.0.1"
     },
@@ -303,7 +348,6 @@
             "./config/packages/sensio_framework_extra.yaml"
         ]
     },
-
     "stripe/stripe-php": {
         "version": "v7.114.0"
     },

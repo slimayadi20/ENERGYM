@@ -162,8 +162,9 @@ class Produit
 
     public function __toString()
     {
-        return (string) $this->getCategories();
+        return $this->getNom() . ' (' . $this->getCategories() . ')';
     }
+
 
     /**
      * @return Collection<int, User>

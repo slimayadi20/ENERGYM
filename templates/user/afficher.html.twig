@@ -40,7 +40,6 @@
                             <th>Role</th>
                             <th>Image</th>
                             <th>edit</th>
-                            <th>delete</th>
                             </thead>
                             <tbody>
                             {% for u in users  %}
@@ -79,13 +78,7 @@
                             <td>
                                 <a type="button" href="{{ path('modifyUser', {'id': u.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
                             </td>
-                            <td>
-                                <form method="post" action="{{ path('deleteUser', {'id': u.id}) }}"  onsubmit="return confirm('Voulez vous supprimer cet utilisateur ?')">
-                                    <input type="hidden" name="_method" value="SUP">
-                                    <input type="hidden" name="_token" value="{{u.id }}">
-                                    <button type="submit" value="supprimer" class="btn btn-danger btn-icon  rounded-pill"><i class="  ti-trash"></i></button>
-                                </form>
-                            </td>
+
                             </tbody>
                             {% endfor %}
                         </table>

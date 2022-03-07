@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    {{ include('front_office/navbar.html.twig') }}
+    {{ render(path('temp', {max: 3})) }}
 
     <section class="page-title" style="background-image:url(https://via.placeholder.com/1920x600)">
         <div class="auto-container">
@@ -16,7 +16,7 @@
                 </div>
                 <div class="pull-right">
                     <ul class="page-breadcrumb">
-                        <li><a href="index.html">home</a></li>
+                        <li><a href="{{ path('front_office') }}">home</a></li>
                         <li>Blog</li>
                     </ul>
                 </div>
@@ -32,28 +32,17 @@
                     <aside class="sidebar sticky-top">
 
                         <!-- Search -->
-                        <div class="sidebar-widget search-box">
-                            <form method="post" action="contact.html">
-                                <div class="form-group">
-                                    <input type="search" name="search-field" value="" placeholder="Search....." required="">
-                                    <button type="submit"><span class="icon fa fa-search"></span></button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <!-- Categories Widget -->
                         <div class="sidebar-widget categories-widget">
                             <div class="sidebar-title">
                                 <h4>Categories</h4>
                             </div>
                             <div class="widget-content">
                                 <ul class="blog-cat">
-                                    <li><a href="#">FITNESS <span>( 24 )</span></a></li>
-                                    <li><a href="#">HEALTH  <span>( 03 )</span></a></li>
-                                    <li><a href="#">LIFESTYLE <span>( 01 )</span></a></li>
-                                    <li><a href="#">NUTRITION <span>( 02 )</span></a></li>
-                                    <li><a href="#">SPORT SCIENCE <span>( 10 )</span></a></li>
-                                    <li><a href="#">TRAINING PROGRAM <span>( 02 )</span></a></li>
+                                    {% for c in CategoriesEvent %}
+                                        <li><a href="{{ path('ShowEvents',{'id':c.id}) }}">{{ c.nomCategorie}} </a></li>
+                                    {% endfor %}
+                                    {#} <li><a href="#">HEALTH  <span>( 03 )</span></a></li> {#}
+
                                 </ul>
                             </div>
                         </div>
@@ -61,80 +50,26 @@
                         <!-- Categories Widget -->
                         <div class="sidebar-widget popular-posts">
                             <div class="sidebar-title">
-                                <h4>Recent Post</h4>
-                            </div>
-                            <div class="widget-content">
-                                <article class="post">
-                                    <div class="post-inner">
-                                        <figure class="post-thumb"><img src="https://via.placeholder.com/100x100" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                        <div class="text"><a href="blog-single.html">Meal prep for a full week easy</a></div>
-                                        <div class="post-info">19.9.2019</div>
-                                    </div>
-                                </article>
-                                <article class="post">
-                                    <div class="post-inner">
-                                        <figure class="post-thumb"><img src="https://via.placeholder.com/100x100" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                        <div class="text"><a href="blog-single.html">Off Season is finnish now what?</a></div>
-                                        <div class="post-info">19.9.2019</div>
-                                    </div>
-                                </article>
-                                <article class="post">
-                                    <div class="post-inner">
-                                        <figure class="post-thumb"><img src="https://via.placeholder.com/100x100" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                        <div class="text"><a href="blog-single.html">Fitness helps you think &amp; Feel Better.</a></div>
-                                        <div class="post-info">19.9.2019</div>
-                                    </div>
-                                </article>
-                            </div>
-                        </div>
+                                <h4>Coming Soon</h4>
 
-                        <!-- Search -->
-                        <div class="sidebar-widget newsletter-box">
-                            <div class="sidebar-title">
-                                <h4>GET NEWSLETTER</h4>
                             </div>
-                            <form method="post" action="contact.html">
-                                <div class="form-group">
-                                    <input type="search" name="search-field" value="" placeholder="Entery Email" required="">
-                                    <button type="submit"><span class="icon flaticon-paper-plane-1"></span></button>
+                            {% for r in recent %}
+
+                                <div class="widget-content">
+                                    <article class="post">
+                                        <div class="post-inner">
+                                            <figure class="post-thumb"><img src="{{ asset('uploads/Event_image/' )~r.image  }}" alt=""><a href="{{ path('detailFrontEvent',{'id':r.id}) }}" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
+                                            <div class="text"><a href="{{ path('detailFrontEvent',{'id':r.id}) }}">{{ r.NomEvent }}</a></div>
+                                            <div class="post-info">{{ r.DateEvent | date('Y-m-d')}}</div>
+
+                                        </div>
+
+                                    </article>
+
                                 </div>
-                            </form>
-                        </div>
+                            {% endfor %}
 
-                        <!-- Popular Posts -->
-                        <div class="sidebar-widget popular-tags">
-                            <div class="sidebar-title">
-                                <h4>TAGS</h4>
-                            </div>
-                            <div class="widget-content">
-                                <a href="#">Fitness</a>
-                                <a href="#">Health</a>
-                                <a href="#">Lifestyle</a>
-                                <a href="#">Nutrition</a>
-                                <a href="#">Sport</a>
-                                <a href="#">Science</a>
-                                <a href="#">Training</a>
-                                <a href="#">Program</a>
-                            </div>
-                        </div>
-
-                        <!-- Instagram Widget -->
-                        <div class="sidebar-widget instagram-widget">
-                            <div class="sidebar-title">
-                                <h4>Instagram</h4>
-                            </div>
-                            <div class="widget-content">
-                                <div class="clearfix">
-                                    <figure class="post-thumb"><img src="https://via.placeholder.com/110x110" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                    <figure class="post-thumb"><img src="https://via.placeholder.com/110x110" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                    <figure class="post-thumb"><img src="https://via.placeholder.com/110x110" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                    <figure class="post-thumb"><img src="https://via.placeholder.com/110x110" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                    <figure class="post-thumb"><img src="https://via.placeholder.com/110x110" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                    <figure class="post-thumb"><img src="https://via.placeholder.com/110x110" alt=""><a href="blog-single.html" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                </div>
-                            </div>
-                        </div>
-
+                </div>
                     </aside>
                 </div>
 
@@ -157,56 +92,8 @@
                                 <p> {{ DescriptionEvent }}</p>
                                 <div class="two-column">
                                     <div class="row clearfix">
-                                        <div class="column col-lg-6 col-md-6 col-sm-12">
-                                            <div class="image">
-                                                <img src="https://via.placeholder.com/330x220" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="column col-lg-6 col-md-6 col-sm-12">
-                                            <div class="image">
-                                                <img src="https://via.placeholder.com/330x220" alt="">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequu ntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolo rem ipsum quia dolor sit amet, consectetur, adipisci velit.sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-                                <blockquote>Prepare to Take on Everything with Your Hnad. <br> This Session Strips it Back. <div class="quote-icon flaticon-quote-4"></div></blockquote>
-                                <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.sed quia non numquam eius modi tempora incidunt ut labore et dolore voluptatem.</p>
-                                <!--Video Box-->
-                                <div class="video-box style-two">
-                                    <figure class="video-image">
-                                        <img src="https://via.placeholder.com/700x270" alt="">
-                                    </figure>
-                                    <a href="https://www.youtube.com/watch?v=kxPCFljwJws" class="lightbox-image overlay-box"><span class="flaticon-play-arrow"><i class="ripple"></i></span></a>
-                                </div>
-                                <h4>Working daily, with goals in mind will truly make all the difference for classe service</h4>
-                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequu ntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolo rem ipsum quia dolor sit amet, consectetur, adipisci velit.sed quia non numquam eius modi temp ora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
 
-                                <!-- Post Share Options-->
-                                <div class="post-share-options">
-                                    <div class="post-share-inner clearfix">
-                                        <div class="pull-left tags"><span>Post Tags: </span><a href="#">Fit,</a> <a href="#">gym, </a><a href="#">fitness,</a> <a href="#">Cardio</a></div>
-                                        <ul class="social-box pull-right">
-                                            <span class="flaticon-share-1"></span>
-                                            <li class="facebook"><a href="#"><span class="fa fa-facebook-f"></span></a></li>
-                                            <li class="twitter"><a href="#"><span class="fa fa-twitter"></span></a></li>
-                                            <li class="twitter"><a href="#"><span class="fa fa-google"></span></a></li>
-                                            <li class="linkedin"><a href="#"><span class="fa fa-whatsapp"></span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
 
-                                <!-- Author Box -->
-                                <div class="author-box">
-                                    <div class="author-inner">
-                                        <div class="thumb"><img src="https://via.placeholder.com/135x145" alt=""></div>
-                                        <div class="name">About The Theodore</div>
-                                        <ul class="social-icon clearfix">
-                                            <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                        </ul>
-                                        <div class="author-text">Dynamically innovate resource and leveling customer service for state of the art customer service.</div>
                                     </div>
                                 </div>
 
@@ -215,17 +102,15 @@
                                         {{ message }}
                                     </div>
                                 {% endfor %}
-
-
-
-                                {% if Etat!="Complet" %}
                                     <div class="form-group clearfix col-lg-12 col-md-12 col-sm-12">
-                                        <div class="btn-three-outer"><a href="{{ path('ParticiperEvent', {'id': id}) }}" class="theme-btn btn-style-three" type="submit" name="submit-form"><span class="txt">Sand Now</span></a></div>
+
+                                        <blockquote>   {% if Etat!="Complet" %}
+                                                <div class="btn-three-outer"><a href="{{ path('ParticiperEvent', {'id': id}) }}" class="theme-btn btn-style-three" type="submit" name="submit-form"><span class="txt">Participat Now</span></a></div>
+
+                                            {% endif %}
+
+                                        </blockquote>
                                     </div>
-                                {% endif %}
-
-
-
                             </div>
 
                         </div>
@@ -237,4 +122,5 @@
         </div>
     </div>
     </div>
-{% endblock  %}
+    {{ include('front_office/footer.html.twig') }}
+{% endblock %}

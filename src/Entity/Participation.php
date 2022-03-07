@@ -31,6 +31,11 @@ class Participation
      */
     private $idEvent;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $VerificationCode;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -56,6 +61,22 @@ class Participation
     public function setIdEvent(?Evenement $idEvent): self
     {
         $this->idEvent = $idEvent;
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return (string) $this->getIdUser();
+    }
+
+    public function getVerificationCode(): ?int
+    {
+        return $this->VerificationCode;
+    }
+
+    public function setVerificationCode(?int $VerificationCode): self
+    {
+        $this->VerificationCode = $VerificationCode;
 
         return $this;
     }

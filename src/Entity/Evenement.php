@@ -197,10 +197,12 @@ class Evenement
 
     public function addParticipation(Participation $participation): self
     {
-        if (!$this->participations->contains($participation)) {
-            $this->participations[] = $participation;
-            $participation->setIdEvent($this);
+        if ($this->participations->contains($participation)) {
+            return false ;
         }
+        $participation->setIdEvent($this);
+        $this->participations[] = $participation;
+
 
         return $this;
     }

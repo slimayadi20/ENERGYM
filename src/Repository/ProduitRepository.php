@@ -33,9 +33,10 @@ class ProduitRepository extends ServiceEntityRepository
     }
     public function findProduitAchete($user)
     {
-        return $this->createQueryBuilder('v')
-            ->Where(':id MEMBER OF v.user')
+        return $this->createQueryBuilder('x')
+            ->Where(':id MEMBER OF x.user')
             ->setParameter('id',$user);
+
 
 
 

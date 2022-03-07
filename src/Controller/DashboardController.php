@@ -11,7 +11,11 @@ use App\Repository\UserRepository;
 class DashboardController extends AbstractController
 {
     /**
-     * @Route("/dashboard", name="dashboard")
+     * @Route("/{_locale/dashboard", name="dashboard")
+     * requiremenets={
+     * "_locale" : "en|fr",
+     * }
+     * }
      */
     public function index(UserRepository $repository): Response
     {

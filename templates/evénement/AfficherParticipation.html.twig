@@ -16,28 +16,11 @@
         <!-- Start content -->
         <div class="content">
             <div class="container-fluid">
-                <div class="row">
 
-
-                </div>
                 <div class="row" style="display: flex;align-items: center;justify-content: center">
-                    <div class="col-lg-6">
+                    <div class="col-12">
                         <div class="card-box">
-                            <div class="dropdown pull-right">
-                                <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="mdi mdi-dots-vertical"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item">Action</a>
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item">Another action</a>
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item">Something else</a>
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
-                                </div>
-                            </div>
+
                             <h4 class="m-t-0 header-title">Les Participations</h4>
 
                             <table class="table">
@@ -47,6 +30,7 @@
                                     <th> Nom de l'événement</th>
                                     <th>Nom du participant  </th>
                                     <th>Email du participant</th>
+                                    <th>Confirmation Code</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -58,6 +42,7 @@
                                         <td>{{ P.idEvent.NomEvent }}</td>
                                         <td>{{ P.idUser.nom}}</td>
                                         <td>{{ P.idUser.email }}</td>
+                                        <td>{{ P.VerificationCode }}</td>
                                      {#}   <td><a href="{{ path('SupprimerEvent',{'id':e.id}) }}"><i class="fa fa-trash" style="color:#ff5b5b;font-size:20px"></i> </a> </td>{#}
 
 

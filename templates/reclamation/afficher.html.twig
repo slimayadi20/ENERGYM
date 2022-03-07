@@ -15,6 +15,7 @@
 
                         <table id="datatable" class="table table-bordered">
                             <thead>
+                            <th>Produit</th>
                             <th>Titre</th>
                             <th>Contenu</th>
                             <th>Date </th>
@@ -29,6 +30,7 @@
                             </thead>
                             <tbody>
                             {% for r in reclamation %}
+                            <td>{{ r.produit }}</td>
                             <td>{{ r.titre }}</td>
                             <td>{{ r.contenu }}</td>
                             <td>{{ r.DateCreation | date }}</td>
