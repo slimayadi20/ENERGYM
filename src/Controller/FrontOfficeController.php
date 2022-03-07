@@ -7,6 +7,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use App\Entity\Panier;
 use App\Entity\Commande;
 use App\Entity\Livraison;
@@ -85,6 +88,41 @@ class FrontOfficeController extends AbstractController
             return $this->render('front_office/navbar.html.twig');
 
         }
+    /**
+     * @Route("/ImprimerEXCEL", name="ImprimerEXCEL")
+     */
+    public function ImprimerEXCEL()
+    {
+        $spreadsheet = new Spreadsheet();
+
+        /* @var $sheet \PhpOffice\PhpSpreadsheet\Writer\Xlsx\Worksheet */
+
+        $em= $this->getDoctrine()->getManager();
+        $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $drawing->setPath('uploads/photobmi.png'); // put your path and image here
+        $drawing->setCoordinates('B1');
+        $drawing->setOffsetX(110);
+
+        $drawing->getShadow()->setDirection(45);
+        $drawing->setWorksheet($spreadsheet->getActiveSheet());
+        $sheet->setTitle("Tableau IMC");
+
+        // Create your Office 2007 Excel (XLSX Format)
+        $writer = new Xlsx($spreadsheet);
+
+        // Create a Temporary file in the system
+        $fileName = 'Informations IMC.xlsx';
+        $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+
+        // Create the excel file in the tmp directory of the system
+        $writer->save($temp_file);
+
+        // Return the excel file as an attachment
+        return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+    }
+
 
 
 }
