@@ -80,7 +80,7 @@ class CommentaireController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="commentaire_delete", methods={"POST"})
+     * @Route("/delete/{id}", name="commentaire_delete")
      */
     public function delete(Request $request, Commentaire $commentaire, EntityManagerInterface $entityManager): Response
     {

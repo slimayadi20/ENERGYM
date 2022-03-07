@@ -34,11 +34,7 @@ class UserController extends AbstractController
 
         $utilisateur = $this->getUser();
         $SalleId= $utilisateur->getIdSalle() ;
-        $users =  $paginator->paginate(
-            $repository->findallwithpagination(),
-            $request->query->getInt('page' , 1), // nombre de page
-            2 //nombre limite
-        );
+
 
         if(!$utilisateur)
         {

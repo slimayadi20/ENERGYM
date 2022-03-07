@@ -11,6 +11,9 @@
     "cboden/ratchet": {
         "version": "v0.4.4"
     },
+    "cmen/google-charts-bundle": {
+        "version": "5.0.0"
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.4"
     },
@@ -115,6 +118,9 @@
     "evenement/evenement": {
         "version": "v3.0.1"
     },
+    "ezyang/htmlpurifier": {
+        "version": "v4.14.0"
+    },
     "firebase/php-jwt": {
         "version": "v5.5.1"
     },
@@ -166,11 +172,23 @@
     "lcobucci/jwt": {
         "version": "4.0.4"
     },
+    "maennchen/zipstream-php": {
+        "version": "2.1.0"
+    },
+    "markbaker/complex": {
+        "version": "3.0.1"
+    },
+    "markbaker/matrix": {
+        "version": "3.0.0"
+    },
     "monolog/monolog": {
         "version": "1.26.1"
     },
     "myclabs/deep-copy": {
         "version": "1.10.2"
+    },
+    "myclabs/php-enum": {
+        "version": "1.8.3"
     },
     "necrox87/yii2-nudity-detector": {
         "version": "dev-master"
@@ -201,6 +219,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.5.0"
+    },
+    "phpoffice/phpspreadsheet": {
+        "version": "1.22.0"
     },
     "phpseclib/phpseclib": {
         "version": "3.0.13"
@@ -257,6 +278,9 @@
     },
     "psr/log": {
         "version": "1.1.4"
+    },
+    "psr/simple-cache": {
+        "version": "1.0.1"
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
@@ -347,6 +371,9 @@
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "snipe/banbuilder": {
+        "version": "dev-master"
     },
     "stripe/stripe-php": {
         "version": "v7.114.0"

@@ -3,15 +3,27 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Panier;
+use App\Entity\Commande;
+use App\Entity\Livraison;
+use App\Entity\Promo;
+use App\Entity\User;
+use App\Entity\Produit;
+use App\Repository\UserRepository;
+use App\Repository\PromoRepository;
+use App\Repository\PanierRepository;
+use App\Repository\ProduitRepository;
 
 class FrontOfficeController extends AbstractController
 {
     /**
      * @Route("/front", name="front_office")
      */
-    public function index(\Symfony\Component\HttpFoundation\Request  $request): Response
+    public function index(\Symfony\Component\HttpFoundation\Request  $request ,SessionInterface $session, ProduitRepository $produitRepository): Response
     {
         $curl = curl_init();
         $w = $request->request->get('w');
@@ -54,64 +66,25 @@ class FrontOfficeController extends AbstractController
 
         curl_close($curl);
         $api_result1 = json_decode($response, true);
+// ***********************************************************************************
+            return $this->render('front_office/index.html.twig', [
+                'controller_name' => 'FrontOfficeController',
+                "response" => $api_result1,
 
+            ]);
 
-        $location ="tunis";
-
-        $queryString = http_build_query([
-            'access_key' => 'a0a2aeb37edb10c8f79d48aa432efe7a',
-            'query' => $location,
-        ]);
-
-        $ch = curl_init(sprintf('%s?%s', 'http://api.weatherstack.com/current', $queryString));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $json = curl_exec($ch);
-        curl_close($ch);
-
-        $api_result = json_decode($json, true);
-        //print_r( $api_result);
-        $temp= "Current temperature in $location is {$api_result['current']['temperature']}℃";
-        return $this->render('front_office/index.html.twig', [
-            'controller_name' => 'FrontOfficeController',
-            'temp'=>$temp,
-            "response" => $api_result1,
-
-        ]);
     }
+
+
     /**
      * @Route("/temp", name="temp")
      */
-    public function temp(): Response
+    public function temp(SessionInterface $session, ProduitRepository $produitRepository,Request $request): Response
     {
-        $location ="tunis";
 
-        $queryString = http_build_query([
-            'access_key' => 'a0a2aeb37edb10c8f79d48aa432efe7a',
-            'query' => $location,
-        ]);
+            return $this->render('front_office/navbar.html.twig');
 
-        $ch = curl_init(sprintf('%s?%s', 'http://api.weatherstack.com/current', $queryString));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        }
 
-        $json = curl_exec($ch);
-        curl_close($ch);
 
-        $api_result = json_decode($json, true);
-        //print_r( $api_result);
-        $temp= "Current temperature in $location is {$api_result['current']['temperature']}℃";
-        return $this->render('front_office/navbar.html.twig', [
-            'controller_name' => 'FrontOfficeController',
-            'temp'=>$temp,
-
-        ]);
-    }
-    /**
-     * @Route("/chat", name="chat")
-     */
-    public function chat(): Response
-    {
-        return $this->render('front_office/chat.html.twig', [
-        ]);
-    }
 }

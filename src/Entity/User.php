@@ -115,6 +115,10 @@ class User implements UserInterface
 
 
     protected $captchaCode;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Commentaire", mappedBy="user")
+     */
+    private $comments;
 
     /**
      * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="user", orphanRemoval=true)
@@ -423,6 +427,23 @@ class User implements UserInterface
         return $this;
     }
 
+
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments): void
+    {
+        $this->comments = $comments;
+    }
 
 
 

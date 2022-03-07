@@ -5,17 +5,20 @@ use App\Entity\Salle;
 use App\Entity\User;
 use App\Form\SalleFormType;
 use Knp\Component\Pager\PaginatorInterface;
+use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Repository\SalleRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\Entity\SalleLike;
+use App\Entity\Inscription;
 use App\Repository\SalleLikeRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -306,6 +309,79 @@ class SalleController extends AbstractController
         return md5(uniqid());
     }
     // fonction qui generer un identifiant unique pour chaque image
+    /**
+     * @Route("/InscriptionSalle/{id}", name="InscriptionSalle")
+     */
+    public function InscriptionSalle( SalleRepository $repository,Request $req, $id,\Swift_Mailer $mailer) {
 
+        $user= $this->getUser() ;
+        $iduser= $user->getId() ;
+
+        $email= $user->getEmail() ;
+        $name= $user->getNom() ;
+        $em= $this->getDoctrine()->getManager();
+        $salle = $em->getRepository(Salle::class)->find($id);
+        $salleId=$salle->getId();
+
+        //TEST PARTICIPATION:
+        $userr =$em->getRepository(Inscription::class)->findBy(["idUser"=>$iduser]);
+        //$userr =$em->getRepository(Inscription::class)->findUserinsalle($iduser,$salleId);
+
+
+
+        if (  !$userr)
+        {
+            $inscription= new Inscription();
+            $em= $this->getDoctrine()->getManager();
+
+            $inscription->setIdUser($user);
+            $inscription->setIdSalle($salle);
+            $user->addIdSalle($salle);
+            $em->persist($inscription);
+            $em->flush();
+            Stripe::setApiKey('sk_test_51KYFLYBbmA2s99ME3poGVY9Vo57GIPHnNZsL4N0g6mWV78cNVmb6kHbzebbY1TtRjt1gSJRBKti6v7NrLuhdnACD00WbaoXfxe');
+            $session1 = \Stripe\Checkout\Session::create([
+                'customer_email' => $email,
+
+                'line_items' => [[
+
+                    'price_data' => [
+                        'currency' => 'eur',
+
+                        'product_data' => [
+                            'name' => 'abonnement',
+
+
+                        ],
+
+                        'unit_amount' => 1000,
+
+                    ],
+                    'quantity' =>1,
+
+
+                ]
+                ],
+                'mode' => 'payment',
+
+                'success_url' => $this->generateUrl('detailFront', ['id'=>$salle->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
+                'cancel_url' => $this->generateUrl('cancel_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            ]);
+            return $this->redirect($session1->url, 303);
+
+
+
+
+
+
+        }
+        $this->addFlash('error' , 'Vous avez deja participe');
+
+        $salle = $em->getRepository(salle::class)->find($id);
+        return $this->render('salle/detailFront.html.twig', [
+            "salle" => $salle,
+        ]);
+
+    }
 
 }
