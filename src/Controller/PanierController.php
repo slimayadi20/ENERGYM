@@ -6,6 +6,7 @@ use App\Entity\Panier;
 use App\Entity\Commande;
 use App\Entity\Livraison;
 use App\Entity\Promo;
+use App\Entity\Notification;
 use App\Entity\User;
 use App\Entity\Produit;
 use App\Repository\UserRepository;
@@ -97,8 +98,21 @@ class PanierController extends AbstractController
         $monPanier = $entityManager->getRepository(Panier::class)->loadPanierByUserId($uid);
         $p= $monPanier->getUserPanier();
         $a=array_column($p,'id');
+
         foreach($p as $a => $quantite){
+
             $product = $produitRepository->find($a);
+            $qt = $product->getQuantite();
+            //begin notification
+            if($qt<=6){
+                $Notification= new Notification();
+                $Notification->setTitre("The product".$product->getNom()." is gonna be out of stock");
+                $Notification->setType("Out of stock");
+                $Notification->setCreatedAt(new \DateTime()) ;
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($Notification);
+            }
+            // end notification
             $dataPanier[] = [
                 "produit" => $product,
                 "quantite" => $quantite
@@ -234,10 +248,11 @@ class PanierController extends AbstractController
         {
             $p=array_key_first($panier);
             $prod = $this->getDoctrine()->getRepository(Produit::class)->find($p);
+            $qt = $prod->getQuantite();
+            print_r($qt);
 
             $idS = $prod->getId();
             $prod->addUser($user);
-            $qt = $prod->getQuantite();
             if ($qt > $panier[$idS]) {
                 $prod->setQuantite($qt - $panier[$idS]);
             }

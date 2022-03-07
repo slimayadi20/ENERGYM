@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    {{ include('Dashboard/navbar.html.twig') }}
+    {{ render(path('notification', {max: 3})) }}
     {{ include('Dashboard/leftsideBar.html.twig') }}
     {{ include('evénement/AfficherEvent.html.twig') }}
 

@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
 use App\Repository\UserRepository;
 use App\Entity\Produit;
+use App\Entity\Notification;
 
 class DashboardController extends AbstractController
 {
@@ -18,6 +19,13 @@ class DashboardController extends AbstractController
      */
     public function index(UserRepository $repository,Request $request): Response
     {
+
+
+
+
+
+
+        // stats
         $data = $this->getDoctrine()->getRepository(Produit::class)->findAll();
         //$dest = [];
         $dest = array();
@@ -108,11 +116,48 @@ class DashboardController extends AbstractController
             ]   ) ;
         */
         //   return $this->render('produit/test.html.twig', array('piechart' => $pieChart));
-
+        $entityManager = $this->getDoctrine()->getManager();
+        $notification = $entityManager->getRepository(Notification::class)->findAll();
         return $this->render('dashboard/index.html.twig',  array(  'piechart' => $pieChart ,
             'list'=>$data ,
-            'test'=>$final
+            'test'=>$final,
+            "notification" => $notification,
         ));
+    }
+    /**
+     * @Route("/notification", name="notification")
+     */
+    public function notification(Session $session): Response
+    {
+        $utilisateur = $this->getUser();
+        $SalleId= $utilisateur->getIdSalle() ;
+
+        if(!$utilisateur)
+        {
+            $session->set("message", "Merci de vous connecter");
+            return $this->redirectToRoute('app_login');
+        }
+
+        else if(in_array('ROLE_ADMIN', $utilisateur->getRoles())){
+            $entityManager = $this->getDoctrine()->getManager();
+            $notification = $entityManager->getRepository(Notification::class)->findAll();
+            return $this->render('dashboard/navbar.html.twig', [
+                "notification" => $notification,
+            ]);
+        }
+        else if(in_array('ROLE_GERANT', $utilisateur->getRoles())){
+            $entityManager = $this->getDoctrine()->getManager();
+                $notification = $entityManager->getRepository(Notification::class)->findbysalle($SalleId);
+                return $this->render('dashboard/navbar.html.twig', [
+                    "notification" => $notification,
+                ]);
+
+
+        }
+
+        return $this->redirectToRoute('dashboard');
+
+
     }
     /**
      * @Route("/", name="utilisateur_index", methods={"GET"})
@@ -131,4 +176,5 @@ class DashboardController extends AbstractController
         }
 
     }
+
 }

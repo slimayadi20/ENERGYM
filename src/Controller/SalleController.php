@@ -19,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\Entity\SalleLike;
 use App\Entity\Inscription;
+use App\Entity\Notification;
 use App\Repository\SalleLikeRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -333,10 +334,18 @@ class SalleController extends AbstractController
         {
             $inscription= new Inscription();
             $em= $this->getDoctrine()->getManager();
+            // begin notification
+            $Notification= new Notification();
+            $Notification->setTitre( $user->getNom() ."has joined your gym");
+            $Notification->setType("New Signup");
+            $Notification->setIdSalle($salle);
+            $Notification->setCreatedAt(new \DateTime()) ;
 
+            // fin notification
             $inscription->setIdUser($user);
             $inscription->setIdSalle($salle);
             $user->addIdSalle($salle);
+            $em->persist($Notification);
             $em->persist($inscription);
             $em->flush();
             Stripe::setApiKey('sk_test_51KYFLYBbmA2s99ME3poGVY9Vo57GIPHnNZsL4N0g6mWV78cNVmb6kHbzebbY1TtRjt1gSJRBKti6v7NrLuhdnACD00WbaoXfxe');

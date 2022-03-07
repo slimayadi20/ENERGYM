@@ -68,42 +68,54 @@
         <h4 class="">Notifications</h4>
         <div class="notification-list nicescroll">
             <ul class="list-group list-no-border user-list">
+                {% for n in notification %}
+                    {% if n.type=="New Signup" %}
                 <li class="list-group-item">
-                    <a href="#" class="user-list-item">
+                    <a href="{{path('user')}}" class="user-list-item">
                         <div class="icon bg-info">
                             <i class="mdi mdi-account"></i>
                         </div>
                         <div class="user-desc">
-                            <span class="name">New Signup</span>
-                            <span class="desc">There are new settings available</span>
-                            <span class="time">5 hours ago</span>
+                            <span class="name">{{ n.type }}</span>
+                            <span class="desc">{{ n.titre }}</span>
+                            <span class="time">{{ n.createdAt|date('Y-m-d H:i:s') }}</span>
                         </div>
                     </a>
                 </li>
+                    {% endif %}
+                {% endfor %}
+                {% for n in notification %}
+                {% if n.type=="Reclamation" %}
                 <li class="list-group-item">
-                    <a href="#" class="user-list-item">
+                    <a href="{{path('reclamation')}}" class="user-list-item">
                         <div class="icon bg-pink">
                             <i class="mdi mdi-comment"></i>
                         </div>
                         <div class="user-desc">
-                            <span class="name">New Message received</span>
-                            <span class="desc">There are new settings available</span>
-                            <span class="time">1 day ago</span>
+                            <span class="name">{{ n.type }}</span>
+                            <span class="desc">{{ n.titre }}</span>
+                            <span class="time">{{ n.createdAt|date('Y-m-d H:i:s') }}</span>
                         </div>
                     </a>
                 </li>
+                {% endif %}
+                {% endfor %}
+                {% for n in notification %}
+                {% if n.type=="Out of stock" %}
                 <li class="list-group-item active">
-                    <a href="#" class="user-list-item">
+                    <a href="{{path('produit')}}" class="user-list-item">
                         <div class="icon bg-warning">
                             <i class="mdi mdi-settings"></i>
                         </div>
                         <div class="user-desc">
-                            <span class="name">Settings</span>
-                            <span class="desc">There are new settings available</span>
-                            <span class="time">1 day ago</span>
+                            <span class="name">{{ n.type }}</span>
+                            <span class="desc">{{ n.titre }}</span>
+                            <span class="time">{{ n.createdAt|date('Y-m-d H:i:s') }}</span>
                         </div>
                     </a>
                 </li>
+                {% endif %}
+                {% endfor %}
 
             </ul>
         </div>

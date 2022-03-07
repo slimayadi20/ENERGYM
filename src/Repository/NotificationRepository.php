@@ -21,30 +21,18 @@ class NotificationRepository extends ServiceEntityRepository
         parent::__construct($registry, Notification::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function add(Notification $entity, bool $flush = true): void
-    {
-        $this->_em->persist($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function remove(Notification $entity, bool $flush = true): void
-    {
-        $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
 
+    public function findbysalle($SalleId)
+    {
+
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT e FROM App:Notification e where e.idSalle = :id '
+            )
+            ->setParameter('id',$SalleId)
+            ->getResult();
+    }
     // /**
     //  * @return Notification[] Returns an array of Notification objects
     //  */

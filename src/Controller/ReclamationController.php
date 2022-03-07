@@ -15,6 +15,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use App\Entity\Promo ;
+use App\Entity\Notification ;
 class ReclamationController extends AbstractController
 {
     /**
@@ -51,6 +52,13 @@ class ReclamationController extends AbstractController
             $reclamation->setDateCreation(new \DateTime()) ;
             $reclamation->setNomUser($user) ;
             $entityManager = $this->getDoctrine()->getManager();
+            //begin notification
+            $Notification= new Notification();
+            $Notification->setTitre("Reclamation from".$this->getUser()->getNom() );
+            $Notification->setType("Reclamation");
+            $Notification->setCreatedAt(new \DateTime()) ;
+            $entityManager->persist($Notification);
+            // end notification
             $entityManager->persist($reclamation);
             $entityManager->flush();
 

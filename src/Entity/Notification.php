@@ -26,7 +26,27 @@ class Notification
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $Type;
+    /**
+     * @ORM\ManyToOne(targetEntity=Salle::class, inversedBy="Notifications")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $idSalle;
+    /**
+     * @ORM\Column(type="datetime", nullable=false, options={"default" : "CURRENT_TIMESTAMP"})
+     */
+    private $createdAt;
 
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at)
+    {
+        $this->createdAt = $created_at;
+
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +72,17 @@ class Notification
     public function setType(?string $Type): self
     {
         $this->Type = $Type;
+
+        return $this;
+    }
+    public function getIdSalle(): ?Salle
+    {
+        return $this->idSalle;
+    }
+
+    public function setIdSalle(?Salle $idSalle): self
+    {
+        $this->idSalle = $idSalle;
 
         return $this;
     }
