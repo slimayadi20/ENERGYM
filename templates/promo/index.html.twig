@@ -7,7 +7,7 @@
 {% block body %}
     <!-- <div class="page-inner"> -->
 
-    {{ render(path('notification', {max: 3})) }}
+    {{ include('Dashboard/navbar.html.twig') }}
     {{ include('Dashboard/leftSideBar.html.twig') }}
     {{ include('promo/afficher.html.twig') }}
 

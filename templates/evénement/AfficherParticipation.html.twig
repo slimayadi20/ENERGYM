@@ -8,7 +8,7 @@
 
 {% block body %}
 
-    {{ render(path('notification', {max: 3})) }}
+    {{ include('Dashboard/navbar.html.twig') }}
     {{ include('Dashboard/leftsideBar.html.twig') }}
     <!-- jQuery is necessary -->
 

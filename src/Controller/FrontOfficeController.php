@@ -11,6 +11,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use App\Entity\Panier;
+use App\Entity\Article;
 use App\Entity\Commande;
 use App\Entity\Livraison;
 use App\Entity\Promo;
@@ -70,9 +71,12 @@ class FrontOfficeController extends AbstractController
         curl_close($curl);
         $api_result1 = json_decode($response, true);
 // ***********************************************************************************
-            return $this->render('front_office/index.html.twig', [
+        $articles = $this->getDoctrine()->getRepository(Article::class)->findAll();
+
+        return $this->render('front_office/index.html.twig', [
                 'controller_name' => 'FrontOfficeController',
                 "response" => $api_result1,
+                "articles"=>$articles,
 
             ]);
 
@@ -85,7 +89,7 @@ class FrontOfficeController extends AbstractController
     public function temp(SessionInterface $session, ProduitRepository $produitRepository,Request $request): Response
     {
 
-            return $this->render('front_office/navbar.html.twig');
+            return $this->render('front_office/navbar.html.twig' );
 
         }
     /**
@@ -122,7 +126,6 @@ class FrontOfficeController extends AbstractController
         // Return the excel file as an attachment
         return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
     }
-
 
 
 }

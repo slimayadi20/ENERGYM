@@ -1,6 +1,6 @@
 {% extends "base-back.html.twig" %}
 {% block body %}
-    {{ render(path('notification', {max: 3})) }}
+    {{ include('Dashboard/navbar.html.twig') }}
     {{ include('Dashboard/leftSideBar.html.twig') }}
 
 <div class="content-page">
@@ -39,6 +39,7 @@
                             <th>Status</th>
                             <th>Role</th>
                             <th>Image</th>
+                            <th>Salle associe</th>
                             <th>edit</th>
                             </thead>
                             <tbody>
@@ -74,6 +75,11 @@
 
 
                             <td><img src="{{ asset('uploads/user/'~ u.imageFile)  }}" alt="" width="50">
+                            </td>
+                            <td>
+                                {% for i in u.IdSalle %}
+                                    <span class="badge badge-pink badge-pill">    {{ i.nom }} </span>
+                                {% endfor %}
                             </td>
                             <td>
                                 <a type="button" href="{{ path('modifyUser', {'id': u.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>

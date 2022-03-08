@@ -8,7 +8,7 @@ Cours !
 {% block body %}
     <!-- <div class="page-inner"> -->
 
-    {{ render(path('notification', {max: 3})) }}
+    {{ include('Dashboard/navbar.html.twig') }}
     {{ include('Dashboard/leftSideBar.html.twig') }}
     {{ include('cours/Afficher.html.twig') }}
 

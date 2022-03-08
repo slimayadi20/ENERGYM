@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Repository\SalleRepository;
@@ -22,8 +21,14 @@ use App\Entity\Inscription;
 use App\Entity\Notification;
 use App\Repository\SalleLikeRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Entity\SalleSearch ;
+use App\Form\SalleSearchType ;
 
-class SalleController extends AbstractController
+
+
+
+
+class SalleController  extends AbstractController
 {
     /**
      * @Route("/dashboard/salle", name="salle")
@@ -116,25 +121,58 @@ class SalleController extends AbstractController
     /**
      * @Route("/salleFront", name="salleFront")
      */
-    public function salleFront(): Response
+    public function salleFront(Request $request, SalleRepository $SalleRepository): Response
     {
 
-        $salle = $this->getDoctrine()->getRepository(salle::class)->findAll();
-        return $this->render('salle/afficherFront.html.twig', [
-            'controller_name' => 'SalleController',
-            "salle" => $salle,
-        ]);
+
+        $SalleSearch = new SalleSearch();
+        $form = $this->createForm(SalleSearchType::class, $SalleSearch);
+        $form->handleRequest($request);
+        //initialement le tableau des Salle est vide,
+        //c.a.d on affiche les Salle que lorsque l'utilisateur clique sur le bouton rechercher
+        $Salle = $SalleRepository->findAll();
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $Salle = [];
+            //on récupère le nom d'Salle tapé dans le formulaire
+            $nom = $SalleSearch->getNom();
+            if ($nom != "")
+                //si on a fourni un nom d'Salle on affiche tous les Salle ayant ce nom
+                $Salle = $this->getDoctrine()->getRepository(Salle::class)->findBy(['nom' => $nom]);
+            else
+                //si si aucun nom n'est fourni on affiche tous les Salle
+                $Salle = $this->getDoctrine()->getRepository(Salle::class)->findAll();
+        }
+
+
+        return $this->render('salle/afficherFront.html.twig', ['form_salle' => $form->createView(), 'salle' => $Salle]);
+
     }
     /**
      * @Route("/salleTries", name="salleTries")
      */
-    public function salleTries(): Response
+    public function salleTries(Request $request): Response
     {
-
+        $SalleSearch = new SalleSearch();
+        $form = $this->createForm(SalleSearchType::class, $SalleSearch);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $Salle = [];
+            //on récupère le nom d'Salle tapé dans le formulaire
+            $nom = $SalleSearch->getNom();
+            if ($nom != "")
+                //si on a fourni un nom d'Salle on affiche tous les Salle ayant ce nom
+                $Salle = $this->getDoctrine()->getRepository(Salle::class)->findBy(['nom' => $nom]);
+            else
+                //si si aucun nom n'est fourni on affiche tous les Salle
+                $Salle = $this->getDoctrine()->getRepository(Salle::class)->findAll();
+        }
         $salle = $this->getDoctrine()->getRepository(salle::class)->tripluslike();
         return $this->render('salle/afficherFront.html.twig', [
             'controller_name' => 'SalleController',
             "salle" => $salle,
+            'form_salle' => $form->createView(),
         ]);
     }
     /**
@@ -336,7 +374,7 @@ class SalleController extends AbstractController
             $em= $this->getDoctrine()->getManager();
             // begin notification
             $Notification= new Notification();
-            $Notification->setTitre( $user->getNom() ."has joined your gym");
+            $Notification->setTitre( $user->getNom() ."has joined".$salle->getNom());
             $Notification->setType("New Signup");
             $Notification->setIdSalle($salle);
             $Notification->setCreatedAt(new \DateTime()) ;
@@ -392,5 +430,25 @@ class SalleController extends AbstractController
         ]);
 
     }
+    /**
+     * @Route("/excel", name="reclamation_excel")
+     */
+    public function excelAction(SalleRepository $repository)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $Salle = $em->getRepository('App:Salle')->findAll();
+
+        $writer = $this->container->get('egyg33k.csv.writer');
+
+        $csv = $writer::createFromFileObject(new \SplTempFileObject());
+        $csv->insertOne(['ID Cours', 'Nom Cours', 'nomCoach','jour']);
+
+
+
+        $csv->output('salle.csv');
+        die('billehi i5dem aman ');
+    }
+
 
 }

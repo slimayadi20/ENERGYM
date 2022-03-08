@@ -37,6 +37,16 @@ class SalleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    /**
+     * @return Query
+     */
+    public function findAllVisibleQuery(): Query
+    {
+        return $this->findAllVisibleQuery()
+            ->getQuery();
+
+
+    }
     // /**
     //  * @return Salle[] Returns an array of Salle objects
     //  */

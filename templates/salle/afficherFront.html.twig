@@ -22,12 +22,29 @@
         </div>
     </div>
 </section>
+
 <section class="classess-page-section">
     <div id="liveData"
          class="auto-container">
         <div class="shop-section">
+            {{ form_start(form_salle) }}
+
+            <div class="form-row align-items-end" >
+                <div class="col">
+                    {{ form_row(form_salle.nom) }}
+                </div>
+
+                <div class="col">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-danger">Rechercher</button>
+                    </div>
+                </div>
+            </div>
+            {{ form_end(form_salle) }}
             <div class="items-sorting">
+
                 <div class="row clearfix">
+
                     <div class="results-column col-md-6 col-sm-6 col-xs-12">
                         <h6>Showing Items 1 to {{ salle|length }} Salle</h6>
                     </div>
@@ -41,6 +58,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
             </div>
         <div class="row clearfix">
@@ -83,89 +101,23 @@
 
         </div>
 
-
-        <br>
-
-        <style>
-            /* Always set the map height explicitly to define the size of the div
-           * element that contains the map. */
-            #map {
-                height: 60%;
-                width : 100% ;
-            }
+        </div>
 
 
 
-        </style>
+</section>
 
-        <script>
-
-
-            function initMap() {
-                const myLatLng = { lat: 34.741
-                    , lng: 	10.7648 };
-                const map = new google.maps.Map(document.getElementById("map"), {
-                    zoom: 3,
-                    center: myLatLng,
-                });
-                //var dest_from_controller =  list_dest|json_encode()
-                console.log() ;
-
-
-
-                var locations = [
-                    ['tunisia', 34.741,10.7648],
-                    ['tunisia', 35.406961,10.670540],
-
-
-                ];
-
-                console.log(locations.length);
-
-
-                var marker, i;
-
-                for (i = 0; i < locations.length; i++) {
-                    marker = new google.maps.Marker({
-                        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                        map: map ,
-                        title: "Hello World!",
-                    });
-                    google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                        return function() {
-                            infowindow.setContent(locations[i][0]);
-                            infowindow.open(map, marker);
-                        }
-                    })(marker, i));
-                }
-
-                /*new google.maps.Marker({
-                    position: myLatLng,
-                    map,
-                    title: "Hello World!",
-                });*/
-            }
-        </script>
-
-        <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy-3c-b-RYk0dabw2v-u5n21yr3jyncz8&callback=initMap&v=weekly" async></script>
-        <div id="map"></div>
-
-    </div>
-<br>
-<br>
-<br>
-    {{ include('front_office/footer.html.twig') }}
     <script type="text/javascript">
         function handleSelect(elm)
         {
             window.location = "http://127.0.0.1:8000/salleTries";
         }
     </script>
-</section>
 
-    {% endblock %}
 
+
+    {{ include('front_office/footer.html.twig') }}
+{% endblock %}
 
 
 

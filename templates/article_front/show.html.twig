@@ -134,7 +134,6 @@
                                                 </div>
                                                 <div class="comment-info clearfix"><strong>{{ comment.user.nom}} </strong><div class="comment-time">{{ comment.dateCreation ? comment.dateCreation|date('Y-m-d') : '' }}</div></div>
                                                 <div class="text" >{{ comment.contenu }}</div>
-                                                <td><a href="{{ path('commentaire_delete',{'id':comment.id}) }}"><i class="fa fa-trash" style="color:#ff5b5b;font-size:20px"></i> </a> </td>
                                             </div>
                                         </div>
                                     {% endfor %}

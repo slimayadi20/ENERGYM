@@ -7,12 +7,14 @@
 {% block body %}
     {{ render(path('temp', {max: 3})) }}
 
-    <section class="page-title" style="background-image:url(https://via.placeholder.com/1920x600)">
+    <section class="page-title"
+             style="background-image:url(https://via.placeholder.com/1920x600)">
         <div class="auto-container">
             <div class="clearfix">
                 <div class="pull-left">
                     <h2>Latest News</h2>
-                    <div class="text">Fitness is not a destination it is a way of life.</div>
+                    <div class="text">Fitness is not a destination it is a way of
+                        life.</div>
                 </div>
                 <div class="pull-right">
                     <ul class="page-breadcrumb">
@@ -35,41 +37,51 @@
                     <div class="blog-classic">
                         {% for e in Evenement %}
 
-                            {% if  e.NbrParticipantsEvent ==0  %}
+                            {% if e.NbrParticipantsEvent ==0 %}
                                 <div class="ribbon ribbon-top-left"><span>Complet</span></div>
                             {% endif %}
-                        <!-- News Block Three -->
+                            <!-- News Block Three -->
                             <div class="news-block-three">
 
-                                <div class="inner-box" >
-                                    <div class="image"  style="background-color: transparent " >
+                                <div class="inner-box">
+                                    <div class="image" style="background-color:
+                                transparent">
 
-                                        <img class="card-img-top img-fluid" src="{{ asset('uploads/Event_image/' )~e.image  }}" alt="Card image cap" >
+                                        <img class="card-img-top img-fluid" src="{{
+                                        asset('uploads/Event_image/' )~e.image }}"
+                                             alt="Card image cap">
 
                                     </div>
                                     <div class="lower-content">
                                         <ul class="post-meta">
-                                            <li><span class="icon flaticon-map"></span> {{ e.LieuEvent }}</li>
-                                            {% if  e.NbrParticipantsEvent >0  %}
-                                            <li><span class="icon flaticon-user-1"></span>
-                                                {{ e.NbrParticipantsEvent }}
-                                            </li>
+                                            <li><span class="icon flaticon-map"></span>
+                                                {{ e.LieuEvent }}</li>
+                                            {% if e.NbrParticipantsEvent >0 %}
+                                                <li><span class="icon flaticon-user-1"></span>
+                                                    {{ e.NbrParticipantsEvent }}
+                                                </li>
                                             {% endif %}
-                                                <li><span class="icon flaticon-comment-1"></span>  {% set difference = date(e.DateEvent).diff(date( date().timestamp)) %}
-                                                    {% set leftDays = difference.days %}
-                                                    {% if leftDays == 1 %}
-                                                        1 day
-                                                    {% else %}
-                                                        {{ leftDays }} days
-                                                    {% endif %}</li>
+                                            <li><span class="icon flaticon-comment-1"></span>
+                                                {% set difference =
+                                                    date(e.DateEvent).diff(date(
+                                                        date().timestamp)) %}
+                                                {% set leftDays = difference.days %}
+                                                {% if leftDays == 1 %}
+                                                    1 day
+                                                {% else %}
+                                                    {{ leftDays }} days
+                                                {% endif %}</li>
 
 
 
-                                            <li><span class="icon flaticon-calendar-1"></span> {{ e.DateEvent | date('Y-m-d')   }}</li>
+                                            <li><span class="icon flaticon-calendar-1"></span>
+                                                {{ e.DateEvent | date('Y-m-d') }}</li>
                                         </ul>
                                         <h3><a href="blog-single.html">{{ e.NomEvent }}</a></h3>
                                         <div class="text">{{ e.DescriptionEvent }}</div>
-                                        <a class="read-more" href="{{ path('detailFrontEvent',{'id':e.id}) }}">Read More</a>
+                                        <a class="read-more" href="{{
+                                        path('detailFrontEvent',{'id':e.id}) }}">Read
+                                            More</a>
                                     </div>
                                 </div>
                             </div>
@@ -80,13 +92,15 @@
                         <div class="pagination-outer text-center">
                             <div class="styled-pagination text-center">
                                 <ul class="clearfix">
-                                    <li class="prev"><a href="#"><span class="fa fa-angle-double-left"></span> Prev</a></li>
+                                    <li class="prev"><a href="#"><span class="fa
+                                            fa-angle-double-left"></span> Prev</a></li>
                                     <li><a href="#">1</a></li>
                                     <li><a href="#">2</a></li>
                                     <li class="active"><a href="#">3</a></li>
                                     <li><a href="#">4</a></li>
                                     <li><a href="#">5</a></li>
-                                    <li class="next"><a href="#">Next <span class="fa fa-angle-double-right"></span></a></li>
+                                    <li class="next"><a href="#">Next <span
+                                                    class="fa fa-angle-double-right"></span></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -102,8 +116,10 @@
                         <div class="sidebar-widget search-box">
                             <form method="post" action="contact.html">
                                 <div class="form-group">
-                                    <input type="search" name="search-field" value="" placeholder="Search....." required>
-                                    <button type="submit"><span class="icon fa fa-search"></span></button>
+                                    <input type="search" name="search-field"
+                                           value="" placeholder="Search....." required>
+                                    <button type="submit"><span class="icon fa
+                                        fa-search"></span></button>
                                 </div>
                             </form>
                         </div>
@@ -116,9 +132,11 @@
                             <div class="widget-content">
                                 <ul class="blog-cat">
                                     {% for c in CategoriesEvent %}
-                                        <li><a href="{{ path('ShowEvents',{'id':c.id}) }}">{{ c.nomCategorie}} </a></li>
+                                        <li><a href="{{ path('ShowEvents',{'id':c.id})
+                                            }}">{{ c.nomCategorie}} </a></li>
                                     {% endfor %}
-                                    {#} <li><a href="#">HEALTH  <span>( 03 )</span></a></li> {#}
+                                    {#} <li><a href="#">HEALTH <span>( 03 )</span></a></li>
+                                {#}
 
                                 </ul>
                             </div>
@@ -135,9 +153,17 @@
                                 <div class="widget-content">
                                     <article class="post">
                                         <div class="post-inner">
-                                            <figure class="post-thumb"><img src="{{ asset('uploads/Event_image/' )~r.image  }}" alt=""><a href="{{ path('detailFrontEvent',{'id':r.id}) }}" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
-                                            <div class="text"><a href="{{ path('detailFrontEvent',{'id':r.id}) }}">{{ r.NomEvent }}</a></div>
-                                            <div class="post-info">{{ r.DateEvent | date('Y-m-d')}}</div>
+                                            <figure class="post-thumb"><img src="{{
+                                                asset('uploads/Event_image/'
+                                                )~r.image }}" alt=""><a href="{{
+                                                path('detailFrontEvent',{'id':r.id})
+                                                }}" class="overlay-box"><span
+                                                            class="icon fa fa-link"></span></a></figure>
+                                            <div class="text"><a href="{{
+                                                path('detailFrontEvent',{'id':r.id})
+                                                }}">{{ r.NomEvent }}</a></div>
+                                            <div class="post-info">{{ r.DateEvent |
+                                                date('Y-m-d')}}</div>
 
                                         </div>
 
@@ -151,12 +177,113 @@
 
                             <!-- Popular Posts -->
 
-                </div>
+                        </div>
                     </aside>
                 </div>
 
             </div>
         </div>
+        <section class="clients-section">
+            <div class="auto-container">
+
+                <div class="sponsors-outer">
+                    <!--Sponsors Carousel-->
+                    <ul class="sponsors-carousel owl-carousel owl-theme owl-rtl
+                    owl-loaded owl-drag">
+
+                        <div class="owl-stage-outer"><div class="owl-stage"
+                                                          style="transform: translate3d(1710px, 0px, 0px);
+                            transition: all 0s ease 0s; width: 3908px;">
+{% for i in 0..1 %}
+                                <div class="owl-item" style="width: 214.25px;
+                                margin-left: 30px;">
+                                    <li class="slide-item">
+                                        <figure class="image-box"><a href="#"><img
+                                                        src="{{ asset('front-office/images/resource/award.png') }}"
+                                                        alt=""></a>
+                                        </figure>
+                                    </li>
+                                </div>
+                                <div class="owl-item active" style="width: 214.25px;
+                                margin-left: 30px;">
+                                    <li class="slide-item">
+                                        <figure class="image-box"><a href="#"><img
+                                                        src="{{ asset('front-office/images/resource/award.png') }}"
+                                                        alt=""></a>
+                                        </figure>
+                                    </li>
+                                </div>
+                                <div class="owl-item active" style="width: 214.25px;
+                                margin-left: 30px;">
+                                    <li class="slide-item">
+                                        <figure class="image-box"><a href="#"><img
+                                                        src="{{ asset('front-office/images/resource/award.png') }}"
+                                                        alt=""></a>
+                                        </figure>
+                                    </li>
+                                </div>
+                                <div class="owl-item active" style="width: 214.25px;
+                                margin-left: 30px;">
+                                    <li class="slide-item">
+                                        <figure class="image-box"><a href="#"><img
+                                                        src="{{ asset('front-office/images/resource/award.png') }}"
+                                                        alt=""></a>
+                                        </figure>
+                                    </li>
+                                </div>
+                                <div class="owl-item active" style="width: 214.25px;
+                                margin-left: 30px;">
+                                    <li class="slide-item">
+                                        <figure class="image-box"><a href="#"><img
+                                                        src="{{ asset('front-office/images/resource/award.png') }}"
+                                                        alt=""></a>
+                                        </figure>
+                                    </li>
+                                </div>
+                                <div class="owl-item active" style="width: 214.25px;
+                                margin-left: 30px;">
+                                    <li class="slide-item">
+                                        <figure class="image-box"><a href="#"><img
+                                                        src="{{ asset('front-office/images/resource/award.png') }}"
+                                                        alt=""></a>
+                                        </figure>
+                                    </li>
+                                </div>
+                                <div class="owl-item cloned" style="width: 214.25px;
+                                margin-left: 30px;">
+                                    <li class="slide-item">
+                                        <figure class="image-box"><a href="#"><img
+                                                        src="{{ asset('front-office/images/resource/award.png') }}"
+                                                        alt=""></a>
+                                        </figure>
+                                    </li>
+                                </div>
+                                <div class="owl-item cloned" style="width: 214.25px;
+                                margin-left: 30px;">
+                                    <li class="slide-item">
+                                        <figure class="image-box"><a href="#"><img
+                                                        src="{{ asset('front-office/images/resource/award.png') }}"
+                                                        alt=""></a>
+                                        </figure>
+                                    </li>
+                                </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                        <div class="owl-nav">
+                            <div class="owl-prev"><span class="fa fa-angle-left"></span></div>
+                            <div class="owl-next"><span class="fa fa-angle-right"></span></div>
+                        </div>
+                        <div class="owl-dots">
+                            <div class="owl-dot active"><span></span></div>
+                            <div class="owl-dot"><span></span></div>
+                        </div>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
     </div>
     <style>
         .ribbon {
@@ -285,7 +412,6 @@
             transform: rotate(-225deg);
         }
     </style>
-
     <!-- Subscribe Section -->
     {{ include('front_office/footer.html.twig') }}
 {% endblock %}

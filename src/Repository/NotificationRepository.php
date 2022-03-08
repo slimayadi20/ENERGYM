@@ -28,7 +28,7 @@ class NotificationRepository extends ServiceEntityRepository
 
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT e FROM App:Notification e where e.idSalle = :id '
+                "SELECT e FROM App\Entity\Notification e where e.idSalle = :id"
             )
             ->setParameter('id',$SalleId)
             ->getResult();

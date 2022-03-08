@@ -106,6 +106,9 @@
     "egulias/email-validator": {
         "version": "3.1.1"
     },
+    "egyg33k/csv-bundle": {
+        "version": "1.0.1"
+    },
     "endroid/installer": {
         "version": "1.4.0"
     },
@@ -171,6 +174,9 @@
     },
     "lcobucci/jwt": {
         "version": "4.0.4"
+    },
+    "league/csv": {
+        "version": "9.8.0"
     },
     "maennchen/zipstream-php": {
         "version": "2.1.0"

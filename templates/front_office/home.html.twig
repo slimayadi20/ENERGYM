@@ -154,13 +154,16 @@
                                 </div>
 
                                 <div class="row">
-                                <div class="form-group col-lg-14 col-md-14 col-sm-14">
+                                <div class="form-group col-lg-16 col-md-16 col-sm-16">
                                     <div class="btn-two-outer"><button class="theme-btn btn-style-two" type="submit" name="submit-form"><span class="txt" style="color: white" >Calculer</span></button></div>
 
-                                    <div class="btn-two-outer"><a  href="{{ path('ImprimerEXCEL')}}" class="theme-btn btn-style-two" type="submit" name="submit-form"><span class="txt">Courbe IMC en excel</span></a></div>
 
                                 </div>
+                                    <div class="form-group col-lg-16 col-md-16 col-sm-16">
 
+                                    <div class="btn-two-outer"><a  href="{{ path('ImprimerEXCEL')}}" class="theme-btn btn-style-two" type="submit" name="submit-form"><span class="txt">Courbe excel</span></a></div>
+
+                                </div>
                                 </div>
 
 
@@ -232,6 +235,7 @@
 
 </section>
 {# lena partie malak  #}
+
 <section class="news-section">
     <div class="auto-container">
         <!-- Sec Title -->
@@ -243,51 +247,122 @@
         <div class="row clearfix">
 
             <!-- News Block -->
+            {% for article in articles|slice(articles|length-3,articles|length)|reverse %}
             <div class="news-block col-lg-4 col-md-6 col-sm-12">
                 <div class="inner-box wow fadeInLeft animated" data-wow-delay="0ms" data-wow-duration="1500ms" style="visibility: visible; animation-duration: 1500ms; animation-delay: 0ms; animation-name: fadeInLeft;">
                     <div class="image">
-                        <a href="blog-single.html"><img src="https://via.placeholder.com/360x260" alt=""></a>
+                        <a ><img src="{{ asset('uploads/posts/' ~ article.image) }}" alt=""></a>
                         <div class="post-date">21<span>JUN</span></div>
                     </div>
                     <div class="lower-content">
-                        <h4><a href="blog-single.html">Push Your Fitness Further With Facilities</a></h4>
-                        <div class="text">at vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis accusamus et </div>
-                        <div class="btn-three-outer"><a href="blog-single.html" class="theme-btn btn-style-three"><span class="txt">Read More</span></a></div>
+                        <h4><a >{{ article.titre }}</a></h4>
+                        <div class="text">{{ article.dateCreation }} </div>
+                        <div class="btn-three-outer"><a href="{{ path('article_client_show', {'id': article.id}) }}" class="theme-btn btn-style-three"><span class="txt">Read More</span></a></div>
                     </div>
                 </div>
             </div>
 
-            <!-- News Block -->
-            <div class="news-block col-lg-4 col-md-6 col-sm-12">
-                <div class="inner-box wow fadeInUp animated" data-wow-delay="0ms" data-wow-duration="1500ms" style="visibility: visible; animation-duration: 1500ms; animation-delay: 0ms; animation-name: fadeInUp;">
-                    <div class="image">
-                        <a href="blog-single.html"><img src="https://via.placeholder.com/360x260" alt=""></a>
-                        <div class="post-date">25<span>mar</span></div>
-                    </div>
-                    <div class="lower-content">
-                        <h4><a href="blog-single.html">How to keep your Body HEALTHY IN OVER FESTIVAL</a></h4>
-                        <div class="text">at vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis accusamus et </div>
-                        <div class="btn-three-outer"><a href="blog-single.html" class="theme-btn btn-style-three"><span class="txt">Read More</span></a></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- News Block -->
-            <div class="news-block col-lg-4 col-md-6 col-sm-12">
-                <div class="inner-box wow fadeInRight animated" data-wow-delay="0ms" data-wow-duration="1500ms" style="visibility: visible; animation-duration: 1500ms; animation-delay: 0ms; animation-name: fadeInRight;">
-                    <div class="image">
-                        <a href="blog-single.html"><img src="https://via.placeholder.com/360x260" alt=""></a>
-                        <div class="post-date">18<span>sep</span></div>
-                    </div>
-                    <div class="lower-content">
-                        <h4><a href="blog-single.html">GIVE YOUR FITNESS A BOOST WITH OUR GYM CHALLENGE</a></h4>
-                        <div class="text">at vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis accusamus et </div>
-                        <div class="btn-three-outer"><a href="blog-single.html" class="theme-btn btn-style-three"><span class="txt">Read More</span></a></div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
 
         </div>
 
     </div>
 </section>
+<br>
+<div class="sec-title centered">
+    <div class="title">Decouvrez Nos</div>
+    <h2> Salles <br> Partenaire</h2>
+</div>
+<style>
+    /* Always set the map height explicitly to define the size of the div
+   * element that contains the map. */
+    #map {
+        height: 60%;
+
+        margin: auto;
+        width: 80%;
+        border: 5px solid #ff0000;
+        padding: 10px;
+
+    }
+
+
+
+</style>
+
+<script>
+
+
+    function initMap() {
+        const myLatLng = { lat: 34.741
+            , lng: 	10.7648 };
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 3,
+            center: myLatLng,
+        });
+        //var dest_from_controller =  list_dest|json_encode()
+        console.log() ;
+
+
+
+        var locations = [
+            ['tunisia', 34.741,10.7648],
+            ['tunisia', 35.406961,10.670540],
+
+
+        ];
+
+        console.log(locations.length);
+
+
+        var marker, i;
+
+        for (i = 0; i < locations.length; i++) {
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                map: map ,
+                title: "Hello World!",
+            });
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                    infowindow.setContent(locations[i][0]);
+                    infowindow.open(map, marker);
+                }
+            })(marker, i));
+        }
+
+        /*new google.maps.Marker({
+            position: myLatLng,
+            map,
+            title: "Hello World!",
+        });*/
+    }
+</script>
+
+<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy-3c-b-RYk0dabw2v-u5n21yr3jyncz8&callback=initMap&v=weekly" async></script>
+<div id="map"></div>
+
+</div>
+<br>
+<br>
+<br>
+<script type="text/javascript">
+    function handleSelect(elm)
+    {
+        window.location = "http://127.0.0.1:8000/salleTries";
+    }
+</script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/6226bfea1ffac05b1d7d7543/1ftjlrbpb';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+<!--End of Tawk.to Script-->
