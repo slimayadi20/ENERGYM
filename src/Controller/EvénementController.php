@@ -96,7 +96,7 @@ class EvénementController extends AbstractController
 
             $email=$s->getIdUser()->getEmail();
             $message = (new \Swift_Message('Evenement annulé :( ' . $i->getNomEvent()))
-                ->setFrom('slim.ayadi@esprit.tn')
+                ->setFrom('projetenergym@gmail.com')
                 ->setTo(array($email => 'hello '));
 
 
@@ -280,7 +280,7 @@ class EvénementController extends AbstractController
     {
 
         $message = (new \Swift_Message('confirmation de reservation pour evenement '))
-            ->setFrom('slim.ayadi@esprit.tn')
+            ->setFrom('projetenergym@gmail.com')
             ->setTo($email);
         $img = $message->embed(\Swift_Image::fromPath('QRcode/client'.$nameUser.'nomEvent'.$nameEvent.'.png'));
         $img8 = $message->embed(\Swift_Image::fromPath('email/image-8.jpeg'));

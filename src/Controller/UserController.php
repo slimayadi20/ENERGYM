@@ -362,7 +362,7 @@ class UserController extends AbstractController
                 UrlGeneratorInterface::ABSOLUTE_URL) ;
             $message = (new \Swift_Message('Recuperation Mot de passe '))
                 //ili bech yeb3ath
-                ->setFrom('slim.ayadi@esprit.tn')
+                ->setFrom('projetenergym@gmail.com')
                 //ili bech ijih l message
                 ->setTo('slim.ayadi@esprit.tn') ;
 
