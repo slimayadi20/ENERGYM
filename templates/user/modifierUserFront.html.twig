@@ -1,0 +1,135 @@
+{% extends "base-front.html.twig" %}
+
+{% block title %}
+    Edit profile!
+{% endblock %}
+
+{% block body %}
+    {{ render(path('temp', {max: 3})) }}
+    <section class="page-title" style="background-image:url()">
+        <div class="auto-container">
+            <div class="clearfix">
+                <div class="pull-left">
+                    <h2>UPDATE PROFILE</h2>
+                    <div class="text">Fitness is not a destination it is a way of life.</div>
+                </div>
+                <div class="pull-right">
+                    <ul class="page-breadcrumb">
+                        <li><a href="{{ path('front_office') }}">home</a></li>
+                        <li>UPDATE PROFILE</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="register-section">
+        <div class="auto-container">
+            <div class="row clearfix">
+
+                <!--Form Column-->
+                <div class="form-column column col-lg-6 col-md-12 col-sm-12">
+
+                    <div class="sec-title">
+                        <h2>EDIT YOUR PROFILE</h2>
+                        <div class="separate"></div>
+                    </div>
+
+                    <!--Login Form-->
+                    <div class="styled-form login-form">
+                        {{
+                        form_start(f,
+                            {
+                                'attr'
+                                :
+                                {
+                                    'novalidate'
+                                    :
+                                    'novalidate'
+                                }})
+                        }}
+
+                            <div class="form-group">
+                                <span class="adon-icon"><span class="fa fa-user"></span></span>
+                                {{ form_widget(f.nom, { 'attr': {'class': 'form-control','placeholder': 'Ecrire votre nom..'} }) }}
+                                {{ form_errors(f.nom, { 'attr': {'class': 'form-control'} }) }}                            </div>
+                            <div class="form-group">
+                                <span class="adon-icon"><span class="fa fa-user"></span></span>
+                                {{ form_widget(f.prenom, { 'attr': {'class': 'form-control','placeholder': 'Ecrire votre prenom..'} }) }}
+                                {{ form_errors(f.prenom, { 'attr': {'class': 'form-control'} }) }}                            </div>
+                            <div class="form-group">
+                                <span class="adon-icon"><span class="fa fa-envelope-o"></span></span>
+                                {{ form_widget(f.email, { 'attr': {'class': 'form-control','placeholder': 'Ecrire votre email..'} }) }}
+                                {{ form_errors(f.email, { 'attr': {'class': 'form-control'} }) }}                            </div>
+                            <div class="form-group">
+                                <span class="adon-icon"><span class="fa fa-phone-alt"></span></span>
+                                {{ form_widget(f.phoneNumber, { 'attr': {'class': 'form-control','placeholder': 'Ecrire votre numero..'} }) }}
+                                {{ form_errors(f.phoneNumber, { 'attr': {'class': 'form-control'} }) }}
+                            </div>
+
+
+                    </div>
+
+                </div>
+
+                <!--Form Column-->
+                <div class="form-column column col-lg-6 col-md-12 col-sm-12">
+
+                    <div class="sec-title">
+                        <h2></h2>
+                        <div class="separate"></div>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <!--Login Form-->
+                    <div class="styled-form register-form">
+                        <div class="form-group">
+                            <span class="adon-icon"><span class=""></span></span>
+                            {{ form_widget(f.confirmPass , { 'attr': {'class': 'form-control','placeholder': 'confirmer votre password..'} }) }}
+                            {{ form_errors(f.confirmPass , { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                        <div class="form-group">
+                            <span class="adon-icon"><span class=""></span></span>
+
+                            {{ form_widget(f.password , { 'attr': {'class': 'form-control'} }) }}
+                            {{ form_errors(f.password , { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+
+                        <div class="form-group">
+                            <span class="adon-icon"><span class=""></span></span>
+                            {{ form_widget(f.imageFile, { 'attr': {'class': 'form-control'} }) }}
+                            {{ form_errors(f.imageFile, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                        <div class="form-group">
+                            <span class="adon-icon"><span class=""></span></span>
+                            {{ form_widget(f.captchaCode, { 'attr': {'class': 'form-control','placeholder': 'Ecrire le code ..'} }) }}
+                            {{ form_errors(f.captchaCode, { 'attr': {'class': 'form-control'} }) }}
+
+                        </div>
+
+                        <div class="clearfix">
+                            <div class="form-group pull-left">
+                                {{ form_widget(f.Submit,{'attr':{'class':'theme-btn btn-style-three'}}) }}
+                                <br>
+                                <br>
+                            </div>
+
+                        </div>
+                        {{ form_end(f) }}
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <!--Login Form-->
+
+    </div>
+
+    {{ include('front_office/footer.html.twig') }}
+{% endblock %}

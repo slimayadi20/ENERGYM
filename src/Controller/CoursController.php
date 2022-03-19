@@ -2,26 +2,54 @@
 
 namespace App\Controller;
 use App\Entity\Cours;
+use App\Entity\Salle;
+use App\Entity\User;
 use App\Form\CoursFormType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
-
+use App\Repository\CoursRepository;
+use App\Repository\SalleRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 class CoursController extends AbstractController
 {
     /**
      * @Route("/dashboard/cours", name="cours")
      */
-    public function index(): Response
+    public function index( PaginatorInterface $paginator,SalleRepository $repositorySalle ,CoursRepository $repository , Request $request): Response
     {
-        $cours = $this->getDoctrine()->getRepository(cours::class)->findAll();
-        return $this->render('cours/index.html.twig', [
-            'controller_name' => 'CoursController',
-            "cours" => $cours,
-        ]);
+        $utilisateur = $this->getUser();
+        $idSalle = $utilisateur->getIdSalle();
+        if(in_array('ROLE_GERANT', $utilisateur->getRoles())){
+            $cours =  $paginator->paginate(
+                $repository->findCoursGerantwithpagination($idSalle),
+                $request->query->getInt('page' , 1), // nombre de page
+                3 //nombre limite
+            );
+            return $this->render('cours/index.html.twig', [
+                "cours" => $cours,
+            ]);
+        }
+        else if(in_array('ROLE_ADMIN', $utilisateur->getRoles())){
+            $cours =  $paginator->paginate(
+                $repository->findallwithpagination(),
+                $request->query->getInt('page' , 1), // nombre de page
+                3 //nombre limite
+            );
+            return $this->render('cours/index.html.twig', [
+                "cours" => $cours,
+            ]);
+        }
+        return $this->redirectToRoute('dashboard');
+
     }
 
     /**
@@ -65,12 +93,26 @@ class CoursController extends AbstractController
         ]);
     }
     /**
-     * @Route("/dashboard/modifyCours/{id}", name="modifyCours")
+     * @Route("/dashboard/modifyCours/{id}/{idU}/", name="modifyCours")
+     * @ParamConverter("Cours", options={"mapping": {"id" : "id"}})
+     * @ParamConverter("UserA", options={"mapping": {"idU"   : "id"}})
+     * @Template()
      */
-    public function modifyCours(Request $request, int $id): Response
+    public function modifyCours(Cours $cour,User $UserA,Request $request,  Session $session): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
+        $id = $cour->getId();
+        $idUser = $UserA->getId();
+        $user = $this->getUser();
 
+        if($user->getId() != $idUser )
+        {
+            $this->addFlash('error' , 'You cant edit anotherone');
+            $session->set("message", "Vous ne pouvez pas modifier cette salle");
+            return $this->redirectToRoute('cours');
+
+        }
+        $entityManager = $this->getDoctrine()->getManager();
         $cours = $entityManager->getRepository(cours::class)->find($id);
         $form = $this->createForm(CoursFormType::class, $cours);
         $form->handleRequest($request);
@@ -119,14 +161,14 @@ class CoursController extends AbstractController
             'heureF'=>$cours->getHeureF(),
             'jour'=>$cours->getJour(),
             'nombre'=>$cours->getNombre(),
-             'image'=>$cours->getImage()
+            'image'=>$cours->getImage()
         ));
 
 
     }
 
 
- /**
+    /**
      * @Route("/detail_coursFront/{id}", name="detailcoursFront")
      */
     public function detailCoursFront(Request $req, $id) {
@@ -161,6 +203,45 @@ class CoursController extends AbstractController
     // fonction qui generer un identifiant unique pour chaque image
 
 
+    /**
+     * @Route("/ImprimerPDF/{id}", name="ImprimerPDF")
+     */
+    public function ImprimerPDF(int $id)
+    {
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        $pdfOptions->setIsRemoteEnabled(true);
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+        // Retrieve the HTML generated in our twig file
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $salle = $entityManager->getRepository(Salle::class)->find($id);
+
+
+
+        $html = $this->renderView('cours/pdf.html.twig', [
+            'title' => "Welcome to our PDF Test",
+            "salle" => $salle,
+
+        ]);
+
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("PDFPlanning.pdf", [
+            "Attachment" => true
+        ]);
+    }
 
 
 

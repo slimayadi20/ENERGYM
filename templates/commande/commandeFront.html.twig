@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block body %}
-    {{ include('front_office/navbar.html.twig') }}
-    <section class="page-title" style="background-image:url(https://via.placeholder.com/1920x600)">
+    {{ render(path('temp', {max: 3})) }}
+    <section class="page-title" style="background-image:url()">
         <div class="auto-container">
             <div class="clearfix">
                 <div class="pull-left">
@@ -15,7 +15,7 @@
                 </div>
                 <div class="pull-right">
                     <ul class="page-breadcrumb">
-                        <li><a href="index.html">home</a></li>
+                        <li><a href="{{ path('front_office') }}">home</a></li>
                         <li>Commandes</li>
                     </ul>
                 </div>

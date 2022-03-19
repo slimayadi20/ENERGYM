@@ -6,7 +6,10 @@ use App\Entity\Article;
 use App\Entity\Commentaire;
 
 use App\Form\ArticleType;
+use App\Form\CommentaireType;
+
 use App\Repository\ArticleRepository;
+use App\Repository\CommentaireRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -14,6 +17,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Snipe\BanBuilder\CensorWords;
+
 
 /**
  * @Route("/article")
@@ -43,10 +48,32 @@ class ArticleController extends AbstractController
 
 
     /**
-     * @Route("/client/display/{id}", name="article_client_show", methods={"GET"})
+     * @Route("/client/display/{id}", name="article_client_show", methods={"GET","POST"})
      */
-    public function showFront(Article $article): Response
+    public function showFront(Article $article,Request $request,CommentaireRepository $commentaireRepository): Response
     {
+        $mostCommentedArticles = $commentaireRepository->mostCommentedArticle();
+
+        $comment1 = new Commentaire();
+        $comment1->setArticle($article);
+        $user = $this->getUser();
+
+        $comment1->setUser($user);
+        $comment1->setDateCreation(new \DateTime('now'));
+        $form = $this->createForm(CommentaireType::class,$comment1 );
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $contenuComment = $form->getData()->getContenu();
+            $censor = new CensorWords;
+            $badwords = $censor->setDictionary('fr');
+            $cleanedComment = $censor->censorString($contenuComment);
+            $comment1->setContenu($cleanedComment['clean']);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment1);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('article_client_show',['id'=>$article->getId()], Response::HTTP_SEE_OTHER);
+        }
         $comments = $this->getDoctrine()->getRepository(Commentaire::class)->findByArticle($article->getId());
         $articles = $this->getDoctrine()->getRepository(Article::class)->findAll();
 
@@ -54,6 +81,8 @@ class ArticleController extends AbstractController
             'article' => $article,
             'comments' => $comments,
             'articles' => $articles,
+            'form' => $form->createView(),
+            'mostCommentedArticles'=>$mostCommentedArticles
 
         ]);
     }
@@ -174,5 +203,20 @@ class ArticleController extends AbstractController
         }
 
         return $this->redirectToRoute('article_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+
+
+    /**
+     * @Route("/afficherArticle/searchajax ", name="ajaxsearcharticle")
+     */
+    public function searchArticle(Request $request,ArticleRepository $ar)
+    {
+        $requestString = $request->get('searchValue');
+        $articles = $ar->articleSearch($requestString);
+        return $this->render('article/articleajax.html.twig', [
+            "articles" => $articles
+        ]);
     }
 }

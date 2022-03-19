@@ -1,0 +1,20 @@
+{% extends "base-front.html.twig" %}
+
+{% block title %}
+    Evenement !
+{% endblock %}
+
+{% block body %}
+    {{ render(path('temp', {max: 3})) }}
+
+<section class="page-title" style="background-image:url()">
+    <div class="auto-container">
+        <div class="clearfix">
+            <div class="pull-left">
+                <h2>Vous avez deja participé :)</h2>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

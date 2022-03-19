@@ -15,6 +15,7 @@
 
                         <table id="datatable" class="table table-bordered">
                             <thead>
+                            <th>Produit</th>
                             <th>Titre</th>
                             <th>Contenu</th>
                             <th>Date </th>
@@ -29,6 +30,7 @@
                             </thead>
                             <tbody>
                             {% for r in reclamation %}
+                            <td>{{ r.produit }}</td>
                             <td>{{ r.titre }}</td>
                             <td>{{ r.contenu }}</td>
                             <td>{{ r.DateCreation | date }}</td>
@@ -38,7 +40,11 @@
                                 <span class="badge badge-success badge-pill">Traitée</span>
                                 {% endif %}
                             </td>
+                            {% if r.NomUser.email == null %}
+                            <td></td>
+                            {% else %}
                             <td>{{ r.NomUser.email }}</td>
+                            {% endif %}
                             <td>
                                 <a type="button" href="{{ path('reply', {'id': r.id}) }}"  class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
                             </td>

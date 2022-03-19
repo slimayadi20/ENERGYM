@@ -9,20 +9,33 @@
                     {{ message }}
                 </div>
             {% endfor %}
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
             <div class="row">
                 <div class="col-12">
                     <div class="card-box table-responsive">
                         <h4 class="m-t-0 header-title">Gestion Des Cours </h4>
+                        {% for role in app.user.roles %}
+                        {% if role == "ROLE_GERANT" %}
                         <div>
-                            <a  style=" position:absolute;right:10%;top:3% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addCours') }}"> <i class="fa fa-plus dark"></i> </a>
+                            <a  style=" position:absolute;right:10%;top:1% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addCours') }}"> <i class="fa fa-plus dark"></i> </a>
                         </div>
+                        {% endif %}
+                        {% endfor %}
                         <table id="datatable" class="table table-bordered">
                             <thead>
                             <th>Nom</th>
                             <th>Nom du Coach</th>
                             <th>Salle de sport</th>
                             <th>Detail</th>
+                            {% for role in app.user.roles %}
+                            {% if role == "ROLE_GERANT" %}
                             <th>edit</th>
+                            {% endif %}
+                            {% endfor %}
                             <th>delete</th>
                             </thead>
                             <tbody>
@@ -34,9 +47,15 @@
                             <td><a href="{{ path('detailcours',{'id':u.id}) }}"><i class="fa fa-list" style="color:#0eac5c;font-size:20px"></i> </a> </td>
 
 
+                                {% for role in app.user.roles %}
+                                {% if role == "ROLE_GERANT" %}
                             <td>
-                                <a type="button" href="{{ path('modifyCours', {'id': u.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
+                                  {#  <a>{{ s.id }}</a>#}
+
+                                <a type="button" href="{{ path('modifyCours', {'id': u.id, 'idU' :  app.user.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
                             </td>
+                                {% endif %}
+                                {% endfor %}
                             <td>
                                 <form method="post" action="{{ path('deleteCours', {'id': u.id}) }}"  onsubmit="return confirm('Voulez vous supprimer ce cours ?')">
                                     <input type="hidden" name="_method" value="SUP">
@@ -49,7 +68,20 @@
                             {% endfor %}
 
                         </table>
-
+                        <div class="row">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="datatable-buttons_info" role="status" aria-live="polite">
+                                    Showing 1 to {{ cours|length }} entries
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-7" >
+                                <div class="dataTables_paginate paging_simple_numbers" id="datatable-buttons_paginate">
+                                    <div class="navigation" style="float:right;">
+                                        {{ knp_pagination_render(cours) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

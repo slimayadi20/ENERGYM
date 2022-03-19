@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block body %}
-    {{ include('front_office/navbar.html.twig') }}
-<section class="page-title" style="background-image:url(https://via.placeholder.com/1920x600)">
+    {{ render(path('temp', {max: 10})) }}
+<section class="page-title" style="background-image:url()">
     <div class="auto-container">
         <div class="clearfix">
             <div class="pull-left">
@@ -22,34 +22,104 @@
         </div>
     </div>
 </section>
+
 <section class="classess-page-section">
-    <div class="auto-container">
-        <div class="row clearfix">
-            {% for u in salle %}
-            <!-- Classess Block -->
-            <div class="classess-block col-lg-4 col-md-6 col-sm-12">
-                <div class="inner-box">
-                    <div class="image">
-                        <a href="{{ path('detailFront', {'id': u.id}) }}"><img src="{{ asset('uploads/salle/'~u.image)}}"  }} alt=""></a>
+    <div id="liveData"
+         class="auto-container">
+        <div class="shop-section">
+            {{ form_start(form_salle) }}
 
-                    </div>
-                    <div class="lower-content">
+            <div class="form-row align-items-end" >
+                <div class="col">
+                    {{ form_row(form_salle.nom) }}
+                </div>
 
-                        <h4><a href="{{ path('detailFront', {'id': u.id}) }}">{{ u.nom }}</a></h4>
-                        <br>
-                        <a class="read-more" href="{{ path('detailFront', {'id': u.id}) }}">Plus de detail</a>
+                <div class="col">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-danger">Rechercher</button>
                     </div>
                 </div>
             </div>
+            {{ form_end(form_salle) }}
+            <div class="items-sorting">
+
+                <div class="row clearfix">
+
+                    <div class="results-column col-md-6 col-sm-6 col-xs-12">
+                        <h6>Showing Items 1 to {{ salle|length }} Salle</h6>
+                    </div>
+
+                    <div class="select-column pull-right col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <select name="sort-by" onchange="javascript:handleSelect(this)">
+                                <option  value="{{ path('salleFront') }}">Sorting by default</option>
+                                <option  value="{{ path('salleTries') }}">Sorting by Salle liked</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            </div>
+        <div class="row clearfix">
+            {% for u in salle %}
+                <!-- Classess Block -->
+                <div class="classess-block col-lg-4 col-md-6 col-sm-12">
+                    <div class="inner-box">
+                        <div class="image">
+                            <a href="{{ path('detailFront', {'id': u.id}) }}"><img src="{{ asset('uploads/salle/'~u.image)}}"  }} alt=""></a>
+
+                        </div>
+
+                        <div class="lower-content">
+
+                            <h4><a href="{{ path('detailFront', {'id': u.id}) }}">{{ u.nom }}</a></h4>
+
+                            <br>
+
+
+                            <a class="read-more" href="{{ path('detailFront', {'id': u.id}) }}">Plus de detail</a>
+
+                            <a onclick="loadDoc()" href="{{path('Salle_like', {'id':u.id})}}" class="btn btn-link js-like-link">
+                                {% if app.user and u.isLikedByUser(app.user) %}
+                                    <i class="fa-solid fa-heart"></i>
+                                {% else %}
+                                    <i class="fa-regular fa-heart"></i>
+                                {% endif %}
+                                <span class= "js-likes" >{{ u.likes | length }} </span>
+                            </a>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
             {% endfor %}
 
 
-
-
+        </div>
 
         </div>
-    </div>
+
+
+
 </section>
+
+    <script type="text/javascript">
+        function handleSelect(elm)
+        {
+            window.location = "http://127.0.0.1:8000/salleTries";
+        }
+    </script>
+
+
 
     {{ include('front_office/footer.html.twig') }}
 {% endblock %}
+
+
+
+
+

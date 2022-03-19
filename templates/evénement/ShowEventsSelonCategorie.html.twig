@@ -1,0 +1,232 @@
+{% extends "base-front.html.twig" %}
+
+{% block title %}
+    Evenement!
+{% endblock %}
+
+{% block body %}
+    {{ render(path('temp', {max: 3})) }}
+    <section class="page-title" style="background-image:url()">
+        <div class="auto-container">
+            <div class="clearfix">
+                <div class="pull-left">
+                    <h2>Latest News</h2>
+                    <div class="text">Fitness is not a destination it is a way of life.</div>
+                </div>
+                <div class="pull-right">
+                    <ul class="page-breadcrumb">
+                        <li><a href="index.html">home</a></li>
+                        <li>Blog</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Sidebar Page Container-->
+    <div class="sidebar-page-container">
+        <div class="auto-container">
+
+            <div class="row clearfix" id="containerr">
+
+
+                <!--Content Side-->
+                <div class="content-side col-lg-8 col-md-12 col-sm-12">
+                    <!-- Blog Classic -->
+                    <div class="blog-classic">
+                        <!-- News Block Three -->
+                        {% for e in Event %}
+                            <div class="news-block-three" id="c">
+                                <div class="inner-box">
+
+                                    <div class="image">
+
+                                        <img class="card-img-top img-fluid" src="{{ asset('uploads/Event_image/' )~e.image  }}" alt="Card image cap" >
+                                    </div>
+                                    <div class="lower-content">
+                                        <ul class="post-meta">
+                                            <li><span class="icon flaticon-map"></span> {{ e.LieuEvent }}</li>
+                                            <li><span class="icon flaticon-user-1"></span>  {{ e.NbrParticipantsEvent }}</li>
+                                            <li><span class="icon flaticon-calendar-1"></span> {{ e.DateEvent | date('Y-m-d')}}</li>
+                                        </ul>
+                                        <h3><a href="blog-single.html">{{ e.NomEvent }}</a></h3>
+                                        <div class="text">{{ e.DescriptionEvent }}</div>
+                                        <a class="read-more" href="{{ path('detailFrontEvent',{'id':e.id}) }}">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+
+                        <!-- Post Share Options -->
+                        <div class="pagination-outer text-center">
+                            <div class="styled-pagination text-center">
+                                <ul class="clearfix">
+                                    <li class="prev"><a href="#"><span class="fa fa-angle-double-left"></span> Prev</a></li>
+                                    <li><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li class="active"><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li class="next"><a href="#">Next <span class="fa fa-angle-double-right"></span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--Sidebar Side-->
+                <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+                    <aside class="sidebar sticky-top">
+
+                        <!-- Search -->
+                        <div class="sidebar-widget search-box">
+                            <form method="post" action="contact.html">
+                                <div class="form-group">
+                                    <input id="search" type="search" name="search-field" value="" placeholder="Search....." required>
+                                    <button type="submit"><span class="icon fa fa-search"></span></button>
+                                    <ul class="nav" id="side-menu">
+                                        <li>
+                                            <a href="#"> <span class="fa arrow"></span></a>
+                                            <ul class="nav nav-second-level" id="entitiesNav">
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                        <div id="search"></div>
+
+                        <!-- Categories Widget -->
+                        <div class="sidebar-widget categories-widget">
+                           
+                            <div class="widget-content">
+                                <ul class="blog-cat">
+
+
+
+                                    {#} <li><a href="#">HEALTH  <span>( 03 )</span></a></li> {#}
+
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Categories Widget -->
+                        <div class="sidebar-widget popular-posts">
+                            <div class="sidebar-title">
+                                <h4>Coming soon</h4>
+                            </div>
+                            <div class="widget-content">
+                                {% for r in recent %}
+
+                                    <div class="widget-content">
+                                        <article class="post">
+                                            <div class="post-inner">
+                                                <figure class="post-thumb"><img src="{{ asset('uploads/Event_image/' )~r.image  }}" alt=""><a href="{{ path('detailFrontEvent',{'id':r.id}) }}" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
+                                                <div class="text"><a href="{{ path('detailFrontEvent',{'id':r.id}) }}">{{ r.NomEvent }}</a></div>
+                                                <div class="post-info">{{ r.DateEvent | date('Y-m-d')}}</div>
+
+                                            </div>
+
+                                        </article>
+
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+  <div class="sidebar-widget popular-posts">
+                            <div class="sidebar-title">
+                                <h4>Recent Event</h4>
+                            </div>
+                            <div class="widget-content">
+                                {% for r in recentEvent %}
+
+                                    <div class="widget-content">
+                                        <article class="post">
+                                            <div class="post-inner">
+                                                <figure class="post-thumb"><img src="{{ asset('uploads/Event_image/' )~r.image  }}" alt=""><a href="{{ path('detailFrontEvent',{'id':r.id}) }}" class="overlay-box"><span class="icon fa fa-link"></span></a></figure>
+                                                <div class="text"><a href="{{ path('detailFrontEvent',{'id':r.id}) }}">{{ r.NomEvent }}</a></div>
+                                                <div class="post-info">{{ r.DateEvent | date('Y-m-d')}}</div>
+
+                                            </div>
+
+                                        </article>
+
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+    {{ include('front_office/footer.html.twig') }}
+    <!-- jQuery is necessary -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+
+        jQuery(document).ready(function() {
+            var searchRequest = null;
+            $("#search").keyup(function() {
+
+
+
+                var minlength = 3;
+                var that = this;
+                var value = $(this).val();
+                var entitySelector = $("#entitiesNav").html('');
+                if (value.length >= minlength ) {
+                    if (searchRequest != null)
+                        searchRequest.abort();
+                    searchRequest = $.ajax({
+                        type: "GET",
+                        url: "{{ path('ajax_search') }}",
+                        data: {
+                            'q' : value
+                        },
+                        dataType: "text",
+                        success: function(msg){
+                            //we need to check if the value is the same
+                            if (value===$(that).val()) {
+                                var result = JSON.parse(msg);
+
+                                $.each(result, function(key, arr) {
+                                    $.each(arr, function(id, value) {
+                                        if (key === 'evenementss') {
+                                            if (id !== 'error') {
+                                                x= document.getElementById("containerr");
+
+                                                entitySelector.append('<div style="display: table;width:100%;padding: 15px"><span style="text-align: center">'+value[1]+'</span><br/><a href="/detailEventFront/'+id+'">'+'<img src="/uploads/Event_image/'+value[0]+'" style="width: 150px; height: 150px"/>'+'</a></div>');
+
+
+                                            } else {
+                                                entitySelector.append('<li class="errorLi">'+value+'</li>');
+                                            }
+                                        }
+                                    });
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            $(".btn1").click(function(){
+                $("h1").slideUp();
+            });
+            $(".btn2").click(function(){
+                $("h1").slideDown();
+            });
+            $(".btn3").click(function(){
+                $("h1").slideToggle();
+            });
+        });
+    </script>
+{% endblock %}

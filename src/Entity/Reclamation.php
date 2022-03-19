@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ReclamationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups ;
 
 /**
  * @ORM\Entity(repositoryClass=ReclamationRepository::class)
@@ -15,6 +16,7 @@ class Reclamation
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
@@ -24,40 +26,45 @@ class Reclamation
      * @Assert\Length(
      *     min=3,
      *     max=50,
-     *     minMessage="The name must be at least 3 characters long",
-     *     maxMessage="The name cannot be longer than 50 characters"
+     *     minMessage="The title must be at least 3 characters long",
+     *     maxMessage="The title cannot be longer than 50 characters"
      * )
+     * @Groups("post:read")
      */
     private $titre;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("post:read")
      */
     private $DateCreation;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Get creative and think of a title!")
+     * @Assert\NotBlank(message="Get creative and think of a content!")
      * @Assert\Length(
      *     min=3,
      *     max=1000,
-     *     minMessage="The name must be at least 3 characters long",
-     *     maxMessage="The name cannot be longer than 50 characters"
+     *     minMessage="The content must be at least 3 characters long",
+     *     maxMessage="The content cannot be longer than 150 characters"
      * )
+     * @Groups("post:read")
      */
     private $contenu;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reclamations")
+     * @Groups("post:read")
      */
     private $NomUser;
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $statut;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $produit;
     public function getStatut(): ?string
@@ -68,7 +75,6 @@ class Reclamation
     public function setStatut(string $statut): self
     {
         $this->statut = $statut;
-
         return $this;
     }
     public function getId(): ?int

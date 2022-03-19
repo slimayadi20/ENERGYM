@@ -18,7 +18,20 @@ class CoursRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Cours::class);
     }
+    public function findallwithpagination()
+    {
+        return $this->createQueryBuilder('v')
+            ->getQuery();
 
+    }
+    public function findCoursGerantwithpagination($idSalle )
+    {
+        return $this->createQueryBuilder('v')
+            ->Where('v.salleassocie in (:id) ')
+            ->setParameter('id',$idSalle)
+            ->getQuery();
+
+    }
     // /**
     //  * @return Cours[] Returns an array of Cours objects
     //  */

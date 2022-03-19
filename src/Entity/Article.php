@@ -31,7 +31,7 @@ class Article
     private $dateCreation;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string")
      * @Assert\NotBlank(message =" la description est obligatoire")
      */
     private $description;
@@ -78,7 +78,7 @@ class Article
         return $this->comments;
     }
 
-     public function getId(): ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -121,7 +121,7 @@ class Article
 
     public function __toString()
     {
-       return $this->titre;
+        return $this->titre;
     }
 
 

@@ -10,6 +10,8 @@ use phpDocumentor\Reflection\Types\True_;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
+use Symfony\Component\Serializer\Annotation\Groups ;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -36,6 +38,7 @@ class User implements UserInterface
      *     minMessage="The name must be at least 3 characters long",
      *     maxMessage="The name cannot be longer than 50 characters"
      * )
+     * @Groups("post:read")
      */
     private $nom;
 
@@ -48,6 +51,7 @@ class User implements UserInterface
      *     minMessage="The name must be at least 3 characters long",
      *     maxMessage="The name cannot be longer than 50 characters"
      * )
+     * @Groups("post:read")
      */
     private $prenom;
     /**
@@ -59,19 +63,23 @@ class User implements UserInterface
      *     minMessage="The pass must be at least 8 characters long",
      *     maxMessage="The name cannot be longer than 15 characters"
      * )
+     * @Groups("post:read")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string")
+     * @Groups("post:read")
      */
     private $roles;
     /**
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $status= 1;
     /**
      * @ORM\Column(type="datetime", nullable=false, options={"default" : "CURRENT_TIMESTAMP"})
+     * @Groups("post:read")
      */
     private $createdAt;
 
@@ -81,10 +89,12 @@ class User implements UserInterface
      * @Assert\Email(
      *     message = "The email '{{ value }}' is not a valid email."
      * )
+     * @Groups("post:read")
      */
     private $email;
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("post:read")
      */
     private $imageFile ;
 
@@ -95,30 +105,90 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToOne(targetEntity=Panier::class, mappedBy="user", cascade={"persist", "remove"})
+     * @Groups("post:read")
      */
     private $panier;
 
     /**
-     * @ORM\OneToMany(targetEntity=Panier::class, mappedBy="user")
+     * @ORM\ManyToMany(targetEntity=Salle::class, inversedBy="users")
+     * @Groups("post:read")
      */
-    private $paniers;
+    private $IdSalle;
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     * @Groups("post:read")
+     */
+    private $activation_token;
 
     /**
-     * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\Column(type="string", length=50, nullable=true)
+     * @Groups("post:read")
      */
-    private $commandes;
+    private $reset_token;
+
+
+    protected $captchaCode;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Commentaire", mappedBy="user")
+     * @Groups("post:read")
+     */
+    private $comments;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Produit::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="user", orphanRemoval=true)
      */
-    private $produits;
+    private $Products;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Categories::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $CategorieProduit;
+
+    /**
+     * @var string
+     * @ORM\Column(name="phone", type="string", length=255, nullable=true)
+     * @Groups("post:read")
+     */
+    protected $phoneNumber;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Groups("post:read")
+     */
+    private $VerificationCode;
+
+    public function getPhoneNumber() {
+        return $this->phoneNumber;
+    }
+    public function setPhoneNumber($phoneNumber) {
+        $this->phoneNumber = $phoneNumber;
+        return $this;
+    }
+    public function getCaptchaCode()
+    {
+        return $this->captchaCode;
+    }
+
+    public function setCaptchaCode($captchaCode)
+    {
+        $this->captchaCode = $captchaCode;
+    }
     public function __construct()
     {
         $this->paniers = new ArrayCollection();
-        $this->commandes = new ArrayCollection();
-        $this->produits = new ArrayCollection();
+        $this->IdSalle = new ArrayCollection();
+        $this->Products = new ArrayCollection();
+        $this->CategorieProduit = new ArrayCollection();
+        $this->reclamations = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
+    /**
+     * @ORM\OneToMany(targetEntity=SalleLike::class, mappedBy="user")
+     * @Groups("post:read")
+     */
+    private $likes;
+
+
 
     public function getId()
     {
@@ -255,10 +325,10 @@ class User implements UserInterface
     /**
      * @return Collection<int, Panier>
      */
-    public function getPaniers(): Collection
+  /*  public function getPaniers(): Collection
     {
         return $this->paniers;
-    }
+    }*/
 
     public function addPanier(Panier $panier): self
     {
@@ -283,59 +353,115 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection<int, Commande>
+     * @return Collection<int, Salle>
      */
-    public function getCommandes(): Collection
+    public function getIdSalle(): Collection
     {
-        return $this->commandes;
+        return $this->IdSalle;
     }
 
-    public function addCommande(Commande $commande): self
+    public function addIdSalle(Salle $idSalle): self
     {
-        if (!$this->commandes->contains($commande)) {
-            $this->commandes[] = $commande;
-            $commande->setUser($this);
+        if (!$this->IdSalle->contains($idSalle)) {
+            $this->IdSalle[] = $idSalle;
+        }
+
+        return $this;
+    }
+    /**
+     * @return Collection<int, SalleLike>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(SalleLike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeCommande(Commande $commande): self
+    public function removeLike(SalleLike $like): self
     {
-        if ($this->commandes->removeElement($commande)) {
+        if ($this->likes->removeElement($like)) {
             // set the owning side to null (unless already changed)
-            if ($commande->getUser() === $this) {
-                $commande->setUser(null);
+            if ($like->getUser() === $this) {
+                $like->setUser(null);
             }
         }
 
         return $this;
     }
 
+
+    public function removeIdSalle(Salle $idSalle): self
+    {
+        $this->IdSalle->removeElement($idSalle);
+
+        return $this;
+    }
+    public function getActivationToken(): ?string
+    {
+        return $this->activation_token;
+    }
+
+    public function setActivationToken(?string $activation_token): self
+    {
+        $this->activation_token = $activation_token;
+
+        return $this;
+    }
+    public function getResetToken(): ?string
+    {
+        return $this->reset_token;
+    }
+
+    public function setResetToken(?string $reset_token): self
+    {
+        $this->reset_token = $reset_token;
+
+        return $this;
+    }
+
+
+
+
+
+    public function getVerificationCode(): ?int
+    {
+        return $this->VerificationCode;
+    }
+
+    public function setVerificationCode(?int $VerificationCode): self
+    {
+        $this->VerificationCode = $VerificationCode;
+
+        return $this;
+    }
+
+
+
     /**
-     * @return Collection<int, Produit>
+     * @return mixed
      */
-    public function getProduits(): Collection
+    public function getComments()
     {
-        return $this->produits;
+        return $this->comments;
     }
 
-    public function addProduit(Produit $produit): self
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments): void
     {
-        if (!$this->produits->contains($produit)) {
-            $this->produits[] = $produit;
-            $produit->addUser($this);
-        }
-
-        return $this;
+        $this->comments = $comments;
     }
 
-    public function removeProduit(Produit $produit): self
-    {
-        if ($this->produits->removeElement($produit)) {
-            $produit->removeUser($this);
-        }
 
-        return $this;
-    }
+
 }

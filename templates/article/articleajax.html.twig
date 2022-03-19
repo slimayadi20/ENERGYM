@@ -1,0 +1,15 @@
+{% for article in articles %}
+    <tr>
+    <td>{{ article.titre }}</td>
+    <td>{{ article.dateCreation }}</td>
+    <td>{{ article.description }}</td>
+    <td>
+        <a  type="button" href="{{ path('article_edit', {'id': article.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
+        <a  type="button"  href="{{ path('article_show', {'id': article.id}) }}"  class="btn btn-danger btn-icon rounded-pill"><i class="mdi mdi-eye"></i></a>
+    </td>
+</tr>
+{% else %}
+    <tr>
+        <td colspan="5">no records found</td>
+    </tr>
+        {% endfor %}

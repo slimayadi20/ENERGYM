@@ -67,20 +67,32 @@ class Produit
      */
     private $image;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Categories::class, inversedBy="produits")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $categories;
+
+
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="produits")
      */
     private $user;
 
+
+
+    /**
+     * @ORM\OneToMany(targetEntity=Review::class, mappedBy="produit")
+     */
+    private $reviews;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Categories::class, inversedBy="produits")
+     */
+    private $categories;
+
     public function __construct()
     {
+        $this->reviews = new ArrayCollection();
+        $this->categories = new ArrayCollection();
         $this->user = new ArrayCollection();
+
     }
     public function getId(): ?int
     {
@@ -146,13 +158,15 @@ class Produit
 
         return $this;
     }
-
-    public function getCategories(): ?categories
+    /**
+     * @return Collection<int, Categories>
+     */
+    public function getCategories(): Collection
     {
         return $this->categories;
     }
 
-    public function setCategories(?categories $categories): self
+    public function setCategories(?Categories $categories): self
     {
         $this->categories = $categories;
 
@@ -162,7 +176,54 @@ class Produit
 
     public function __toString()
     {
-        return (string) $this->getCategories();
+        return $this->getNom() ;
+    }
+
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): self
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getProduit() === $this) {
+                $review->setProduit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addCategory(Categories $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Categories $category): self
+    {
+        $this->categories->removeElement($category);
+
+        return $this;
     }
 
     /**

@@ -1,0 +1,71 @@
+{% extends "base-back.html.twig" %}
+
+
+
+
+{% block title %}Participation!{% endblock %}
+
+
+{% block body %}
+
+    {{ include('Dashboard/navbar.html.twig') }}
+    {{ include('Dashboard/leftsideBar.html.twig') }}
+    <!-- jQuery is necessary -->
+
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+
+                <div class="row" style="display: flex;align-items: center;justify-content: center">
+                    <div class="col-12">
+                        <div class="card-box">
+
+                            <h4 class="m-t-0 header-title">Les Participations</h4>
+
+                            <table class="table">
+                                <thead class="thead-light">
+                                <tr>
+
+                                    <th> Nom de l'événement</th>
+                                    <th>Nom du participant  </th>
+                                    <th>Email du participant</th>
+                                    <th>Confirmation Code</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for P in Participation %}
+                                    <tr>
+
+
+                                        <td>{{ P.idEvent.NomEvent }}</td>
+                                        <td>{{ P.idUser.nom}}</td>
+                                        <td>{{ P.idUser.email }}</td>
+                                        <td>{{ P.VerificationCode }}</td>
+                                     {#}   <td><a href="{{ path('SupprimerEvent',{'id':e.id}) }}"><i class="fa fa-trash" style="color:#ff5b5b;font-size:20px"></i> </a> </td>{#}
+
+
+                                    </tr>
+
+                                {% endfor %}
+
+
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
+use Captcha\Bundle\CaptchaBundle\Validator\Constraints\ValidCaptcha;
 
 class GerantFormType extends AbstractType
 {
@@ -21,7 +23,10 @@ class GerantFormType extends AbstractType
             ->add('confirmPass',PasswordType::class)
             ->add('password',PasswordType::class)
             ->add('email')
+            ->add('phoneNumber')
+            ->add('Submit',SubmitType::class)
             ->add('imageFile', FileType::class, [
+
                 'label' => 'Image (image file)',
 
                 // unmapped means that this field is not associated to any entity property
@@ -44,6 +49,17 @@ class GerantFormType extends AbstractType
                     ])
                 ],
             ])
+            ->add('captchaCode', CaptchaType::class, array(
+                'captchaConfig' => 'ExampleCaptchaUserRegistration',
+                'constraints' => [
+                    new ValidCaptcha([
+                        'message' => 'Invalid captcha, please try again',
+                    ]),
+                ],
+            ))
+            ->add('Submit',SubmitType::class)
+
+            // ... ///
 
         ;
     }

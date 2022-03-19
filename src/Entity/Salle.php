@@ -101,11 +101,65 @@ class Salle
      */
     private $cours;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="IdSalle")
+     */
+    private $users;
+    /**
+     * @ORM\OneToMany(targetEntity=SalleLike::class, mappedBy="salle", orphanRemoval=true)
+     */
+    private $likes;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $LikeCount;
+    /**
+     * @return Collection<int, SalleLike>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(SalleLike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setSalle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(SalleLike $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getSalle() === $this) {
+                $like->setSalle(null);
+            }
+        }
+
+        return $this;
+    }
+    /**
+     * @param User $user
+     * @return boolean
+     */
+    public function isLikedByUser(User $user) : bool
+    {
+        foreach($this->likes as $like){
+            if ($like->getUser() === $user) return true;
+        }
+        return false;
+    }
 
 
     public function __construct()
     {
         $this->cours = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
 
@@ -281,4 +335,44 @@ class Salle
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addIdSalle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeIdSalle($this);
+        }
+
+        return $this;
+    }
+
+    public function getLikeCount(): ?int
+    {
+        return $this->LikeCount;
+    }
+
+    public function setLikeCount(?int $LikeCount): self
+    {
+        $this->LikeCount = $LikeCount;
+
+        return $this;
+    }
+
 }

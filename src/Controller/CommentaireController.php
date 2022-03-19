@@ -40,7 +40,6 @@ class CommentaireController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($commentaire);
             $entityManager->flush();
-
             return $this->redirectToRoute('commentaire_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -81,7 +80,7 @@ class CommentaireController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="commentaire_delete", methods={"POST"})
+     * @Route("/delete/{id}", name="commentaire_delete")
      */
     public function delete(Request $request, Commentaire $commentaire, EntityManagerInterface $entityManager): Response
     {

@@ -6,6 +6,7 @@ use App\Entity\Panier;
 use App\Entity\Commande;
 use App\Entity\Livraison;
 use App\Entity\Promo;
+use App\Entity\Notification;
 use App\Entity\User;
 use App\Entity\Produit;
 use App\Repository\UserRepository;
@@ -48,42 +49,46 @@ class PanierController extends AbstractController
         }
         else
         {
-        $entityManager = $this->getDoctrine()->getManager();
-        $monPanier = $entityManager->getRepository(Panier::class)->loadPanierByUserId($uid);
-        $p= $monPanier->getUserPanier();
-        $a=array_column($p,'id');
-        foreach($p as $a => $quantite){
-            $product = $produitRepository->find($a);
-            $qt= $product->getQuantite();
-            if ( $qt < $quantite )
-            {
-                $quantite = $qt;
-            }
-            $dataPanier[] = [
-                "produit" => $product,
-                "quantite" => $quantite
-            ];
+            $entityManager = $this->getDoctrine()->getManager();
+            $monPanier = $entityManager->getRepository(Panier::class)->loadPanierByUserId($uid);
+            $p= $monPanier->getUserPanier();
+            $a=array_column($p,'id');
 
-
-            $request->request->get('coupon-code');
-            $totalOld += $product->getPrix() * $quantite;
-            $codePromo = $entityManager->getRepository(Promo::class)->findCode($request->request->get('coupon-code'));
-            if($request->isMethod('POST') ) {
-                if ($codePromo) {
-                    $reduction = $codePromo->getReduction();
-                    $totalNew = $totalOld -($totalOld * ($reduction / 100));
+            foreach($p as $a => $quantite){
+                $product = $produitRepository->find($a);
+                $qt=$product->getQuantite();
+                if ( $qt < $quantite )
+                {
+                    $quantite = $qt;
+                }
+                $dataPanier[] = [
+                    "produit" => $product,
+                    "quantite" => $quantite
+                ];
+                /*   $qt=$product->getQuantite();
+                   if($quantite>$qt)
+                   {
+                      $quantite=1;
+                   }*/
+                $request->request->get('coupon-code');
+                $totalOld += $product->getPrix() * $quantite;
+                $codePromo = $entityManager->getRepository(Promo::class)->findCode($request->request->get('coupon-code'));
+                if($request->isMethod('POST') ) {
+                    if ($codePromo) {
+                        $reduction = $codePromo->getReduction();
+                        $totalNew = $totalOld -($totalOld * ($reduction / 100));
+                    }
+                    else {
+                        $reduction = "0";
+                        $totalNew = $totalOld;
+                    }
                 }
                 else {
-                    $reduction = "0";
                     $totalNew = $totalOld;
+                    $reduction = "0";
                 }
-            }
-            else {
-                $totalNew = $totalOld;
-                $reduction = "0";
-            }
-            //print_r($codePromo);
-        }}
+                //print_r($codePromo);
+            }}
 
         return $this->render('panier/index.html.twig', compact("dataPanier", "totalOld","monPanier","reduction","totalNew" ));
     }
@@ -104,8 +109,21 @@ class PanierController extends AbstractController
         $monPanier = $entityManager->getRepository(Panier::class)->loadPanierByUserId($uid);
         $p= $monPanier->getUserPanier();
         $a=array_column($p,'id');
+
         foreach($p as $a => $quantite){
+
             $product = $produitRepository->find($a);
+            $qt = $product->getQuantite();
+            //begin notification
+            if($qt<=6){
+                $Notification= new Notification();
+                $Notification->setTitre("The product".$product->getNom()." is gonna be out of stock");
+                $Notification->setType("Out of stock");
+                $Notification->setCreatedAt(new \DateTime()) ;
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($Notification);
+            }
+            // end notification
             $dataPanier[] = [
                 "produit" => $product,
                 "quantite" => $quantite
@@ -220,7 +238,7 @@ class PanierController extends AbstractController
             'success_url' => $this->generateUrl('valider', ['id'=>$monPanier->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
             'cancel_url' => $this->generateUrl('cancel_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
         ]);
-            return $this->redirect($session1->url, 303);
+        return $this->redirect($session1->url, 303);
 
 
 
@@ -241,10 +259,11 @@ class PanierController extends AbstractController
         {
             $p=array_key_first($panier);
             $prod = $this->getDoctrine()->getRepository(Produit::class)->find($p);
+            $qt = $prod->getQuantite();
+            print_r($qt);
 
             $idS = $prod->getId();
             $prod->addUser($user);
-            $qt = $prod->getQuantite();
             if ($qt > $panier[$idS]) {
                 $prod->setQuantite($qt - $panier[$idS]);
             }
@@ -284,7 +303,7 @@ class PanierController extends AbstractController
     /**
      * @Route("/panier", name="calculCode")
      */
-    public function calculCode(SessionInterface $session): Response
+    public function calculCode(ProduitRepository $produitRepository ,SessionInterface $session,Request $request): Response
     {
         $panier = $session->get("panier", []);
         $uid = $this->getUser()->getId();
@@ -420,11 +439,9 @@ class PanierController extends AbstractController
     {
         $uid = $this->getUser()->getId();
         $commandes = $this->getDoctrine()->getRepository(Commande::class)->findCommandeUser($uid);
+        $livraisons=null ;
 
         for($d = 0; $d < count($commandes); ++$d)  {
-
-
-
             $cid = $commandes[$d]->getId();
             //print_r($cid);
             $livraisons[$d] = $this->getDoctrine()->getRepository(Livraison::class)->findCommande($cid);

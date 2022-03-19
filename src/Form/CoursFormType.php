@@ -1,16 +1,26 @@
 <?php
 
 namespace App\Form;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Entity\Cours;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
-
+use App\Repository\SalleRepository;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Security\Core\Security ;
 class CoursFormType extends AbstractType
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -54,7 +64,16 @@ class CoursFormType extends AbstractType
                     ])
                 ],
             ])
-            ->add('salleassocie')
+            ->add('salleassocie', EntityType::class, [
+                'class'         => 'App\Entity\Salle',
+                'query_builder' => function(SalleRepository $repository) {
+                    $user = $this->security->getUser()->getId();
+                    $salle=$repository->findGerantSallewithpagination($user) ;
+                    return $salle ;
+                },
+                        'required'=> true
+
+            ])
 
         ;
     }

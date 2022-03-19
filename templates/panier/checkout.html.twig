@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    {{ include('front_office/navbar.html.twig') }}
+    {{ render(path('temp', {max: 3})) }}
 <section class="page-title" style="background-image:url(https://via.placeholder.com/1920x600)">
     <div class="auto-container">
         <div class="clearfix">
@@ -121,7 +121,7 @@
                                 <ul class="order-list">
                                     <li>Prodcut<span>TOTAL</span></li>
                                     {% for element in dataPanier %}
-                                    <li>{{ element.produit.nom }} x {{ element.produit.quantite }}<span>{{ element.quantite * element.produit.prix }} TND</span></li>
+                                    <li>{{ element.produit.nom }} x {{ element.quantite }}<span>{{ element.quantite * element.produit.prix }} TND</span></li>
                                     {% endfor %}
                                     <li>Shipping And Handling<span>Free Shipping</span></li>
                                     <li class="total">TOTAL<span class="dark">5444 TND</span></li>
