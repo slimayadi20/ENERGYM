@@ -31,7 +31,11 @@
                             <th>Nom du Coach</th>
                             <th>Salle de sport</th>
                             <th>Detail</th>
+                            {% for role in app.user.roles %}
+                            {% if role == "ROLE_GERANT" %}
                             <th>edit</th>
+                            {% endif %}
+                            {% endfor %}
                             <th>delete</th>
                             </thead>
                             <tbody>
@@ -43,13 +47,15 @@
                             <td><a href="{{ path('detailcours',{'id':u.id}) }}"><i class="fa fa-list" style="color:#0eac5c;font-size:20px"></i> </a> </td>
 
 
+                                {% for role in app.user.roles %}
+                                {% if role == "ROLE_GERANT" %}
                             <td>
-                                {% for s in u.salleassocie.users %}
                                   {#  <a>{{ s.id }}</a>#}
 
-                                <a type="button" href="{{ path('modifyCours', {'id': u.id, 'idU' : s.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
-                           {% endfor %}
+                                <a type="button" href="{{ path('modifyCours', {'id': u.id, 'idU' :  app.user.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
                             </td>
+                                {% endif %}
+                                {% endfor %}
                             <td>
                                 <form method="post" action="{{ path('deleteCours', {'id': u.id}) }}"  onsubmit="return confirm('Voulez vous supprimer ce cours ?')">
                                     <input type="hidden" name="_method" value="SUP">
@@ -62,7 +68,20 @@
                             {% endfor %}
 
                         </table>
-
+                        <div class="row">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="datatable-buttons_info" role="status" aria-live="polite">
+                                    Showing 1 to {{ cours|length }} entries
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-7" >
+                                <div class="dataTables_paginate paging_simple_numbers" id="datatable-buttons_paginate">
+                                    <div class="navigation" style="float:right;">
+                                        {{ knp_pagination_render(cours) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

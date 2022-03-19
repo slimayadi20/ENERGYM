@@ -35,6 +35,7 @@ class Reclamation
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("post:read")
      */
     private $DateCreation;
 
@@ -53,15 +54,17 @@ class Reclamation
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reclamations")
+     * @Groups("post:read")
      */
     private $NomUser;
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $statut;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $produit;
     public function getStatut(): ?string
@@ -72,7 +75,6 @@ class Reclamation
     public function setStatut(string $statut): self
     {
         $this->statut = $statut;
-
         return $this;
     }
     public function getId(): ?int

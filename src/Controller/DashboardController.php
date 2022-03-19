@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use App\Repository\UserRepository;
 use App\Entity\Categories;
 use App\Entity\Produit;
+use App\Entity\Evenement;
 use App\Entity\Notification;
 
 class DashboardController extends AbstractController
@@ -20,6 +21,27 @@ class DashboardController extends AbstractController
      */
     public function index(UserRepository $repository,Request $request ,Session $session): Response
     {
+        $lista = $this->getDoctrine()->getRepository(Evenement::class)->findAll();
+
+        $resa = [] ;
+
+        foreach ($lista as $xa)
+        {
+            $resa[] = [
+                //'id'=> $x->getId(),
+                'title'=>$xa->getNomEvent(),
+                //'Client'=>$x->getClient()->getName() ,
+                'start'=>$xa->getDateEvent()->format('Y-m-d'),
+                'end'=>$xa->getDateEvent()->format('Y-m-d'),
+            ] ;
+
+        }
+
+        $dataa = json_encode($resa);
+
+        // end calendar
+
+
         $utilisateur = $this->getUser();
         $SalleId = $utilisateur->getIdSalle();
         $pieChart = new PieChart();
@@ -79,10 +101,11 @@ class DashboardController extends AbstractController
         } else if (in_array('ROLE_ADMIN', $utilisateur->getRoles())) {
             $entityManager = $this->getDoctrine()->getManager();
             $notification = $entityManager->getRepository(Notification::class)->findAll();
-            return $this->render('dashboard/index.html.twig', [
+            return $this->render('dashboard/index.html.twig',[
                 "notification" => $notification,
                 'list' => $data,
                 'piechart' => $pieChart,
+                'dataa'=>$dataa,
             ]);
         } else if (in_array('ROLE_GERANT', $utilisateur->getRoles())) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -91,6 +114,8 @@ class DashboardController extends AbstractController
                 "notification" => $notification,
                 'list' => $data,
                 'piechart' => $pieChart,
+                'dataa'=>$dataa ,
+
             ]);
 
 
@@ -113,6 +138,33 @@ class DashboardController extends AbstractController
         else {
             return $this->render('front_office/home.html.twig');
         }
+
+    }
+    /**
+     * @Route("/front/calender", name="calender")
+     */
+
+    public function viewcal()
+    {
+        $list = $this->getDoctrine()->getRepository(Evenement::class)->findAll();
+
+        $res = [] ;
+
+        foreach ($list as $x)
+        {
+            $res[] = [
+                //'id'=> $x->getId(),
+                'title'=>$x->getNomEvent(),
+                //'Client'=>$x->getClient()->getName() ,
+                'start'=>$x->getDateEvent()->format('Y-m-d'),
+                'end'=>$x->getDateEvent()->format('Y-m-d'),
+            ] ;
+
+        }
+
+        $data = json_encode($res);
+
+        return $this->render('dashboard/home.html.twig', compact('data'));
 
     }
 

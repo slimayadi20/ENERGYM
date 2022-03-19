@@ -80,6 +80,7 @@
                                     <li><a href="{{ path('reclamationFront') }}">Reclamation</a></li>
 
                                         <li><a  href="{{ path('modifyUserFront', {'id': app.user.id}) }}">Edit Profile</a></li>
+                                        <li><a  href="{{ path('commande') }}">Vos commandes</a></li>
                                     {% endif %}
 
                                     {% if app.user  %}
@@ -89,7 +90,6 @@
                                             {% endif %}
                                         {% endfor %}
                                     {% endif %}
-                                    <div class="dropdown-btn"><span class="fa fa-angle-down"></span></div></li>
                                 </ul>
                         </ul>
                     </div>

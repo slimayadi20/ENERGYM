@@ -3,6 +3,47 @@
 <div class="content-page">
     <div class="content">
         <div class="container-fluid">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css"
+                  integrity="sha256-5veQuRbWaECuYxwap/IOE/DAwNxgm4ikX7nrgsqYp88=" crossorigin="anonymous">
+
+            <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js"
+                    integrity="sha256-YicH/8aE660iEnJtgll3vT54dJApy3XkYmqNfGVFEzA=" crossorigin="anonymous"></script>
+            <style>
+                #calender{
+                    width: 100%;
+                    height: 50%;
+                    margin: auto;
+                }
+            </style>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-title text-center">
+                        <h3>Vos Evenement Les plus proches </h3>
+                    </div>
+                </div>
+            </div>
+            <div id="calender" >
+            </div>
+            <br>
+            <script>
+                window.onload = () =>{
+                    let calendarEl = document.getElementById('calender');
+                    let calendar = new FullCalendar.Calendar(calendarEl, {
+                            initialView: 'dayGridMonth' ,
+                            headerToolbar:{
+                                start:'prev,next today' ,
+                                center:'title',
+                                end:'dayGridMonth'
+                            },
+                   events: {{ dataa|raw }}
+                        }
+                    );
+                    calendar.render();
+                }
+            </script>
+            {% for role in app.user.roles %}
+            {% if role == "ROLE_ADMIN" %}
             <div style="position: center" class="col-xl-12">
                 <div style="position: center" class="card-box">
                 <div id="div_chart" style="position: center">
@@ -13,6 +54,8 @@
                 </div>
                 </div>
             </div>
+            {% endif %}
+            {% endfor %}
         </div>
     </div>
 </div>

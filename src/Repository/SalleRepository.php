@@ -43,6 +43,7 @@ class SalleRepository extends ServiceEntityRepository
     public function findAllVisibleQuery(): Query
     {
         return $this->findAllVisibleQuery()
+
             ->getQuery();
 
 

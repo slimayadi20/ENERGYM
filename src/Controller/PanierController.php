@@ -53,12 +53,23 @@ class PanierController extends AbstractController
             $monPanier = $entityManager->getRepository(Panier::class)->loadPanierByUserId($uid);
             $p= $monPanier->getUserPanier();
             $a=array_column($p,'id');
+
             foreach($p as $a => $quantite){
                 $product = $produitRepository->find($a);
+                $qt=$product->getQuantite();
+                if ( $qt < $quantite )
+                {
+                    $quantite = $qt;
+                }
                 $dataPanier[] = [
                     "produit" => $product,
                     "quantite" => $quantite
                 ];
+             /*   $qt=$product->getQuantite();
+                if($quantite>$qt)
+                {
+                   $quantite=1;
+                }*/
                 $request->request->get('coupon-code');
                 $totalOld += $product->getPrix() * $quantite;
                 $codePromo = $entityManager->getRepository(Promo::class)->findCode($request->request->get('coupon-code'));
@@ -428,11 +439,9 @@ class PanierController extends AbstractController
     {
         $uid = $this->getUser()->getId();
         $commandes = $this->getDoctrine()->getRepository(Commande::class)->findCommandeUser($uid);
+        $livraisons=null ;
 
         for($d = 0; $d < count($commandes); ++$d)  {
-
-
-
             $cid = $commandes[$d]->getId();
             //print_r($cid);
             $livraisons[$d] = $this->getDoctrine()->getRepository(Livraison::class)->findCommande($cid);

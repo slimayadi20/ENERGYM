@@ -6,7 +6,7 @@
 
 {% block body %}
     {{ render(path('temp', {max: 3})) }}
-    <section class="page-title" style="background-image:url(https://via.placeholder.com/1920x600)">
+    <section class="page-title" style="background-image:url()">
         <div class="auto-container">
             <div class="clearfix">
                 <div class="pull-left">
@@ -61,7 +61,7 @@
                             <td class="price">{{ element.produit.prix }} TND</td>
                             <td class="qty">
                                 <div class="pull-left">
-                                    <div class="item-quantity"><div class="input-group bootstrap-touchspin"><span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span><input class="quantity-spinner form-control" type="text" value="{{ element.quantite }}" name="quantity" style="display: block;"><span class="input-group-addon bootstrap-touchspin-postfix" style="display: none;"></span><span class="input-group-btn-vertical">
+                                    <div class="item-quantity"><div class="input-group bootstrap-touchspin"><span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span><input class="quantity-spinner form-control" type="text" readonly value="{{ element.quantite }}" name="quantity" style="display: block;"><span class="input-group-addon bootstrap-touchspin-postfix" style="display: none;"></span><span class="input-group-btn-vertical">
                                             <a  href="{{path("add", {id: element.produit.id})}}" class="btn btn-default bootstrap-touchspin-up" type="button"><i class="glyphicon glyphicon-chevron-up"></i></a>
                                             <a href="{{path("remove", {idS: element.produit.id,idP : monPanier.id})}}" class="btn btn-default bootstrap-touchspin-down" type="button"><i class="glyphicon glyphicon-chevron-down"></i></a>
                                         </span></div></div>

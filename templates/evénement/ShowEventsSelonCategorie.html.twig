@@ -6,7 +6,7 @@
 
 {% block body %}
     {{ render(path('temp', {max: 3})) }}
-    <section class="page-title" style="background-image:url(https://via.placeholder.com/1920x600)">
+    <section class="page-title" style="background-image:url()">
         <div class="auto-container">
             <div class="clearfix">
                 <div class="pull-left">
@@ -200,7 +200,7 @@
                                             if (id !== 'error') {
                                                 x= document.getElementById("containerr");
 
-                                                entitySelector.append('<div style="display: table;width:100%;padding: 15px"><span style="text-align: center">'+value[1]+'</span><br/><a href="/ShowEvents/'+id+'">'+'<img src="/uploads/Event_image/'+value[0]+'" style="width: 150px; height: 150px"/>'+'</a></div>');
+                                                entitySelector.append('<div style="display: table;width:100%;padding: 15px"><span style="text-align: center">'+value[1]+'</span><br/><a href="/detailEventFront/'+id+'">'+'<img src="/uploads/Event_image/'+value[0]+'" style="width: 150px; height: 150px"/>'+'</a></div>');
 
 
                                             } else {

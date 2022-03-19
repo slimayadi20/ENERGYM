@@ -71,7 +71,6 @@ class ProduitController extends AbstractController
                 // instead of its contents
                 $produit->setImage($fileName);
             }
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($produit);
             $entityManager->flush();
@@ -99,22 +98,13 @@ class ProduitController extends AbstractController
     }
     /**
      * @Route("/dashboard/modifyproduit/{id}", name="modifyproduit")
-     * @Template()
      */
-    public function modifyproduit(Produit $prod,User $UserA,Request $request,  Session $session): Response
+    public function modifyproduit(Produit $prod,Request $request,  Session $session): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
         $id = $prod->getId();
-        $idUser = $UserA->getId();
-        $user = $this->getUser();
 
-        if($user->getId() != $idUser )
-        {
-            $this->addFlash('error' , 'You cant edit anotherone');
-            $session->set("message", "Vous ne pouvez pas modifier cette salle");
-            return $this->redirectToRoute('produit');
 
-        }
+
         $entityManager = $this->getDoctrine()->getManager();
 
         $produit = $entityManager->getRepository(produit::class)->find($id);

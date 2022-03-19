@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
+use Symfony\Component\Serializer\Annotation\Groups ;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -37,6 +38,7 @@ class User implements UserInterface
      *     minMessage="The name must be at least 3 characters long",
      *     maxMessage="The name cannot be longer than 50 characters"
      * )
+     * @Groups("post:read")
      */
     private $nom;
 
@@ -49,6 +51,7 @@ class User implements UserInterface
      *     minMessage="The name must be at least 3 characters long",
      *     maxMessage="The name cannot be longer than 50 characters"
      * )
+     * @Groups("post:read")
      */
     private $prenom;
     /**
@@ -60,19 +63,23 @@ class User implements UserInterface
      *     minMessage="The pass must be at least 8 characters long",
      *     maxMessage="The name cannot be longer than 15 characters"
      * )
+     * @Groups("post:read")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string")
+     * @Groups("post:read")
      */
     private $roles;
     /**
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $status= 1;
     /**
      * @ORM\Column(type="datetime", nullable=false, options={"default" : "CURRENT_TIMESTAMP"})
+     * @Groups("post:read")
      */
     private $createdAt;
 
@@ -82,10 +89,12 @@ class User implements UserInterface
      * @Assert\Email(
      *     message = "The email '{{ value }}' is not a valid email."
      * )
+     * @Groups("post:read")
      */
     private $email;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("post:read")
      */
     private $imageFile ;
 
@@ -96,20 +105,24 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToOne(targetEntity=Panier::class, mappedBy="user", cascade={"persist", "remove"})
+     * @Groups("post:read")
      */
     private $panier;
 
     /**
      * @ORM\ManyToMany(targetEntity=Salle::class, inversedBy="users")
+     * @Groups("post:read")
      */
     private $IdSalle;
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Groups("post:read")
      */
     private $activation_token;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Groups("post:read")
      */
     private $reset_token;
 
@@ -117,6 +130,7 @@ class User implements UserInterface
     protected $captchaCode;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Commentaire", mappedBy="user")
+     * @Groups("post:read")
      */
     private $comments;
 
@@ -133,11 +147,13 @@ class User implements UserInterface
     /**
      * @var string
      * @ORM\Column(name="phone", type="string", length=255, nullable=true)
+     * @Groups("post:read")
      */
     protected $phoneNumber;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups("post:read")
      */
     private $VerificationCode;
 
@@ -166,8 +182,9 @@ class User implements UserInterface
         $this->reclamations = new ArrayCollection();
         $this->likes = new ArrayCollection();
     }
-     /**
+    /**
      * @ORM\OneToMany(targetEntity=SalleLike::class, mappedBy="user")
+     * @Groups("post:read")
      */
     private $likes;
 
@@ -308,10 +325,10 @@ class User implements UserInterface
     /**
      * @return Collection<int, Panier>
      */
-    public function getPaniers(): Collection
+  /*  public function getPaniers(): Collection
     {
         return $this->paniers;
-    }
+    }*/
 
     public function addPanier(Panier $panier): self
     {
@@ -448,4 +465,3 @@ class User implements UserInterface
 
 
 }
-

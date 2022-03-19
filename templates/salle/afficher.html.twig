@@ -20,8 +20,12 @@
                         <h4 class="m-t-0 header-title">Gestion Des salles </h4>
 
                         <div>
+                            {% for role in app.user.roles %}
+                            {% if role == "ROLE_GERANT" %}
 
                             <a  style=" position:absolute;right:10%;top:1% ;" class="btn btn-icon waves-effect waves-light btn-success m-b-5" href="{{ path('addSalle') }}"> <i class="fa fa-plus dark"></i> </a>
+                            {% endif %}
+                            {% endfor %}
                         </div>
 
                         <table id="datatable" class="table table-bordered">
@@ -30,8 +34,12 @@
                             <th>Adresse</th>
                             <th>Detail</th>
 
+                            {% for role in app.user.roles %}
+                            {% if role == "ROLE_GERANT" %}
 
                             <th>edit</th>
+                            {% endif %}
+                            {% endfor %}
                             <th>delete</th>
                             </thead>
                             <tbody>
@@ -50,12 +58,14 @@
                                 {% endif %}#}
 
 
+                                {% for role in app.user.roles %}
+                                {% if role == "ROLE_GERANT" %}
                             <td>
-                                {% for s in u.users %}
-                                    {#   <a>{{ s.id }}</a>#}
-                                    <a type="button" href="{{ path('modifySalle', {'id': u.id, 'idU' : s.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
-                                {% endfor %}
+
+                                    <a type="button" href="{{ path('modifySalle', {'id': u.id, 'idU' : app.user.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
                             </td>
+                                {% endif %}
+                                {% endfor %}
                             <td>
                                 <form method="post" action="{{ path('deleteSalle', {'id': u.id}) }}"  onsubmit="return confirm('Voulez vous supprimer cette salle ?')">
                                     <input type="hidden" name="_method" value="SUP">

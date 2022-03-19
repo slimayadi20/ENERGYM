@@ -21,7 +21,7 @@ class Participation
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="participations")
-     * @ORM\JoinColumn(nullable=false,unique=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $idUser;
 

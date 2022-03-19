@@ -18,6 +18,7 @@ use Endroid\QrCode\Label\Font\NotoSans;
 use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
 use Endroid\QrCode\Writer\PngWriter;
 use http\Message;
+use necrox87\NudityDetector\NudityDetector;
 use PhpParser\Node\Stmt\Foreach_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,9 +32,24 @@ class EvénementController extends AbstractController
     /**
      * @Route("/dashboard/evenement", name="evenement")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $Evenement = $this->getDoctrine()->getManager()->getRepository(Evenement::class)->findAll();
+        $Evenement = $this->getDoctrine()->getRepository(Evenement::class)->findAll();
+        //$Evenement = $this->getDoctrine()->getRepository(Offre::class)->findBy(array(),array('name' => 'ASC'));
+        if ($request->isMethod("POST") ) {
+
+            $type= $request->get('sort') ;
+            if ($type == "name" ) {
+                $Evenement = $this->getDoctrine()->getRepository(Evenement::class)->findBy(array(),array('NomEvent' => 'ASC'));
+            }
+            elseif ($type == "nbr_exp") {
+                $Evenement = $this->getDoctrine()->getRepository(Evenement::class)->findBy(array(),array('Etat' => 'DESC'));
+            }
+            else {
+                $Evenement = $this->getDoctrine()->getRepository(Evenement::class)->findAll();
+            }
+
+        }
 
         return $this->render("evénement/index.html.twig",array("Evenement"=>$Evenement));
     }
@@ -68,10 +84,16 @@ class EvénementController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
             $uploadFile = $form['image']->getData();
-            $filename = md5(uniqid()) . '.' .$uploadFile->guessExtension();
+            $NudityChecker = new NudityDetector($uploadFile);
+            if($NudityChecker->isPorn()) {
+                $this->addFlash('error' , 'elle comprend un contenu sensible');
+            }
+            else if ($uploadFile) {
+                $filename = md5(uniqid()) . '.' . $uploadFile->guessExtension();
 
-            $uploadFile->move($this->getParameter('kernel.project_dir').'/public/uploads/Event_image',$filename);
-            $Event->setImage($filename);
+                $uploadFile->move($this->getParameter('kernel.project_dir') . '/public/uploads/Event_image', $filename);
+                $Event->setImage($filename);
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($Event); // Ajouter catégorie
@@ -321,7 +343,7 @@ class EvénementController extends AbstractController
         $Post =  $this->getDoctrine()->getManager()->getRepository(Evenement::class)->findRecent();
 
         //TEST PARTICIPATION:
-        $currentEvt =$em->getRepository(Participation::class)->findBy(["idEvent"=>$id]);
+      //  $currentEvt =$em->getRepository(Participation::class)->findBy(["idEvent"=>$id]);
         $userr =$em->getRepository(Participation::class)->findUserinEvent($iduser,$eventId);
 
         if ($Event->getNbrParticipantsEvent()==1){

@@ -41,8 +41,20 @@
                                     <a href="javascript:void(0);" class="dropdown-item">Separated link</a>
                                 </div>
                             </div>
-                            <h4 class="m-t-0 header-title">Les événements</h4>
 
+                            <h4 class="m-t-0 header-title">Les événements</h4>
+                            <form method="POST" class="form-horizontal" >
+                            <div class="row" >
+                                <select class="form-select" name="sort"  style="width: 50%"  >
+                                    <option value="name">nom</option>
+                                    <option value="nbr_exp">Etat </option>
+                                    <option value="default">default </option>
+                                </select>
+                                <input type="submit" class="btn btn-purple btn-rounded " style="width: 20%" value="Trier">
+
+                            </div>
+                                </form>
+                            <br>
                             <table class="table">
                                 <thead class="thead-light">
                                 <tr>

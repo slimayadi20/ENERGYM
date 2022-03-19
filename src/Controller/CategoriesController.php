@@ -29,7 +29,7 @@ class CategoriesController extends AbstractController
             $Categories =  $paginator->paginate(
                 $repository->findGerantCategorieswithpagination($utilisateurid),
                 $request->query->getInt('page' , 1), // nombre de page
-                1 //nombre limite
+                4 //nombre limite
             );
             return $this->render('categories/index.html.twig', [
                 "Categories"=>$Categories,
@@ -40,7 +40,7 @@ class CategoriesController extends AbstractController
             $Categories =  $paginator->paginate(
                 $repository->findallwithpagination(),
                 $request->query->getInt('page' , 1), // nombre de page
-                3 //nombre limite
+                4 //nombre limite
             );
             return $this->render('categories/index.html.twig', [
                 "Categories"=>$Categories,

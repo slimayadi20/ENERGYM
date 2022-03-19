@@ -127,7 +127,7 @@ class CommandeController extends AbstractController
         ]);
     }
     /**
-     * @Route("/dashboard/deleteCommande/{id}", name="deleteCommande")
+     * @Route("/deleteCommande/{id}", name="deleteCommande")
      */
     public function deleteCommande(int $id): Response
     {

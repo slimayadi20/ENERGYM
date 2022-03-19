@@ -40,7 +40,6 @@
                             <th>Role</th>
                             <th>Image</th>
                             <th>Salle associe</th>
-                            <th>edit</th>
                             </thead>
                             <tbody>
                             {% for u in users  %}
@@ -81,9 +80,7 @@
                                     <span class="badge badge-pink badge-pill">    {{ i.nom }} </span>
                                 {% endfor %}
                             </td>
-                            <td>
-                                <a type="button" href="{{ path('modifyUser', {'id': u.id}) }}" class="btn btn-primary btn-icon rounded-pill"><i class=" dripicons-document-edit"></i></a>
-                            </td>
+
 
                             </tbody>
                             {% endfor %}
