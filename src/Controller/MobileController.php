@@ -22,7 +22,8 @@ class MobileController extends AbstractController
      */
     public function displayreclamationMobile(Request $request, SerializerInterface $serializer): Response
     {
-        $reclamation = $this->getDoctrine()->getRepository(Reclamation::class)->findAll();
+        $id=$request->get('NomUser');
+        $reclamation = $this->getDoctrine()->getRepository(Reclamation::class)->findBy(array('NomUser'=>$id));
         $formatted = $serializer->normalize($reclamation,'json',['groups' => 'post:read']);
         return new Response(json_encode($formatted)) ;
     }
@@ -85,7 +86,7 @@ class MobileController extends AbstractController
         $reclamation = $entityManager->getRepository(Reclamation::class)->find($request->get("id"));
         $titre=$request->query->get("titre") ;
         $contenu=$request->query->get("contenu") ;
-        $reclamation->setStatut("hhh") ;
+        $reclamation->setStatut("Encours") ;
         $reclamation->setTitre($titre) ;
         $reclamation->setContenu($contenu) ;
         $reclamation->setDateCreation(new \DateTime()) ;

@@ -28,7 +28,6 @@ class ReclamationController extends AbstractController
         $order = 1 ;
 
         return $this->render('reclamation/index.html.twig', [
-            'controller_name' => 'ReclamationController',
             'reclamation' => $reclamation,
             'order'=>$order
 
