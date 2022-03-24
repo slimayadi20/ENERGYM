@@ -15,8 +15,10 @@ import com.codename1.ui.util.Resources;
 import com.mycompany.entities.SessionManager;
 import com.mycompany.entities.User;
 import com.mycompany.gui.NewsfeedForm;
+import com.mycompany.gui.back.NewsfeedFormBack;
 import com.mycompany.utils.Statics;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -75,7 +77,29 @@ public class ServiceUser {
                 } else {
                     System.out.println("data ==" + json);
                     Map<String, Object> user = j.parseJSON(new CharArrayReader(json.toCharArray()));
-                    if (!user.isEmpty()) {
+                    java.util.List<String> role = (java.util.List<String>) user.get("roles");
+
+                    //  Map<String, Object> role = j.parseJSON((Reader) user.get("roles"));
+//String role=(user.get("roles").getJsonObject(0)) ;
+                    Float status = Float.parseFloat(user.get("status").toString());
+                    System.out.println(role.get(0));
+                    if (status == 0) {
+                        Dialog.show("error", "you are banned", "ok", null);
+                    } else if (status == 2) {
+                        Dialog.show("error", "wait until we approve your subscription by then you are simple user ", "ok", null);
+                        new NewsfeedForm(res).show();
+                    }
+                    if (!user.isEmpty() && status == 1 && "ROLE_ADMIN".equals(role.get(0))) {
+                        new NewsfeedFormBack(res).show();// yemchi lel home yelzem nrigelha
+                        SessionManager.setEmail(user.get("email").toString());
+                        float id = Float.parseFloat(user.get("id").toString());
+                        SessionManager.setId((int) id);
+                        //      SessionManager.setId();// hedhi mochkla
+                        SessionManager.setNom(user.get("nom").toString());
+                        SessionManager.setPrenom(user.get("prenom").toString());
+                        SessionManager.setPassword(user.get("password").toString());
+                    }
+                    if (!user.isEmpty() && status == 1 && "ROLE_USER".equals(role.get(0))) {
                         new NewsfeedForm(res).show();// yemchi lel home yelzem nrigelha
                         SessionManager.setEmail(user.get("email").toString());
                         float id = Float.parseFloat(user.get("id").toString());
@@ -117,8 +141,8 @@ public class ServiceUser {
         return json;
     }
 
-    public static void EditUser(String nom, String prenom, String email, String password,String imageFile) {
-        String url = Statics.BASE_URL + "/editUserMobile?&email=" + email + "&password=" + password + "&nom=" + nom + "&prenom=" + prenom+"&imageFile="+imageFile;
+    public static void EditUser(String nom, String prenom, String email, String password, String imageFile) {
+        String url = Statics.BASE_URL + "/editUserMobile?&email=" + email + "&password=" + password + "&nom=" + nom + "&prenom=" + prenom + "&imageFile=" + imageFile;
         MultipartRequest req = new MultipartRequest();
         req.setUrl(url);
         req.setPost(true);

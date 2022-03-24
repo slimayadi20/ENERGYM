@@ -4,7 +4,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Serializer\Annotation\Groups ;
 use App\Repository\CategoriesEventRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,6 +17,7 @@ class CategoriesEvent
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
@@ -28,6 +29,7 @@ class CategoriesEvent
      *
      *     )
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $nomCategorie;
 

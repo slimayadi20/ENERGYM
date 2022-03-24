@@ -112,18 +112,15 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToMany(targetEntity=Salle::class, inversedBy="users")
-     * @Groups("post:read")
      */
     private $IdSalle;
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
-     * @Groups("post:read")
      */
     private $activation_token;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
-     * @Groups("post:read")
      */
     private $reset_token;
 
@@ -131,7 +128,6 @@ class User implements UserInterface
     protected $captchaCode;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Commentaire", mappedBy="user")
-     * @Groups("post:read")
      */
     private $comments;
 

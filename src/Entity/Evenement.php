@@ -73,18 +73,21 @@ class Evenement
      *     )
      * @ORM\Column(type="string", length=255)
      * @Groups("post:read")
+     *
      */
     private $NbrParticipantsEvent;
 
     /**
      * @ORM\ManyToOne(targetEntity=CategoriesEvent::class, inversedBy="evenementss")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("post:read")
      *
      */
     private $NomCategorie;
 
     /**
      * @ORM\OneToMany(targetEntity=Participation::class, mappedBy="idEvent", orphanRemoval=true)
+     * @Groups("post:read")
      */
     private $participations;
 
@@ -96,6 +99,7 @@ class Evenement
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("post:read")
      */
     private $Etat;
 

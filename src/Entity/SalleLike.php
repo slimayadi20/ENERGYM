@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Repository\SalleLikeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=SalleLikeRepository::class)

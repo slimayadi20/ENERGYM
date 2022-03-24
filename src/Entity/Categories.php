@@ -46,7 +46,7 @@ class Categories
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="CategorieProduit")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 

@@ -4,6 +4,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,6 +18,7 @@ class Produit
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
@@ -29,6 +31,7 @@ class Produit
      *
      *     )
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $nom;
 
@@ -40,6 +43,8 @@ class Produit
      *      minMessage = "Description très courte ! ",
      *      maxMessage = "doit etre <=1000" )
      * @ORM\Column(type="string", length=1000)
+     * @Groups("post:read")
+
      */
     private $description;
 
@@ -52,6 +57,8 @@ class Produit
      *      notInRangeMessage = "le prix doit etre valid",
      *     )
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
+
      */
     private $prix;
 
@@ -59,11 +66,14 @@ class Produit
      * @Assert\NotBlank(message="Entrez quelques choses !")
      * @Assert\Positive(message="Le nombre de participants doit etre positif.")
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
+
      */
     private $quantite;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $image;
 
@@ -84,6 +94,8 @@ class Produit
 
     /**
      * @ORM\ManyToMany(targetEntity=Categories::class, inversedBy="produits")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups("post:read")
      */
     private $categories;
 

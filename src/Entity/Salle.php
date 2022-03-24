@@ -7,6 +7,7 @@ use App\Repository\SalleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=SalleRepository::class)
@@ -17,12 +18,14 @@ class Salle
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      *@Assert\NotBlank
+     * @Groups("post:read")
 
      */
     private $nom;
@@ -30,6 +33,8 @@ class Salle
     /**
      * @ORM\Column(type="string", length=500)
      * @Assert\NotBlank
+     * @Groups("post:read")
+
      */
     private $adresse;
 
@@ -42,6 +47,8 @@ class Salle
      *      max = 8,
      *      minMessage = "numero de telephone non valide ! ",
      *      maxMessage = "numero de telephone non valide !" )
+     * @Groups("post:read")
+
      */
 
     private $tel;
@@ -51,6 +58,8 @@ class Salle
      * @Assert\Email(
      *     message = "cette adresse ( '{{ value }}' ) n'est pas valide."
      * )
+     * @Groups("post:read")
+
      */
 
     private $mail;
@@ -58,36 +67,48 @@ class Salle
     /**
      * @ORM\Column(type="string", length=500)
      * @Assert\NotBlank
+     * @Groups("post:read")
+
      */
     private $description;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      * @Assert\NotBlank
      * @Assert\Positive(message="le prix doit etre positif")
+     * @Groups("post:read")
+
      */
     private $prix1;
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      * @Assert\NotBlank
      * @Assert\Positive(message="le prix doit etre positif")
+     * @Groups("post:read")
+
      */
     private $prix2;
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      * @Assert\NotBlank
      * @Assert\Positive(message="le prix doit etre positif")
+     * @Groups("post:read")
+
      */
     private $prix3;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time", nullable=true)
+     * @Groups("post:read")
+
 
      */
     private $heureo;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time", nullable=true)
+     * @Groups("post:read")
+
      */
     private $heuref;
 
@@ -102,16 +123,20 @@ class Salle
     private $cours;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="IdSalle")
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="IdSalle", orphanRemoval=true)
      */
     private $users;
     /**
      * @ORM\OneToMany(targetEntity=SalleLike::class, mappedBy="salle", orphanRemoval=true)
+     * @Groups("post:read")
+
      */
     private $likes;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups("post:read")
+
      */
     private $LikeCount;
     /**

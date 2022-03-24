@@ -18,22 +18,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 /**
  *
  * @author MSI
  */
 public class ServiceReclamation {
-    
-
 
     public ArrayList<Reclamation> Reclamation;
-    
-    public static ServiceReclamation instance=null;
+
+    public static ServiceReclamation instance = null;
     public boolean resultOK;
     private ConnectionRequest req;
 
     private ServiceReclamation() {
-         req = new ConnectionRequest();
+        req = new ConnectionRequest();
     }
 
     public static ServiceReclamation getInstance() {
@@ -42,9 +41,10 @@ public class ServiceReclamation {
         }
         return instance;
     }
-  public ArrayList<Reclamation> parseReclamation(String jsonText){
+
+    public ArrayList<Reclamation> parseReclamation(String jsonText) {
         try {
-            Reclamation=new ArrayList<>();
+            Reclamation = new ArrayList<>();
             JSONParser j = new JSONParser();// Instanciation d'un objet JSONParser permettant le parsing du résultat json
 
             /*
@@ -59,10 +59,10 @@ public class ServiceReclamation {
             qui est root.
             En fait c'est la clé de l'objet qui englobe la totalité des objets 
                     c'est la clé définissant le tableau de tâches.
-            */
-            Map<String,Object> ReclamationListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
-            
-              /* Ici on récupère l'objet contenant notre liste dans une liste 
+             */
+            Map<String, Object> ReclamationListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+
+            /* Ici on récupère l'objet contenant notre liste dans une liste 
             d'objets json List<MAP<String,Object>> ou chaque Map est une tâche.               
             
             Le format Json impose que l'objet soit définit sous forme
@@ -72,41 +72,41 @@ public class ServiceReclamation {
             
             Pour le cas d'un tableau (Json Array) contenant plusieurs objets
             sa valeur est une liste d'objets Json, donc une liste de Map
-            */
-            List<Map<String,Object>> list = (List<Map<String,Object>>)ReclamationListJson.get("root");
-            
+             */
+            List<Map<String, Object>> list = (List<Map<String, Object>>) ReclamationListJson.get("root");
+
             //Parcourir la liste des tâches Json
-            for(Map<String,Object> obj : list){
+            for (Map<String, Object> obj : list) {
                 //Création des tâches et récupération de leurs données
                 Reclamation t = new Reclamation();
                 float id = Float.parseFloat(obj.get("id").toString());
-                t.setId((int)id);
+                t.setId((int) id);
                 t.setTitre(obj.get("titre").toString());
                 t.setContenu(obj.get("contenu").toString());
                 t.setStatut(obj.get("statut").toString());
-                        System.out.println("******");
-                        System.out.println(id);
-                        System.out.println("******");
-                        System.out.println("******");
+                System.out.println("******");
+                System.out.println(id);
+                System.out.println("******");
+                System.out.println("******");
                 //Ajouter la tâche extraite de la réponse Json à la liste
                 Reclamation.add(t);
             }
-            
-            
+
         } catch (IOException ex) {
-            
+
         }
-         /*
+        /*
             A ce niveau on a pu récupérer une liste des tâches à partir
         de la base de données à travers un service web
         
-        */
+         */
         return Reclamation;
     }
-    public ArrayList<Reclamation> getAllReclamations(){
+
+    public ArrayList<Reclamation> getAllReclamations() {
         ArrayList<Reclamation> listReclamation = new ArrayList<>();
 
-        String url = Statics.BASE_URL+"/displayreclamationMobile?NomUser="+SessionManager.getId();
+        String url = Statics.BASE_URL + "/displayreclamationMobile?NomUser=" + SessionManager.getId();
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -119,10 +119,11 @@ public class ServiceReclamation {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return Reclamation;
     }
- public boolean addReclamation(Reclamation t) {
-        String url = Statics.BASE_URL+"/addReclamationMobile?titre=" + t.getTitre()+ "&contenu="+t.getContenu()+"&NomUser="+SessionManager.getId(); //création de l'URL
+
+    public boolean addReclamation(Reclamation t) {
+        String url = Statics.BASE_URL + "/addReclamationMobile?titre=" + t.getTitre() + "&contenu=" + t.getContenu() + "&NomUser=" + SessionManager.getId(); //création de l'URL
         req.setUrl(url);// Insertion de l'URL de notre demande de connexion
-System.out.println(url);
+        System.out.println(url);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -133,29 +134,28 @@ System.out.println(url);
                 n'importe quelle méthode du Service task, donc si on ne supprime
                 pas l'ActionListener il sera enregistré et donc éxécuté même si 
                 la réponse reçue correspond à une autre URL(get par exemple)*/
-                
+
             }
         });
         NetworkManager.getInstance().addToQueueAndWait(req);
         return resultOK;
     }
-     public void deletReclamation(float id){   
-        
+
+    public void deletReclamation(float id) {
+
         Dialog d = new Dialog();
-            if(d.show("Delete reclamation","Do you really want to remove this reclamation","Yes","No"))
-            {             
-                
-                req.setUrl(Statics.BASE_URL+"/deleteReclamationMobile?id="+id);
-                //System.out.println(Statics.BASE_URL+"/deleteReclamationMobile?id="+id);
-                NetworkManager.getInstance().addToQueueAndWait(req);
-                
-                d.dispose();
-            }
+        if (d.show("Delete reclamation", "Do you really want to remove this reclamation", "Yes", "No")) {
+
+            req.setUrl(Statics.BASE_URL + "/deleteReclamationMobile?id=" + id);
+            //System.out.println(Statics.BASE_URL+"/deleteReclamationMobile?id="+id);
+            NetworkManager.getInstance().addToQueueAndWait(req);
+
+            d.dispose();
+        }
     }
- 
 
     public boolean updateReclamation(Reclamation t) {
- String url = Statics.BASE_URL + "/updateReclamationMobile?id="+t.getId() +"&titre="+ t.getTitre()+ "&contenu=" + t.getContenu();
+        String url = Statics.BASE_URL + "/updateReclamationMobile?id=" + t.getId() + "&titre=" + t.getTitre() + "&contenu=" + t.getContenu();
         System.out.println(url);
         System.out.println(t.getId());
         req.setUrl(url);// Insertion de l'URL de notre demande de connexion
@@ -167,7 +167,54 @@ System.out.println(url);
             }
         });
         NetworkManager.getInstance().addToQueueAndWait(req);
-        return resultOK;    }
+        return resultOK;
+    }
+// ************* partie Back *****************************
+  public ArrayList<Reclamation> getAllReclamationsBack(){
+        ArrayList<Reclamation> listReclamation = new ArrayList<>();
 
-   
+        String url = Statics.BASE_URL+"/displayreclamationMobileAll";
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                Reclamation = parseReclamation(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return Reclamation;
+    }
+  public ArrayList<Reclamation> orderStatusASC(){
+        ArrayList<Reclamation> listReclamation = new ArrayList<>();
+
+        String url = Statics.BASE_URL+"/triupMobile";
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                Reclamation = parseReclamation(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return Reclamation;
+    }
+   public boolean ReplyBack(float id ,String content ) {
+        String url = Statics.BASE_URL + "/replyBack?id=" +id + "&contenu=" + content + "&idAdmin=" + SessionManager.getId();
+        System.out.println(url);
+        req.setUrl(url);// Insertion de l'URL de notre demande de connexion
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200; //Code HTTP 200 OK
+                req.removeResponseListener(this); //Supprimer cet actionListener
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
+    }
+
 }

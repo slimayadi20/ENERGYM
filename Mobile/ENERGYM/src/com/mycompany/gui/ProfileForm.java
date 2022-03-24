@@ -52,8 +52,7 @@ import java.io.IOException;
 public class ProfileForm extends BaseForm {
 
     private static String i;
-    String pathImage="";
-
+    String pathImage = "";
 
     public ProfileForm(Resources res) {
         super("Newsfeed", BoxLayout.y());
@@ -98,13 +97,13 @@ public class ProfileForm extends BaseForm {
         addStringValue("", picture);
         TextField path = new TextField("");
         picture.addActionListener((ActionEvent e) -> {
-        
 
         });
         modiff.addActionListener(edit -> {
             InfiniteProgress ip = new InfiniteProgress();
             final Dialog ipDlg = ip.showInifiniteBlocking();
-            ServiceUser.EditUser(nom.getText(), prenom.getText(), email.getText(), password.getText(),i);
+            ServiceUser.EditUser(nom.getText(), prenom.getText(), email.getText(), password.getText(), i);
+
             SessionManager.setPassword(password.getText());
             SessionManager.setNom(nom.getText());
             SessionManager.setPrenom(prenom.getText());

@@ -34,6 +34,7 @@ import com.codename1.ui.layouts.Layout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.mycompany.entities.SessionManager;
+import com.mycompany.gui.back.EvenementFormBack;
 
 /**
  * Base class for the forms with common functionality
@@ -84,7 +85,11 @@ public class BaseForm extends Form {
         ));
 
         tb.addMaterialCommandToSideMenu("Reclamation", FontImage.MATERIAL_UPDATE, e -> new ReclamationForm(res).show());
+        tb.addMaterialCommandToSideMenu("Evenement", FontImage.MATERIAL_EVENT, e -> new CategorieEventForm(res).show());
+        tb.addMaterialCommandToSideMenu("Salles",FontImage.MATERIAL_SPORTS_BASKETBALL, e -> new SalleForm(res).show());
+        tb.addMaterialCommandToSideMenu("Produits",FontImage.MATERIAL_SHOP, e -> new ProduitForm(res).show());
         tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> new ProfileForm(res).show());
+   tb.addMaterialCommandToSideMenu("map", FontImage.MATERIAL_SPORTS_BASKETBALL, e -> new MapForm(res));
         tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> {
             new SignInForm(res).show();
             Preferences.clearAll();
