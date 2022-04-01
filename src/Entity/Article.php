@@ -6,6 +6,7 @@ use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
@@ -16,23 +17,28 @@ class Article
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=150)
      * @Assert\NotBlank (message = "le titre est obligatoire")
+     * @Groups("post:read")
      */
     private $titre;
 
     /**
      * @ORM\Column(type="string", length=35)
+     * @Groups("post:read")
      */
     private $dateCreation;
 
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank(message =" la description est obligatoire")
+     * @Groups("post:read")
+
      */
     private $description;
 

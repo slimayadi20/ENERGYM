@@ -87,7 +87,6 @@ class Evenement
 
     /**
      * @ORM\OneToMany(targetEntity=Participation::class, mappedBy="idEvent", orphanRemoval=true)
-     * @Groups("post:read")
      */
     private $participations;
 

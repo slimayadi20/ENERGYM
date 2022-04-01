@@ -32,6 +32,8 @@ class Participation
     /**
      * @ORM\ManyToOne(targetEntity=Evenement::class, inversedBy="participations")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("post:read")
+
      */
     private $idEvent;
 

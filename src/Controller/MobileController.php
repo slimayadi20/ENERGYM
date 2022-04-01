@@ -7,10 +7,12 @@ use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 use Endroid\QrCode\Writer\PngWriter;
 use Lcobucci\JWT\Exception;
+use Snipe\BanBuilder\CensorWords;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -20,6 +22,7 @@ use App\Entity\User ;
 use App\Entity\Salle ;
 use App\Entity\SalleLike ;
 use App\Entity\Cours ;
+use App\Entity\Article ;
 use App\Entity\Reclamation;
 use App\Entity\Reply;
 use App\Entity\Evenement;
@@ -30,7 +33,11 @@ use App\Repository\EvenementRepository;
 use App\Services\QrcodeService;
 use App\Entity\Categories;
 use App\Entity\Produit;
-
+use App\Entity\Commentaire;
+use App\Entity\Livraison;
+use App\Entity\Panier;
+use App\Repository\ProduitRepository;
+use App\Entity\Commande;
 class MobileController extends AbstractController
 {
 
@@ -214,7 +221,16 @@ class MobileController extends AbstractController
         return new Response(json_encode($formatted)) ;
     }
     // user mobile
+    /**
+     * @Route("/displayUserMobile", name="displayUserMobile")
+     */
+    public function displayUserMobile(Request $request, SerializerInterface $serializer): Response
+    {
 
+        $reclamation = $this->getDoctrine()->getRepository(User::class)->findAll();
+        $formatted = $serializer->normalize($reclamation,'json',['groups' => 'post:read']);
+        return new Response(json_encode($formatted)) ;
+    }
     /**
      * @Route("/signupMobile", name="signupMobile")
      */
@@ -291,7 +307,7 @@ class MobileController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository(User::class)->findOneBy(['email' => $email]);
         if ($request->files->get("imageFile")==null) {
-            $file = $request->files->get("imageFile");
+          //  $file = $request->files->get("imageFile");
          //   $filename = $file->getClientOriginalName();
          //   $file->move($filename);
           //  $user->setImageFile($filename);
@@ -312,6 +328,32 @@ class MobileController extends AbstractController
 
 
 
+    }
+    /**
+     * @Route("/ban", name="ban")
+     */
+    public function ban(Request $request,SerializerInterface $serializer, UserPasswordEncoderInterface $encoder)
+    {
+        $id=$request->query->get("id");
+
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository(User::class)->find($id);
+             $user->setStatus(0);
+            $em->flush();
+            return new JsonResponse("success",200);
+    }
+    /**
+     * @Route("/unban", name="unban")
+     */
+    public function unban(Request $request,SerializerInterface $serializer, UserPasswordEncoderInterface $encoder)
+    {
+        $id=$request->query->get("id");
+
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository(User::class)->find($id);
+        $user->setStatus(1);
+        $em->flush();
+        return new JsonResponse("success",200);
     }
     /**
      * @Route("/passwordMobile", name="passwordMobile")
@@ -338,7 +380,6 @@ class MobileController extends AbstractController
      */
     public function displayEvenementMobileAll(Request $request, SerializerInterface $serializer): Response
     {
-
         $evenement = $this->getDoctrine()->getRepository(Evenement::class)->findAll();
         $formatted = $serializer->normalize($evenement,'json',['groups' => 'post:read']);
         return new Response(json_encode($formatted)) ;
@@ -358,11 +399,7 @@ class MobileController extends AbstractController
             $message = (new \Swift_Message('Evenement annulé :( ' . $i->getNomEvent()))
                 ->setFrom('projetenergym@gmail.com')
                 ->setTo(array($email => 'hello '));
-
-
             $img1 = $message->embed(\Swift_Image::fromPath('email/image-10.png'));
-
-
             $message->setBody(
                 $this->renderView(
                 // templates/emails/registration.html.twig
@@ -376,7 +413,6 @@ class MobileController extends AbstractController
             ;
             $mailer->send($message);
             print_r($email);
-
         }
 
         $em->remove($i);
@@ -920,7 +956,7 @@ $id=$request->get("id");
     /**
      * @Route("/addProduitMobile", name="addProduitMobile")
      */
-    public function addProduitMobile(Request $request, SerializerInterface $serializer): Response
+    public function addProduitMobile(Request $request, SerializerInterface $serializer, \Swift_Mailer $mailer): Response
     {
 
         $categories = new Produit();
@@ -930,6 +966,18 @@ $id=$request->get("id");
         $quantite=$request->query->get("quantite") ;
         $image=$request->query->get("image") ;
        // $categorie=$request->query->get("categorie") ;
+        $message = (new \Swift_Message('!!!NEW PRODUCT!!!'))
+            //ili bech yeb3ath
+            ->setFrom('projetenergym@gmail.com')
+            //ili bech ijih l message
+            ->setTo('fedi.benmansour@esprit.tn')
+            ->setBody(
+                "<p>bonjour, </p><p> un nouveau produit est ajoutée go check it on Energym.com</p> veuillez cliquer sur le lien suivant http://127.0.0.1:8000/shop?page=1</a> " ,
+                'text/html'
+            )
+        ;
+        //on envoi l email
+        $mailer->send($message) ;
         $categories->setNom($nom) ;
         $categories->setPrix($prix) ;
         $categories->setQuantite($quantite) ;
@@ -993,4 +1041,398 @@ $id=$request->get("id");
 
         return new Response(" Produit invalide") ;
     }
+    // article malak
+
+    /**
+     * @Route("/SupprimerArticleMobile", name="SupprimerArticleMobile")
+     */
+    public function SupprimerArticleMobile(Request $request, SerializerInterface $serializer): Response
+    {
+        $em= $this->getDoctrine()->getManager();
+        $id=$request->get('id');
+        $article=$em->getRepository(Article::class)->find($id);
+        $em->remove($article);
+        $em->flush();
+        return new Response("deleted successfuly") ;
+    }
+    /**
+     * @Route("/ModifierArticleMobile", name="ModifierArticleMobile")
+     */
+    public function ModifierArticleMobile(Request $request, SerializerInterface $serializer): Response
+    {
+        $em= $this->getDoctrine()->getManager();
+        $id=$request->get('id');
+        $article=$em->getRepository(Article::class)->find($id);
+
+        $titre=$request->get('titre');
+        $description=$request->get('description');
+
+
+        //   $image=$request->get('image');
+
+        $article->setTitre($titre);
+
+        $article->setDescription($description);
+
+        $article->setDateCreation("aaaaaaa");
+        $article->setImage("untitled.jpg");
+
+
+        $em->persist($article);
+        $em->flush();
+        $formatted = $serializer->normalize($article,'json',['groups' => 'post:read']);
+        return new Response(json_encode($formatted)) ;
+    }
+    /**
+     * @Route("/ajoutArticleMobile", name="ajoutArticleMobile")
+     */
+    public function ajoutArticleMobile(Request $request, SerializerInterface $serializer): Response
+    {
+        $em= $this->getDoctrine()->getManager();
+        $titre=$request->get('titre');
+        $description=$request->get('description');
+
+
+        $article=new article();
+        $article->setTitre($titre);
+
+        $article->setDescription($description);
+        $article->setDateCreation("aaaaaaa");
+        $article->setImage("untitled.jpg");
+
+
+        $em->persist($article);
+        $em->flush();
+        $formatted = $serializer->normalize($article,'json',['groups' => 'post:read']);
+        return new Response(json_encode($formatted)) ;
+    }
+    /**
+     * @Route("/displayArticleMobile", name="displayArticleMobile")
+     */
+    public function displayarticleMobile(Request $request, SerializerInterface $serializer): Response
+    {
+        $article = $this->getDoctrine()->getRepository(Article::class)->findAll();
+        $formatted = $serializer->normalize($article,'json',['groups' => 'post:read']);
+        return new Response(json_encode($formatted)) ;
+    }
+    // commentaire
+    /**
+     * @Route("/displayCommentaireMobile", name="displayCommentaireMobile")
+     */
+    public function displayCommentaireMobile(Request $request, SerializerInterface $serializer): Response
+    {
+        $article = $this->getDoctrine()->getRepository(Commentaire::class)->findAll();
+        $formatted = $serializer->normalize($article,'json',['groups' => 'post:read']);
+        return new Response(json_encode($formatted)) ;
+    }    /**
+     * @Route("/displayCommentaireMobilebyid", name="displayCommentaireMobilebyid")
+     */
+    public function displayCommentaireMobilebyid(Request $request, SerializerInterface $serializer): Response
+    {
+        $id=$request->get('id');
+        $article = $this->getDoctrine()->getRepository(Commentaire::class)->findBy(array('article'=>$id));
+        $formatted = $serializer->normalize($article,'json',['groups' => 'post:read']);
+        return new Response(json_encode($formatted)) ;
+    }
+    /**
+     * @Route("/ajoutCommentaireMobile", name="ajoutCommentaireMobile")
+     */
+    public function ajoutCommentaireMobile(Request $request, SerializerInterface $serializer): Response
+    {
+        $em= $this->getDoctrine()->getManager();
+        $titre=$request->get('contenu');
+        $censor = new CensorWords;
+        $badwords = $censor->setDictionary('fr');
+        $cleanedComment = $censor->censorString($titre);
+        $articleid=$request->get('article');
+        $userid=$request->get('user');
+        $article=$em->getRepository(Article::class)->find($articleid);
+        $user=$em->getRepository(User::class)->find($userid);
+
+
+        $commentaire=new Commentaire();
+        $commentaire->setContenu($cleanedComment['clean']);
+        $commentaire->setArticle($article);
+        $commentaire->setUser($user);
+        $commentaire->setDateCreation(new \DateTime()) ;
+
+        $em->persist($commentaire);
+        $em->flush();
+        $formatted = $serializer->normalize($commentaire,'json',['groups' => 'post:read']);
+        return new Response(json_encode($formatted)) ;
+    }
+    /**
+     * @Route("/updateCommentaireMobile", name="updateCommentaireMobile")
+     */
+    public function updateCommentaireMobile(Request $request, SerializerInterface $serializer): Response
+    {
+        $em= $this->getDoctrine()->getManager();
+        $id=$request->get('id');
+        $commentaire=$em->getRepository(Commentaire::class)->find($id);
+        $titre=$request->get('contenu');
+        $articleid=$request->get('article');
+        $userid=$request->get('user');
+        $article=$em->getRepository(Article::class)->find($articleid);
+        $user=$em->getRepository(User::class)->find($userid);
+
+
+        $commentaire->setContenu($titre);
+        $commentaire->setArticle($article);
+        $commentaire->setUser($user);
+     //   $commentaire->setDateCreation(new \DateTime()) ;
+
+        $em->persist($commentaire);
+        $em->flush();
+        $formatted = $serializer->normalize($commentaire,'json',['groups' => 'post:read']);
+        return new Response(json_encode($formatted)) ;
+    }
+    /**
+     * @Route("/SupprimerCommentaireMobile", name="SupprimerCommentaireMobile")
+     */
+    public function SupprimerCommentaireMobile(Request $request, SerializerInterface $serializer): Response
+    {
+        $em= $this->getDoctrine()->getManager();
+        $id=$request->get('id');
+        $commentaire=$em->getRepository(Commentaire::class)->find($id);
+        $em->remove($commentaire);
+        $em->flush();
+        return new Response("deleted successfuly") ;
+    }
+    /**
+     * @Route("/displaylivraisonMobile", name="displaylivraisonMobile")
+     */
+    public function displaylivraisonMobile(Request $request, SerializerInterface $serializer): Response
+    {
+        $livraison = $this->getDoctrine()->getRepository(Livraison::class)->findAll();
+        $formatted = $serializer->normalize($livraison, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($formatted));
+    }
+    /**
+     * @Route("/displaylivraisonMobileid", name="displaylivraisonMobileid")
+     */
+    public function displaylivraisonMobileid(Request $request, SerializerInterface $serializer): Response
+    {
+        $id=$request->get('id') ;
+        $livraison = $this->getDoctrine()->getRepository(Livraison::class)->findBy(array('idCommande'=>$id));
+        $formatted = $serializer->normalize($livraison, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($formatted));
+    }
+
+    /**
+     * @Route("/displayPanierMobile", name="displayPanierMobile")
+     */
+    public function displayPanierMobile(SessionInterface $session,Request $request, SerializerInterface $serializer,ProduitRepository $produitRepository): Response
+    {
+        $panier = $session->get("panier", []);
+        $entityManager = $this->getDoctrine()->getManager();
+        $id = $request->query->get('id');
+        $monPanier = $entityManager->getRepository(Panier::class)->loadPanierByUserId($id);
+        $panier = $this->getDoctrine()->getRepository(Panier::class)->findAll();
+        $dataPanier = [];
+        $totalOld = 0;
+        $p= $monPanier->getUserPanier();
+        $a=array_column($p,'id');
+
+        foreach($p as $a => $quantite) {
+            $product = $produitRepository->find($a);
+            $qt = $product->getQuantite();
+            if ($qt < $quantite) {
+                $quantite = $qt;
+            }
+            $dataPanier[] = [
+
+                "produit" => $product->getNom(),
+                "quantite" => $quantite
+            ];
+
+            $totalOld += $product->getPrix() * $quantite;
+
+        }
+        //$formatted = $serializer->normalize($dataPanier, 'json');
+        return new Response(json_encode($dataPanier));
+    }
+
+    /**
+     * @Route("/displayCommandesMobile", name="displayCommandesMobile")
+     */
+    public function displayCommandesMobile(Request $request, SerializerInterface $serializer): Response
+    {
+        //$uid = $this->getUser()->getId();
+        $id = $request->query->get('id');
+        $commande = $this->getDoctrine()->getRepository(Commande::class)->findCommandeUser($id);
+        $formatted = $serializer->normalize($commande, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($formatted));
+    }
+
+    /**
+     * @Route("/addlivraisonMobile", name="addlivraisonMobile")
+     */
+    public function addlivraisonMobile(Request $request, SerializerInterface $serializer): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $livraison = new Livraison();
+        $nomLivreur = $request->query->get("nomLivreur");
+        $etat = $request->query->get("etat");
+        $idCommande = $request->query->get("idCommande");
+        $commande = $entityManager->getRepository(Commande::class)->find($idCommande);
+
+        $livraison->setIdCommande($commande);
+
+        $livraison->setNomLivreur($nomLivreur);
+        $livraison->setEtat($etat);
+        $livraison->setDateLivraison(new \DateTime());
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($livraison);
+        $entityManager->flush();
+
+        $formatted = $serializer->normalize($livraison, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($formatted));
+
+
+    }
+
+    /**
+     * @Route("/addCommandeMobile", name="addCommandeMobile")
+     */
+    public function addCommandeMobile(Request $request, SerializerInterface $serializer): Response
+    {
+
+        $commande = new Commande();
+        $description = $request->query->get("description");
+        $id = $request->query->get("id");
+        $usr = $this->getDoctrine()->getRepository(User::class)->find($id);
+        $nom = $usr->getNom();
+        $prenom = $usr->getPrenom();
+        $email = $usr->getEmail();
+
+        $commande->setDescription($description);
+        $commande->setNom($nom);
+        $commande->setPrenom($prenom);
+        $commande->setEmail($email);
+        $commande->setUser($usr);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $monPanier = $this->getDoctrine()->getRepository(Panier::class)->loadPanierByUserId($id);
+
+        $entityManager->remove($monPanier);
+        $entityManager->persist($commande);
+        $entityManager->flush();
+
+        $formatted = $serializer->normalize($commande, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($formatted));
+
+
+    }
+
+    /**
+     * @Route("/deletelivraisonMobile", name="deletelivraisonMobile")
+     */
+    public function deletelivraisonMobile(Request $request, SerializerInterface $serializer): Response
+    {
+        $id = $request->query->get("id");
+        $entityManager = $this->getDoctrine()->getManager();
+        $livraison = $entityManager->getRepository(Livraison::class)->find($id);
+        if ($livraison != null) {
+            $entityManager->remove($livraison);
+            $entityManager->flush();
+            $formatted = $serializer->normalize($livraison, 'json', ['groups' => 'post:read']);
+            return new Response(json_encode($formatted));
+
+        }
+        return new Response("la livraison est invalide");
+    }
+    /**
+     * @Route("/deleteCommandeMobile", name="deleteCommandeMobile")
+     */
+    public function deleteCommandeMobile(Request $request, SerializerInterface $serializer): Response
+    {
+        $id = $request->query->get("id");
+        $entityManager = $this->getDoctrine()->getManager();
+        $commande = $entityManager->getRepository(Commande::class)->find($id);
+        if ($commande != null) {
+            $entityManager->remove($commande);
+            $entityManager->flush();
+            $formatted = $serializer->normalize($commande, 'json', ['groups' => 'post:read']);
+            return new Response(json_encode($formatted));
+
+        }
+
+        return new Response("la commande est invalide");
+    }
+
+    /**
+     * @Route("/updatelivraisonMobile", name="updatelivraisonMobile")
+     */
+    public function updatelivraisonMobile(Request $request, SerializerInterface $serializer): Response
+    {
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $livraison = $entityManager->getRepository(Livraison::class)->find($request->get("id"));
+        $nomLivreur = $request->query->get("nomLivreur");
+        $etat = $request->query->get("etat");
+        $idCommande = $request->query->get("idCommande");
+        $commande = $entityManager->getRepository(Commande::class)->findBy($idCommande);
+
+        $livraison->setIdCommande($commande);
+        $livraison->setNomLivreur($nomLivreur);
+        $livraison->setEtat($etat);
+        $livraison->setDateLivraison(new \DateTime());
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($livraison);
+        $entityManager->flush();
+
+        $formatted = $serializer->normalize($livraison, 'json', ['groups' => 'post:read']);
+        return new Response(json_encode($formatted));
+
+
+    }
+    /**
+     * @Route ("/addPanier", name="addPanier")
+     */
+    public function addPanier(Request $request, SessionInterface $session, SerializerInterface $serializer)
+    {
+        // On récupère le panier actuel
+        $entityManager = $this->getDoctrine()->getManager();
+        $idproduit= $request->get('id');
+        $produit = $entityManager->getRepository(Produit::class)->find($request->get("id"));
+
+        $qt= $produit->getQuantite();
+        $entityManager = $this->getDoctrine()->getManager();
+        $panier = $session->get("panier", []);
+        $user = $entityManager->getRepository(User::class)->find($request->get("iduser"));
+        $id = $produit->getId();
+
+        $panierUser =$user->getPanier();
+        if(!empty($panier[$id])){
+            if ($panier[$id]<$qt) {
+                $panier[$id]++;
+            }
+            else {$this->addFlash('error' , 'Stock insuffisant pour le produit '); }
+        }else{
+            $panier[$id] = 1;
+        }
+
+        // On sauvegarde dans la session
+
+        if (!$panierUser)
+        {
+            $panierUser = new Panier();
+            $panierUser->setUser($user);
+            $panierUser->setUserPanier($panier);
+            $entityManager->persist($panierUser);
+            $entityManager->flush();
+        }
+        else
+        {
+
+            $panierUser->setUser($user);
+            $panierUser->setUserPanier($panier);
+            $entityManager->flush();
+            $session->set("panier", []);
+        }
+        $session->set("panier", $panier);
+        return new Response("done") ;
+    }
+
 }
